@@ -4,6 +4,7 @@ import HomePage from './components/Homepage/HomePage';
 import AdminLogin from './components/Admin/AdminLogin';
 import StudentLogin from './components/Student/StudentLogin';
 import UserLogin from './components/User/UserLogin';
+import AdminHomePage from './components/Admin/AdminHomePage';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/adminlogin' element={<AdminLogin/>}/>
         <Route path='/studentlogin' element={<StudentLogin/>}/>
         <Route path='/userlogin' element={<UserLogin/>}/>
+        <Route path='/adminhome' element={<AdminHomePage/>}/>
       </Routes>
       </BrowserRouter>
     </div>
