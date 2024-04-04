@@ -1,9 +1,10 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './components/Homepage/HomePage';
-import AdminLogin from './components/admin/AdminLogin';
-import StudentLogin from './components/student/StudentLogin';
+import AdminLogin from './components/Admin/AdminLogin';
+import StudentLogin from './components/Student/StudentLogin';
 import UserLogin from './components/user/UserLogin';
+
 
 function App() {
   return (

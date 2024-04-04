@@ -19,9 +19,9 @@ const UserLogin = () => {
       (response) => {
         if (response.data.status == "Success") {
           sessionStorage.setItem("token", response.data.token)
-          console.log(token)
+          console.log(sessionStorage.getItem("token"))
           sessionStorage.setItem("userid", response.data.userData.user_id)
-          console.log(userid)
+          console.log(sessionStorage.getItem("userid"))
           //navigate('')
         } else if (response.data.status == "Invalid Password") {
           alert("Incorrect Password")
@@ -68,7 +68,7 @@ const UserLogin = () => {
                         <input type="password" name="user_password" value={input.user_password} onChange={inputHandler}  className="form-control" />
                       </div>
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                        <button className="btn btn-primary">LOGIN</button>
+                        <button className="btn btn-primary" onClick={readValues}>LOGIN</button>
                       </div>
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <center><Link to="/" className="nav-link">Back to Home</Link></center>
