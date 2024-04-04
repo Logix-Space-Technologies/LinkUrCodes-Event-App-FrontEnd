@@ -11,7 +11,7 @@ import CollegeHomePage from './components/College/CollegeHomePage';
 import AdminHomePage from './components/Admin/AdminHomePage';
 import StudentHomePage from './components/Student/StudentHomePage';
 import UserHomePage from './components/User/UserHomePage';
-import UserLogin from './components/user/UserLogin';
+import UserLogin from './components/User/UserLogin';
 
 
 
