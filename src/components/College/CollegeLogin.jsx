@@ -18,24 +18,36 @@ const CollegeLogin = () => {
       (response) => {
         console.log(response.data)
         if (response.data.status == "success") {
+          sessionStorage.setItem("token", response.data.token)
+          console.log(sessionStorage.getItem("token"))
           alert("Successfully signed in")
           navigate('/collegehome')
-          sessionStorage.setItem("token",response.data.token)
-          sessionStorage.setItem("college_email", response.data.college_email)
           setInput(
             {
               "college_email": "",
               "college_password": ""
             }
           )
-        } else {
-            alert("Something went wrong")
-            setInput(
-              {
-                "college_email": "",
-                "college_password": ""
-              }
-            )
+        } else if (response.data.status == "Incorrect mailid") {
+          alert("Incorrect Emailid")
+          setInput(
+            {
+              "college_email": "",
+              "college_password": ""
+            }
+          )
+        }
+        else if (response.data.status == "Incorrect password") {
+          alert("Incorrect Password")
+          setInput(
+            {
+              "college_email": "",
+              "college_password": ""
+            }
+          )
+        }
+        else {
+          alert("Something went wrong")
         }
       }
     )
@@ -53,11 +65,11 @@ const CollegeLogin = () => {
                     <div className="row g-3">
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <label htmlFor="" className="form-label" >USERNAME</label>
-                        <input type="text" className="form-control" name="college_email" value={input.college_email} onChange={inputHandler}  />
+                        <input type="text" className="form-control" name="college_email" value={input.college_email} onChange={inputHandler} />
                       </div>
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <label htmlFor="" className="form-label" >PASSWORD</label>
-                        <input type="password" className="form-control" name="college_password" value={input.college_password} onChange={inputHandler}  />
+                        <input type="password" className="form-control" name="college_password" value={input.college_password} onChange={inputHandler} />
                       </div>
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <button className="btn btn-primary" onClick={readValues}>LOGIN</button>
