@@ -1,7 +1,52 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
+    const [input, setInput] = new useState(
+        {
+            "admin_username": "",
+            "admin_password": ""
+        }
+    )
+    const navigate = useNavigate()
+    const inputHandler = (event) => {
+        setInput({ ...input, [event.target.name]: event.target.value })
+    }
+    const readValues = () => {
+        axios.post("http://localhost:8085/api/admin/loginadmin", input).then(
+            (response) => {
+                if (response.data.status === "success") {
+                    sessionStorage.setItem("token", response.data.token)
+                    console.log(sessionStorage.getItem("token"))
+                    sessionStorage.setItem("adminid", response.data.adminData.admin_id)
+                    console.log(sessionStorage.getItem("adminid"))
+                    navigate('/adminhome')
+                    alert("success")
+                } else if (response.data.status === "Invalid Password") {
+                    alert("Incorrect Password")
+                    setInput(
+                        {
+                            "admin_username": "",
+                            "admin_password": ""
+                        }
+                    )
+                }
+                else if (response.data.status === "Invalid Username") {
+                    alert("Incorrect Username")
+                    setInput(
+                        {
+                            "admin_username": "",
+                            "admin_password": ""
+                        }
+                    )
+                }
+                else {
+                    alert("Something went wrong")
+                }
+            }
+        )
+    }
     return (
         <div>
             <center>
@@ -14,15 +59,15 @@ const AdminLogin = () => {
                                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
                                         <div className="row g-3">
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                                                <label htmlFor="" className="form-label">EMAIL-ID</label>
-                                                <input type="text" className="form-control" />
+                                                <label htmlFor="" className="form-label">USERNAME</label>
+                                                <input type="text" className="form-control" name='admin_username' value={input.admin_username} onChange={inputHandler} />
                                             </div>
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                 <label htmlFor="" className="form-label">PASSWORD</label>
-                                                <input type="password" className="form-control" />
+                                                <input type="password" className="form-control" name='admin_password' value={input.admin_password} onChange={inputHandler} />
                                             </div>
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                                                <button className="btn btn-primary">LOGIN</button>
+                                                <button className="btn btn-primary" onClick={readValues}>LOGIN</button>
                                             </div>
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                 <center><Link to="/" className="nav-link">Back to Home</Link></center>

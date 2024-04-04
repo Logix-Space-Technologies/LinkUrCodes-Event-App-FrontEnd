@@ -1,7 +1,50 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const StudentLogin = () => {
+    const [input,setInput]=new useState(
+        {
+            "student_email":"",
+            "student_password":""
+        }
+    )
+    const navigate=useNavigate()
+    const inputHandler=(event)=>{
+        setInput({...input,[event.target.name]:event.target.value})
+    }
+    const readValues=()=>{
+        axios.post("http://localhost:8085/api/student/loginstudent",input).then(
+            (response)=>{
+                if(response.data.status=="Success"){
+                    sessionStorage.setItem("token",response.data.token)
+                    console.log(sessionStorage.getItem("token"))
+                    
+                    alert("success")
+                } else if(response.data.status == "Invalid Password"){
+                    alert("Incorrect Password")
+                    setInput(
+                        {
+                            "student_email":"",
+                            "student_password":""
+                        }
+                    )
+                }
+                else if(response.data.status == "Invalid Email ID"){
+                    alert("Incorrect Email ID")
+                    setInput(
+                        {
+                            "student_email":"",
+                            "student_password":""
+                        }
+                    )
+                }
+                else{
+                    alert("Something went wrong")
+                }
+            }
+        )
+    }
   return (
     <div>
       <center>
@@ -15,14 +58,14 @@ const StudentLogin = () => {
                                         <div className="row g-3">
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                 <label htmlFor="" className="form-label">EMAIL-ID</label>
-                                                <input type="text" className="form-control" />
+                                                <input type="text" name="student_email" value={input.student_email} onChange={inputHandler} className="form-control" />
                                             </div>
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                 <label htmlFor="" className="form-label">PASSWORD</label>
-                                                <input type="password" className="form-control" />
+                                                <input type="password" name="student_password" value={input.student_password} onChange={inputHandler} className="form-control" />
                                             </div>
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                                                <button className="btn btn-primary">LOGIN</button>
+                                                <button className="btn btn-primary" onClick={readValues}>LOGIN</button>
                                             </div>
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                 <center><Link to="/" className="nav-link">Back to Home</Link></center>
