@@ -21,7 +21,7 @@ const HomeNavbar = () => {
                 </Link>
                 <ul className="dropdown-menu">
                   <li><Link className="dropdown-item" to="/adminlogin">Admin Login</Link></li>
-                  <li><Link className="dropdown-item" to="">User Login</Link></li>
+                  <li><Link className="dropdown-item" to="/userlogin">User Login</Link></li>
                   <li><Link className="dropdown-item" to="">College Login</Link></li>
                   <li><Link className="dropdown-item" to="/studentlogin">Student Login</Link></li>
                 </ul>
