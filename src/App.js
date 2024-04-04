@@ -9,6 +9,7 @@ import CollegeHomePage from './components/College/CollegeHomePage';
 
 import UserLogin from './components/User/UserLogin';
 import AdminHomePage from './components/Admin/AdminHomePage';
+import StudentHomePage from './components/Student/StudentHomePage';
 
 
 
@@ -26,6 +27,7 @@ function App() {
 
         <Route path='/userlogin' element={<UserLogin/>}/>
         <Route path='/adminhome' element={<AdminHomePage/>}/>
+        <Route path='/studenthome' element={<StudentHomePage/>}/>
 
       </Routes>
       </BrowserRouter>

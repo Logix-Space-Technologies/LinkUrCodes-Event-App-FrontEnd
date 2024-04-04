@@ -19,8 +19,8 @@ const StudentLogin = () => {
                 if(response.data.status=="Success"){
                     sessionStorage.setItem("token",response.data.token)
                     console.log(sessionStorage.getItem("token"))
+                    navigate('/studenthome')
                     
-                    alert("success")
                 } else if(response.data.status == "Invalid Password"){
                     alert("Incorrect Password")
                     setInput(
