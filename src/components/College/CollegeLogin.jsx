@@ -20,6 +20,8 @@ const CollegeLogin = () => {
         if (response.data.status == "success") {
           alert("Successfully signed in")
           navigate('/collegehome')
+          sessionStorage.setItem("token",response.data.token)
+          sessionStorage.setItem("college_email", response.data.college_email)
           setInput(
             {
               "college_email": "",
