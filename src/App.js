@@ -12,6 +12,7 @@ import AdminHomePage from './components/Admin/AdminHomePage';
 import StudentHomePage from './components/Student/StudentHomePage';
 import UserHomePage from './components/User/UserHomePage';
 import UserLogin from './components/User/UserLogin';
+import ViewPublicEvent from './components/Admin/ViewPublicEvent';
 
 
 
@@ -31,6 +32,8 @@ function App() {
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
+
+        <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
 
       </Routes>
       </BrowserRouter>
