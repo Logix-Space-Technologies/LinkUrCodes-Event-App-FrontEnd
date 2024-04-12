@@ -12,7 +12,7 @@ const CollegeNavBar = () => {
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Profile</a>
+          <a class="nav-link active" aria-current="page" href="/collegeprofile">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Student Details</a>
