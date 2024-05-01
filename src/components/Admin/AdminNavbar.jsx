@@ -40,6 +40,7 @@ const AdminNavbar = () => {
                                     User
                                 </Link>
                                 <ul className="dropdown-menu">
+                                    <li><Link className="dropdown-item" to="/viewuser">View All</Link></li>
                                     <li><Link className="dropdown-item" to="">Search</Link></li>
                                     <li><Link className="dropdown-item" to="">Delete</Link></li>
                                 </ul>
