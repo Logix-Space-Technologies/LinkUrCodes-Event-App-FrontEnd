@@ -22,7 +22,7 @@ const UserLogin = () => {
           console.log(sessionStorage.getItem("token"))
           sessionStorage.setItem("userid", response.data.userData.user_id)
           console.log(sessionStorage.getItem("userid"))
-          //navigate('')
+          navigate('/userhome')
           alert("success")
         } else if (response.data.status == "Invalid Password") {
           alert("Incorrect Password")

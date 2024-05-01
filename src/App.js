@@ -9,6 +9,8 @@ import CollegeHomePage from './components/College/CollegeHomePage';
 
 import UserLogin from './components/User/UserLogin';
 import AdminHomePage from './components/Admin/AdminHomePage';
+import UserHomePage from './components/User/UserHomePage';
+import UserProfile from './components/User/UserProfile';
 
 
 
@@ -25,6 +27,8 @@ function App() {
         <Route path='/collegehome' element={<CollegeHomePage/>}/>
 
         <Route path='/userlogin' element={<UserLogin/>}/>
+        <Route path='/userhome' element={<UserHomePage/>}/>
+        <Route path='/userprofile' element={<UserProfile/>}/>
         <Route path='/adminhome' element={<AdminHomePage/>}/>
 
       </Routes>
