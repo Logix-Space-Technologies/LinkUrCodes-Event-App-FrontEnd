@@ -9,9 +9,14 @@ import CollegeHomePage from './components/College/CollegeHomePage';
 
 
 import AdminHomePage from './components/Admin/AdminHomePage';
+
+import UserHomePage from './components/User/UserHomePage';
+import UserProfile from './components/User/UserProfile';
+
 import StudentHomePage from './components/Student/StudentHomePage';
 import UserHomePage from './components/User/UserHomePage';
 import UserLogin from './components/User/UserLogin';
+
 
 
 
@@ -28,6 +33,8 @@ function App() {
         <Route path='/collegehome' element={<CollegeHomePage/>}/>
 
         <Route path='/userlogin' element={<UserLogin/>}/>
+        <Route path='/userhome' element={<UserHomePage/>}/>
+        <Route path='/userprofile' element={<UserProfile/>}/>
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
