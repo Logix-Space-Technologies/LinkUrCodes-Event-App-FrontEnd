@@ -35,6 +35,9 @@ const HomeNavbar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/contact">Contact</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/registeration">Register</Link>
+              </li>
 
             </ul>
           </div>
