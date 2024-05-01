@@ -56,8 +56,8 @@ const UserLogin = () => {
           <div className='card'>
             <div className="container">
               <div className="row g-3">
-                <div class="card-body">
-                  <h2 class="card-title"><u>USER LOGIN</u></h2><br></br>
+                <div className="card-body">
+                  <h2 className="card-title"><u>USER LOGIN</u></h2><br></br>
                   <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
                     <div className="row g-3">
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
