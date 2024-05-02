@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import HomeNavbar from '../Homepage/HomeNavbar'
 
 const UserRegistration = () => {
     const navigate=useNavigate()
@@ -56,6 +57,7 @@ const UserRegistration = () => {
     }
     return (
         <div>
+            <HomeNavbar/>
             <br></br>
             <div className="bg-image">
                 <div className="container">

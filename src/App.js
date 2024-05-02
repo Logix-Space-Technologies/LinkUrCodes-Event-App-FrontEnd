@@ -16,6 +16,8 @@ import StudentHomePage from './components/Student/StudentHomePage';
 import UserHomePage from './components/User/UserHomePage';
 import UserLogin from './components/User/UserLogin';
 import UserRegistration from './components/User/UserRegistration';
+import About from './components/Homepage/About';
+import Contact from './components/Homepage/Contact';
 
 
 
@@ -40,6 +42,8 @@ function App() {
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
+        <Route path='/about' element={<About/>}/>
+        <Route path='/contact' element={<Contact/>}/>
 
       </Routes>
       </BrowserRouter>
