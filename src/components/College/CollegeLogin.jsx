@@ -18,7 +18,11 @@ const CollegeLogin = () => {
       (response) => {
         console.log(response.data)
         if (response.data.status == "success") {
-          sessionStorage.setItem("token", response.data.token)
+          sessionStorage.setItem("collegeid", response.data.collegedata.college_id)
+          console.log(sessionStorage.getItem("collegeid"))
+          sessionStorage.setItem("college_email",response.data.collegedata.college_email)
+          console.log(sessionStorage.getItem("college_email"))
+          sessionStorage.setItem("token", response.data.collegetoken)
           console.log(sessionStorage.getItem("token"))
           alert("Successfully signed in")
           navigate('/collegehome')
