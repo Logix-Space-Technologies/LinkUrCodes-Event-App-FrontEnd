@@ -15,6 +15,7 @@ import UserProfile from './components/User/UserProfile';
 import StudentHomePage from './components/Student/StudentHomePage';
 import UserHomePage from './components/User/UserHomePage';
 import UserLogin from './components/User/UserLogin';
+import CollegeProfile from './components/College/CollegeProfile';
 import UserRegistration from './components/User/UserRegistration';
 
 
@@ -40,6 +41,7 @@ function App() {
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
+        <Route path='/collegeprofile' element={<CollegeProfile/>}/>
 
       </Routes>
       </BrowserRouter>
