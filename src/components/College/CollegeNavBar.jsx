@@ -9,6 +9,7 @@ const CollegeNavBar = () => {
   }
   return (
     <div>
+
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/collegehome">College</Link>
@@ -36,6 +37,7 @@ const CollegeNavBar = () => {
           </div>
         </div>
       </nav>
+
     </div>
   )
 }

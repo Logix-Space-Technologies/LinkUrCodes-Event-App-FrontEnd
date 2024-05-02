@@ -5,7 +5,10 @@ const UserHomePage = () => {
   return (
     <div>
         <UserNavBar/>
+
+
         <h1>UserHome Page</h1>
+
     </div>
   )
 }
