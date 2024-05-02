@@ -37,7 +37,7 @@ const CollegeProfile = () => {
                     <h5 class="card-title">Name : {output.collegedata.college_name}</h5>
                     <p class="card-text">Email : {output.collegedata.college_email}</p>n
                     <p className="card-text">Phone :{output.collegedata.college_phone}</p>
-                    <Link to="/collegepassreset" class="btn btn-primary">Reset Password</Link>
+                    <Link to="#" class="btn btn-primary">Reset Password</Link>
                   </div>
                 </div>
               )}
