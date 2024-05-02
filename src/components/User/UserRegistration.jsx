@@ -1,8 +1,9 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const UserRegistration = () => {
+    const navigate=useNavigate()
     const [input, setInput] = useState(
         {
             "user_name": "",
@@ -23,6 +24,18 @@ const UserRegistration = () => {
             (response) => {
                 if (response.data.status === "success") {
                     alert("Successfully registered")
+                    navigate('/userlogin')
+                    setInput(
+                        {
+                            "user_name": "",
+                            "user_image": "",
+                            "user_email": "",
+                            "user_password": "",
+                            "user_contact_no": "",
+                            "user_qualification": "",
+                            "user_skills": ""
+                        }
+                    )
                 }
                 else {
                     alert("Something went wrong")
