@@ -1,7 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const AdminNavbar = () => {
+
+    let navigate = useNavigate()
+    const logOutAction = () => {
+        sessionStorage.clear()
+        navigate("/adminlogin")
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-tertiary">
@@ -59,7 +65,9 @@ const AdminNavbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/contact">Payment History</Link>
                             </li>
-
+                            <li className="nav-item">
+                                <span className='nav-link' onClick={logOutAction}> Logout</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
