@@ -31,10 +31,10 @@ const HomePage = () => {
                 <div className="card text-center mb-3" style={{ border: 'none' }}>
                   <div className="card-body">
                     <br></br>
-                    <Link to="/adminlogin" className="btn btn-primary">Admin Log In</Link><br></br><br></br>
-                    <Link to="/collegelogin" className="btn btn-primary">College Log In</Link><br></br><br></br>
-                    <Link to="/studentlogin" className="btn btn-primary">Student Log In</Link><br></br><br></br>
-                    <Link to="/userlogin" className="btn btn-primary">User Log In</Link><br></br><br></br>
+                    <Link to="/adminlogin" className="btn btn-primary">Admin Login</Link><br></br><br></br>
+                    <Link to="/collegelogin" className="btn btn-primary">College Login</Link><br></br><br></br>
+                    <Link to="/studentlogin" className="btn btn-primary">Student Login</Link><br></br><br></br>
+                    <Link to="/userlogin" className="btn btn-primary">User Login</Link><br></br><br></br>
                   </div>
                 </div>
               </div>
