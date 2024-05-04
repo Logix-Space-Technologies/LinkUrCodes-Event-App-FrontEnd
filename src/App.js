@@ -19,6 +19,7 @@ import CollegeProfile from './components/College/CollegeProfile';
 import UserRegistration from './components/User/UserRegistration';
 import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
+import CollegeStudentDetails from './components/College/CollegeStudentDetails';
 
 
 
@@ -48,6 +49,7 @@ function App() {
         <Route path='/contact' element={<Contact/>}/>
 
         <Route path='/collegeprofile' element={<CollegeProfile/>}/>
+        <Route path='/collegestudentview' element={<CollegeStudentDetails/>}/>
 
 
       </Routes>
