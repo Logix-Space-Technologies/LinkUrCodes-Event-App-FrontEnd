@@ -17,14 +17,14 @@ const UserLogin = () => {
   const readValues = () => {
     axios.post("http://localhost:8085/api/users/loginuser", input).then(
       (response) => {
-        if (response.data.status == "Success") {
+        if (response.data.status === "Success") {
           sessionStorage.setItem("token", response.data.token)
           console.log(sessionStorage.getItem("token"))
           sessionStorage.setItem("userid", response.data.userData.user_id)
           console.log(sessionStorage.getItem("userid"))
           navigate('/userhome')
           alert("success")
-        } else if (response.data.status == "Invalid Password") {
+        } else if (response.data.status === "Invalid Password") {
           alert("Incorrect Password")
           setInput(
             {
@@ -33,7 +33,7 @@ const UserLogin = () => {
             }
           )
         }
-        else if (response.data.status =="Invalid Email ID"){
+        else if (response.data.status ==="Invalid Email ID"){
           alert("Incorrect Email ID")
           setInput(
             {
@@ -72,7 +72,8 @@ const UserLogin = () => {
                         <button className="btn btn-primary" onClick={readValues}>LOGIN</button>
                       </div>
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                        <center><Link to="/" className="nav-link">Back to Home</Link></center>
+                        <center><Link to="/" className="nav-link">Back to Home</Link></center><br></br>
+                        <center><Link to="/registeration" className="nav-link">New User? Click here to Register</Link></center>
                       </div>
                     </div>
                   </div>

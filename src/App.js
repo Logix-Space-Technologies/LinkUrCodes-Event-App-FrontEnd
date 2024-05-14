@@ -15,8 +15,19 @@ import UserProfile from './components/User/UserProfile';
 import StudentHomePage from './components/Student/StudentHomePage';
 import UserHomePage from './components/User/UserHomePage';
 import UserLogin from './components/User/UserLogin';
+import ViewUser from './components/Admin/ViewUser';
+
+import ViewPublicEvent from './components/Admin/ViewPublicEvent';
+
+import CollegeProfile from './components/College/CollegeProfile';
 import UserRegistration from './components/User/UserRegistration';
+
 import SearchEvent from './components/User/SearchEvent';
+
+import About from './components/Homepage/About';
+import Contact from './components/Homepage/Contact';
+
+
 
 
 
@@ -42,6 +53,17 @@ function App() {
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
+        <Route path='/viewuser' element={<ViewUser/>}/>
+
+
+        <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
+
+        <Route path='/about' element={<About/>}/>
+        <Route path='/contact' element={<Contact/>}/>
+
+        <Route path='/collegeprofile' element={<CollegeProfile/>}/>
+
+
 
       </Routes>
       </BrowserRouter>
