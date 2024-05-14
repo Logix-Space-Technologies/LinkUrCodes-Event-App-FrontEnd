@@ -5,7 +5,7 @@ import CollegeNavBar from './CollegeNavBar'
 const CollegeStudentDetails = () => {
     const [data, setData] = new useState([])
     const getData = () => {
-        axios.post("http://localhost:8085/api/college/collegeStudentDetails", {}, { headers: { token: sessionStorage.getItem("collegetoken") } }).then(
+        axios.post("http://localhost:8085/api/college/collegeStudentDetails",{}, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } }).then(
             (response) => {
                 setData(response.data)
                 console.log("data", data)

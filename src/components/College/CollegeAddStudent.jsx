@@ -1,0 +1,89 @@
+import React, { useState } from 'react'
+import CollegeNavBar from './CollegeNavBar'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
+
+const CollegeAddStudent = () => {
+    const [input, setInput] = useState(
+        {
+            "student_name": "",
+            "student_rollno": "",
+            "student_admno": "",
+            "student_email": "",
+            "student_phone_no": "",
+            "event_id":"",
+            "student_college_id":""
+            
+        }
+    )
+    const inputHandler = (event) => {
+        setInput({ ...input, [event.target.name]: event.target.value })
+    }
+    const readValues = () => {
+        console.log(input)
+        axios.post("http://localhost:8085/api/student/addstudent", input).then(
+            (response) => {
+                if (response.data.status === "success") {
+                    alert("Successfully registered")
+                    setInput(
+                        {
+                            "student_name": "",
+                            "student_rollno": "",
+                            "student_admno": "",
+                            "student_email": "",
+                            "student_phone_no": ""
+                        }
+                    )
+                }
+                else {
+                    alert("Something went wrong")
+                    setInput(
+                        {
+                            "student_name": "",
+                            "student_rollno": "",
+                            "student_admno": "",
+                            "student_email": "",
+                            "student_phone_no": ""
+                        }
+                    )
+                }
+            }
+        )
+    }
+    return (
+        <div>
+            <CollegeNavBar />
+            <div className="container">
+                <div className="row g-3">
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="" className="form-label">Name</label>
+                        <input type="text" className="form-control" name="student_name" value={input.student_name} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="" className="form-label">Rollno</label>
+                        <input type="text" className="form-control" name="student_rollno" value={input.student_rollno} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="" className="form-label">Admission No</label>
+                        <input type="text" className="form-control" name="student_admno" value={input.student_admno} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="" className="form-label">Email</label>
+                        <input type="text" className="form-control" name="student_email" value={input.student_email} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="" className="form-label">Phone No</label>
+                        <input type="text" className="form-control" name="student_phone_no" value={input.student_phone_no} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                        <button className="btn btn-success" onClick={readValues} >Submit</button>
+                    </div>
+
+                </div>
+                <Link to="/collegeaddstudexcel">Add via Excel Sheet</Link>
+            </div>
+        </div>
+    )
+}
+
+export default CollegeAddStudent

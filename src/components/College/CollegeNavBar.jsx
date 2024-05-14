@@ -26,7 +26,7 @@ const CollegeNavBar = () => {
                   Students
                 </Link>
                 <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="#">Add Student</Link></li>
+                  <li><Link className="dropdown-item" to="/collegeaddstudent">Add Student</Link></li>
 
                   <li><Link className="dropdown-item" to="/collegestudentview">View Students</Link></li>
 
