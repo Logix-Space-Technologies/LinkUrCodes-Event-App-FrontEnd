@@ -16,7 +16,7 @@ const UserNavBar = () => {
           <a class="nav-link" href="/userprofile">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/searchevent">Events</a>
+          <a class="nav-link" href="/viewevent">Events</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Your events</a>
