@@ -16,6 +16,7 @@ import StudentHomePage from './components/Student/StudentHomePage';
 import UserHomePage from './components/User/UserHomePage';
 import UserLogin from './components/User/UserLogin';
 import UserRegistration from './components/User/UserRegistration';
+import EventView from './components/User/EventView';
 
 
 
@@ -36,6 +37,7 @@ function App() {
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/userprofile' element={<UserProfile/>}/>
         <Route path='/registeration' element={<UserRegistration/>}/>
+        <Route path='/eventview' element={<EventView/>}/>
         
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>
