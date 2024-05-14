@@ -26,6 +26,7 @@ import SearchEvent from './components/User/SearchEvent';
 
 import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
+import ViewEvents from './components/User/ViewEvents';
 
 
 
@@ -48,7 +49,9 @@ function App() {
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/userprofile' element={<UserProfile/>}/>
         <Route path='/registeration' element={<UserRegistration/>}/>
-        <Route path='/searchevent' element={<SearchEvent/>}/>
+        {/* <Route path='/searchevent' element={<SearchEvent/>}/> */}
+
+        <Route path='/viewevent' element={<ViewEvents/>}/>
         
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>
