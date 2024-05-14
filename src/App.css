@@ -46,3 +46,12 @@
     transform: rotate(360deg);
   }
 }
+
+
+.bg-image {
+  background-image: url('https://i.pinimg.com/564x/be/19/50/be1950356c5de7b24020c9c388af7e10.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+  background-size: cover; /* Cover the entire element with the background image */
+  background-position: center; /* Center the background image */
+  height: 100vh;
+}
+
