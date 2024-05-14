@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const EventView = () => {
+const SearchEvent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(null);
@@ -74,4 +74,4 @@ const EventView = () => {
   );
 };
 
-export default EventView;
+export default SearchEvent;
