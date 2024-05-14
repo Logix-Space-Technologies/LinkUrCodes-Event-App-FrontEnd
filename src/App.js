@@ -21,8 +21,12 @@ import ViewPublicEvent from './components/Admin/ViewPublicEvent';
 
 import CollegeProfile from './components/College/CollegeProfile';
 import UserRegistration from './components/User/UserRegistration';
+
+import SearchEvent from './components/User/SearchEvent';
+
 import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
+
 
 
 
@@ -44,6 +48,7 @@ function App() {
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/userprofile' element={<UserProfile/>}/>
         <Route path='/registeration' element={<UserRegistration/>}/>
+        <Route path='/searchevent' element={<SearchEvent/>}/>
         
         <Route path='/adminhome' element={<AdminHomePage/>}/>
         <Route path='/studenthome' element={<StudentHomePage/>}/>

@@ -54,4 +54,14 @@
   background-position: center; /* Center the background image */
   height: 100vh;
 }
+.custom-search-input {
+  height: 50px; /* Adjust the width as needed */
+}
+.bg-event-image {
+  background-image: url('https://i.pinimg.com/564x/6f/4c/5c/6f4c5c27ba30aaad59f2fb4d99928ab7.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+  background-size: cover; /* Cover the entire element with the background image */
+  background-position: center; /* Center the background image */
+  height: 100vh;
+}
+
 
