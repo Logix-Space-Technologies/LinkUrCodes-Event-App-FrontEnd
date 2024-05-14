@@ -1,7 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const AdminNavbar = () => {
+
+    let navigate = useNavigate()
+    const logOutAction = () => {
+        sessionStorage.clear()
+        navigate("/adminlogin")
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-tertiary">
@@ -17,10 +23,22 @@ const AdminNavbar = () => {
                             </li>
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Event
+                                    Public Event
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="">Add</Link></li>
+                                    <li><Link className="dropdown-item" to="/viewpublicevent">View</Link></li>
+                                    <li><Link className="dropdown-item" to="">Search</Link></li>
+                                    <li><Link className="dropdown-item" to="">Delete</Link></li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Private Event
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <li><Link className="dropdown-item" to="">Add</Link></li>
+                                    <li><Link className="dropdown-item" to="">View</Link></li>
                                     <li><Link className="dropdown-item" to="">Search</Link></li>
                                     <li><Link className="dropdown-item" to="">Delete</Link></li>
                                 </ul>
@@ -47,7 +65,9 @@ const AdminNavbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/contact">Payment History</Link>
                             </li>
-
+                            <li className="nav-item">
+                                <span className='nav-link' onClick={logOutAction}> Logout</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
