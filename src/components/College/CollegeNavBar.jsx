@@ -33,7 +33,7 @@ const CollegeNavBar = () => {
                 </ul>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/collegehome">Events</Link>
+                <Link className="nav-link" to="/collegeevents">Events</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/collegehome">Event History</Link>

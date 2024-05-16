@@ -22,6 +22,7 @@ import Contact from './components/Homepage/Contact';
 import CollegeStudentDetails from './components/College/CollegeStudentDetails';
 import CollegeAddStudent from './components/College/CollegeAddStudent';
 import CollegeAddStudExcel from './components/College/CollegeAddStudExcel';
+import CollegeEvents from './components/College/CollegeEvents';
 
 
 
@@ -54,6 +55,7 @@ function App() {
         <Route path='/collegestudentview' element={<CollegeStudentDetails/>}/>
         <Route path='/collegeaddstudent' element={<CollegeAddStudent/>}/>
         <Route path='/collegeaddstudexcel' element={<CollegeAddStudExcel/>}/>
+        <Route path='/collegeevents' element={<CollegeEvents/>}/>
 
 
       </Routes>
