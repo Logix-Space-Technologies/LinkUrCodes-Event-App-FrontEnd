@@ -26,8 +26,12 @@ import SearchEvent from './components/User/SearchEvent';
 
 import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
-import ViewEvents from './components/User/ViewEvents';
 
+import CollegeStudentDetails from './components/College/CollegeStudentDetails';
+import CollegeAddStudent from './components/College/CollegeAddStudent';
+import CollegeAddStudExcel from './components/College/CollegeAddStudExcel';
+import CollegeEvents from './components/College/CollegeEvents';
+import ViewEvents from './components/User/ViewEvents';
 
 
 
@@ -65,6 +69,10 @@ function App() {
         <Route path='/contact' element={<Contact/>}/>
 
         <Route path='/collegeprofile' element={<CollegeProfile/>}/>
+        <Route path='/collegestudentview' element={<CollegeStudentDetails/>}/>
+        <Route path='/collegeaddstudent' element={<CollegeAddStudent/>}/>
+        <Route path='/collegeaddstudexcel' element={<CollegeAddStudExcel/>}/>
+        <Route path='/collegeevents' element={<CollegeEvents/>}/>
 
 
 
