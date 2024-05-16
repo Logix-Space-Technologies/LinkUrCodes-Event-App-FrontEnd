@@ -17,8 +17,8 @@ const AdminLogin = () => {
         axios.post("http://localhost:8085/api/admin/loginadmin", input).then(
             (response) => {
                 if (response.data.status === "success") {
-                    sessionStorage.setItem("token", response.data.token)
-                    console.log(sessionStorage.getItem("token"))
+                    sessionStorage.setItem("admintoken", response.data.admintoken)
+                    console.log(sessionStorage.getItem("admintoken"))
                     sessionStorage.setItem("adminid", response.data.adminData.admin_id)
                     console.log(sessionStorage.getItem("adminid"))
                     navigate('/adminhome')

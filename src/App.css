@@ -54,4 +54,17 @@
   background-position: center; /* Center the background image */
   height: 100vh;
 }
+.custom-search-input {
+  height: 50px; /* Adjust the width as needed */
+}
+body {
+  background-image: url('https://i.pinimg.com/564x/6f/4c/5c/6f4c5c27ba30aaad59f2fb4d99928ab7.jpg');
+  background-size: cover;
+  background-position: center;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  height: 100vh;
+}
+
+
 
