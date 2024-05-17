@@ -11,7 +11,7 @@ const ViewEvents = () => {
       try {
         const token = sessionStorage.getItem('token');
         const response = await axios.post(
-          'http://localhost:8085/api/events/user_view_public_events',
+          'http://localhost:8085/api/events/view_user_public_events',
           {},
           { headers: { 'token': token } }
         );
