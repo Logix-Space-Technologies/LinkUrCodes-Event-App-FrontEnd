@@ -33,6 +33,8 @@ import CollegeAddStudent from './components/College/CollegeAddStudent';
 import CollegeAddStudExcel from './components/College/CollegeAddStudExcel';
 import CollegeEvents from './components/College/CollegeEvents';
 import ViewEvents from './components/User/ViewEvents';
+import AddPublicEvent from './components/Admin/AddPublicEvent';
+import AddPrivateEvent from './components/Admin/AddPrivateEvent';
 
 
 
@@ -63,7 +65,8 @@ function App() {
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/viewuser' element={<ViewUser/>}/>
 
-
+        <Route path='addpublicevent' element={<AddPublicEvent/>}/>
+        <Route path='addprivateevent' element={<AddPrivateEvent/>}/>
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
         <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
 
