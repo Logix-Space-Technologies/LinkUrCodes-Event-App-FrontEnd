@@ -17,6 +17,7 @@ import UserHomePage from './components/User/UserHomePage';
 import UserLogin from './components/User/UserLogin';
 
 import ViewPublicEvent from './components/Admin/ViewPublicEvent';
+import ViewPrivateEvent from './components/Admin/ViewPrivateEvent';
 
 import CollegeProfile from './components/College/CollegeProfile';
 import UserRegistration from './components/User/UserRegistration';
@@ -50,6 +51,7 @@ function App() {
 
 
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
+        <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
 
         <Route path='/about' element={<About/>}/>
         <Route path='/contact' element={<Contact/>}/>

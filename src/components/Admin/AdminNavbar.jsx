@@ -38,7 +38,7 @@ const AdminNavbar = () => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="">Add</Link></li>
-                                    <li><Link className="dropdown-item" to="">View</Link></li>
+                                    <li><Link className="dropdown-item" to="/viewprivateevent">View</Link></li>
                                     <li><Link className="dropdown-item" to="">Search</Link></li>
                                     <li><Link className="dropdown-item" to="">Delete</Link></li>
                                 </ul>
