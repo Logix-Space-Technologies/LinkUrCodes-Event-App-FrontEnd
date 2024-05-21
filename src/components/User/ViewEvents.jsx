@@ -11,7 +11,7 @@ const ViewEvents = () => {
       try {
         const token = sessionStorage.getItem('token');
         const response = await axios.post(
-          'http://localhost:8085/api/events/view_user_public_events',
+          'http://localhost:8085/api/events/user_view_public_events',
           {},
           { headers: { 'token': token } }
         );
@@ -36,9 +36,10 @@ const ViewEvents = () => {
 
   return (
     <div>
-      <SearchEvent />
+      <SearchEvent /><br></br>
       <div className="container">
         <div className="row">
+          <b><h2><i>SELECT EVENTS</i></h2></b>
           {events.map(event => (
             <div className="col-md-4 mb-4" key={event.event_public_id}>
               <div className="card h-100">
