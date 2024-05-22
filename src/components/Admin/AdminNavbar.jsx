@@ -29,7 +29,8 @@ const AdminNavbar = () => {
                                     <li><Link className="dropdown-item" to="/addpublicevent">Add</Link></li>
                                     <li><Link className="dropdown-item" to="/viewpublicevent">View</Link></li>
                                     <li><Link className="dropdown-item" to="/searchpublicevent">Search</Link></li>
-                                    <li><Link className="dropdown-item" to="">Delete</Link></li>
+                                    <li><Link className="dropdown-item" to="/deletepublicevent">Delete</Link></li>
+                                    <li><Link className="dropdown-item" to="/retrivepublicevent">Retrieve</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">

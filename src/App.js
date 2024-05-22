@@ -39,6 +39,8 @@ import AddPrivateEvent from './components/Admin/AddPrivateEvent';
 import AdminSearchUser from './components/Admin/AdminSearchUser';
 import AdminDeleteUser from './components/Admin/AdminDeleteUser';
 import SearchPublicEvent from './components/Admin/SearchPublicEvent';
+import RetrivePublicEvents from './components/Admin/RetrivePublicEvents';
+import DeletePublicEvent from './components/Admin/DeletePublicEvent';
 import AddCollege from './components/Admin/AddCollege';
 import ViewCollege from './components/Admin/ViewCollege';
 import SearchCollege from './components/Admin/SearchCollege';
@@ -95,6 +97,8 @@ function App() {
         <Route path='/searchuser' element={<AdminSearchUser/>}/>
         <Route path='/deleteuser' element={<AdminDeleteUser/>}/>
         <Route path='/searchpublicevent' element={<SearchPublicEvent/>}/>
+        <Route path='/deletepublicevent' element={<DeletePublicEvent/>}/>
+        <Route path='/retrivepublicevent' element={<RetrivePublicEvents/>}/>
 
 
 
