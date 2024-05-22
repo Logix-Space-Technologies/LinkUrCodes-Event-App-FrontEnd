@@ -32,6 +32,8 @@ import CollegeAddStudent from './components/College/CollegeAddStudent';
 import CollegeAddStudExcel from './components/College/CollegeAddStudExcel';
 import CollegeEvents from './components/College/CollegeEvents';
 import ViewEvents from './components/User/ViewEvents';
+import AdminSearchUser from './components/Admin/AdminSearchUser';
+import AdminDeleteUser from './components/Admin/AdminDeleteUser';
 
 
 
@@ -73,6 +75,9 @@ function App() {
         <Route path='/collegeaddstudent' element={<CollegeAddStudent/>}/>
         <Route path='/collegeaddstudexcel' element={<CollegeAddStudExcel/>}/>
         <Route path='/collegeevents' element={<CollegeEvents/>}/>
+        <Route path='/searchuser' element={<AdminSearchUser/>}/>
+        <Route path='/deleteuser' element={<AdminDeleteUser/>}/>
+        <Route path='/searchpublicevent' element={<AdminDeleteUser/>}/>
 
 
 
