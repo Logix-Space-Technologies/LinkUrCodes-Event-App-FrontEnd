@@ -66,9 +66,6 @@ const AdminNavbar = () => {
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/contact">Payment History</Link>
-                            </li>
-                            <li className="nav-item">
                                 <span className='nav-link' onClick={logOutAction}> Logout</span>
                             </li>
                         </ul>
