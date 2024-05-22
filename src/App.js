@@ -23,7 +23,6 @@ import ViewPrivateEvent from './components/Admin/ViewPrivateEvent';
 import CollegeProfile from './components/College/CollegeProfile';
 import UserRegistration from './components/User/UserRegistration';
 
-import SearchEvent from './components/User/SearchEvent';
 
 import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
