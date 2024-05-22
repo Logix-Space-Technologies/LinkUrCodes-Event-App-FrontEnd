@@ -22,7 +22,7 @@ const CollegeNavBar = () => {
                 <Link className="nav-link active" aria-current="page" to="/collegeprofile">Profile</Link>
               </li>
               <li className="nav-item dropdown">
-                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Link className="nav-link dropdown-toggle" to="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Students
                 </Link>
                 <ul className="dropdown-menu">
