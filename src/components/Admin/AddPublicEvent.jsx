@@ -28,7 +28,6 @@ const AddPublicEvent = () => {
         const formData = new FormData();
         for (const key in input) {
             formData.append(key, input[key]);
-            console.log("formdata",key, input[key])
         }
 
         axios.post("http://localhost:8085/api/events/add_public_events", formData, {
