@@ -23,7 +23,7 @@ const AdminSearchUser = () => {
         axios.post("http://localhost:8085/api/users/searchusers", input, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 console.log("Response Data:", response.data);
-                if (response.data.status === "Users Not Found") {
+                if (response.data.status === "No users found") {
                     setNoUsersFound(true);
                     setOutput([]);
                 } else {
