@@ -107,7 +107,7 @@ const CollegeAddStudent = () => {
                         <button className="btn btn-success" onClick={readValues} >Submit</button>
                     </div>
 
-                </div>
+                </div><br></br>
                 <div className="row g-3">
                     <Link to="/collegeaddstudexcel">Add via Excel Sheet</Link> 
                 </div>

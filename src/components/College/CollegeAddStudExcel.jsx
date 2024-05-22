@@ -28,7 +28,7 @@ const CollegeAddStudExcel = () => {
         if (file) {
             const formData = new FormData();
             formData.append('file', file);
-            // formData.append('college_id', sessionStorage.getItem('collegeid'));
+            formData.append('college_id', sessionStorage.getItem('collegeid'));
             try {
                 const response = await axios.post('http://localhost:8085/api/college/studentupload', formData, {
                     headers: {
