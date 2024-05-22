@@ -18,11 +18,11 @@ import UserLogin from './components/User/UserLogin';
 import ViewUser from './components/Admin/ViewUser';
 
 import ViewPublicEvent from './components/Admin/ViewPublicEvent';
+import ViewPrivateEvent from './components/Admin/ViewPrivateEvent';
 
 import CollegeProfile from './components/College/CollegeProfile';
 import UserRegistration from './components/User/UserRegistration';
 
-import SearchEvent from './components/User/SearchEvent';
 
 import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
@@ -32,11 +32,20 @@ import CollegeAddStudent from './components/College/CollegeAddStudent';
 import CollegeAddStudExcel from './components/College/CollegeAddStudExcel';
 import CollegeEvents from './components/College/CollegeEvents';
 import ViewEvents from './components/User/ViewEvents';
+
+import AddPublicEvent from './components/Admin/AddPublicEvent';
+import AddPrivateEvent from './components/Admin/AddPrivateEvent';
+
 import AdminSearchUser from './components/Admin/AdminSearchUser';
 import AdminDeleteUser from './components/Admin/AdminDeleteUser';
 import SearchPublicEvent from './components/Admin/SearchPublicEvent';
 import RetrivePublicEvents from './components/Admin/RetrivePublicEvents';
 import DeletePublicEvent from './components/Admin/DeletePublicEvent';
+import AddCollege from './components/Admin/AddCollege';
+import ViewCollege from './components/Admin/ViewCollege';
+import SearchCollege from './components/Admin/SearchCollege';
+import DeleteCollege from './components/Admin/DeleteCollege';
+
 
 
 
@@ -67,8 +76,15 @@ function App() {
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/viewuser' element={<ViewUser/>}/>
 
-
+        <Route path='addpublicevent' element={<AddPublicEvent/>}/>
+        <Route path='addprivateevent' element={<AddPrivateEvent/>}/>
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
+        <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
+
+        <Route path='/addcollege' element={<AddCollege/>}/>
+        <Route path='/viewcollege' element={<ViewCollege/>}/>
+        <Route path='/searchcollege' element={<SearchCollege/>}/>
+        <Route path='/deletecollege' element={<DeleteCollege/>}/>
 
         <Route path='/about' element={<About/>}/>
         <Route path='/contact' element={<Contact/>}/>
