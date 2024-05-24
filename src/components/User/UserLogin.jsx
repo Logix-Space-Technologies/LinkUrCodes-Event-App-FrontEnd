@@ -23,7 +23,6 @@ const UserLogin = () => {
           sessionStorage.setItem("userid", response.data.userData.user_id)
           console.log(sessionStorage.getItem("userid"))
           navigate('/userhome')
-          alert("success")
         } else if (response.data.status === "Invalid Password") {
           alert("Incorrect Password")
           setInput(
