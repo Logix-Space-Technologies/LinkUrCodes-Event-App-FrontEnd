@@ -69,7 +69,7 @@ const AddPrivateEvent = () => {
         });
     };
     const readColleges=()=>{
-        axios.post("http://localhost:8085/api/college/Viewcollege", {event_private_clgid: sessionStorage.getItem("collegeid")}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post("http://localhost:8085/api/college/Viewcollege", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
               getData(response.data)
               console.log("data", data)
@@ -112,7 +112,7 @@ const AddPrivateEvent = () => {
                             <option value="">Select college</option>
                             {
                                 data.map((value, index) => {
-                                    return <option value={value.event_private_id} >{value.event_private_name}</option>
+                                    return <option value={value.college_id} >{value.college_name}</option>
                                 })
                             }
                         </select>
