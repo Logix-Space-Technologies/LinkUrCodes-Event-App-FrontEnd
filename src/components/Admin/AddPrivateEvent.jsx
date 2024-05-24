@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
+import axios from 'axios';
 
 const AddPrivateEvent = () => {
+    const [data,getData]=useState([])
     const [input, setInput] = useState({
         event_private_name: "",
         event_private_amount: "",
@@ -9,6 +11,7 @@ const AddPrivateEvent = () => {
         event_private_date: "",
         event_private_time: "",
         image: null,
+        event_private_clgid:"",
         event_addedby: sessionStorage.getItem("adminid")
     });
 
@@ -42,6 +45,7 @@ const AddPrivateEvent = () => {
                     event_private_date: "",
                     event_private_time: "",
                     image: null,
+                    event_private_clgid:"",
                     event_addedby: sessionStorage.getItem("adminid")
                 });
             } else if (response.data.status === "Unauthorized user") {
@@ -55,6 +59,7 @@ const AddPrivateEvent = () => {
                     event_private_date: "",
                     event_private_time: "",
                     image: null,
+                    event_private_clgid:"",
                     event_addedby: sessionStorage.getItem("adminid")
                 });
             }
@@ -63,6 +68,15 @@ const AddPrivateEvent = () => {
             alert("Something went wrong" + error.message);
         });
     };
+    const readColleges=()=>{
+        axios.post("http://localhost:8085/api/college/Viewcollege", {event_private_clgid: sessionStorage.getItem("collegeid")}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+            (response) => {
+              getData(response.data)
+              console.log("data", data)
+            }
+          )
+    }
+    useEffect(()=>{readColleges()},[])
     return (
         <div>
             <AdminNavbar />
@@ -93,6 +107,17 @@ const AddPrivateEvent = () => {
                         <input type="file" className="form-control" name='image' onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="image" className="form-label">College</label>
+                        <select name="event_private_clgid" id="" className="form-control" value={input.event_private_clgid} onChange={inputHandler}>
+                            <option value="">Select college</option>
+                            {
+                                data.map((value, index) => {
+                                    return <option value={value.event_private_id} >{value.event_private_name}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <button className="btn btn-success" onClick={readValues}>Add Event</button>
                     </div>
                 </div>
