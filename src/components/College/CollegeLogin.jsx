@@ -17,14 +17,13 @@ const CollegeLogin = () => {
     axios.post("http://localhost:8085/api/college/collegeLogin", input).then(
       (response) => {
         console.log(response.data)
-        if (response.data.status == "success") {
+        if (response.data.status === "success") {
           sessionStorage.setItem("collegeid", response.data.collegedata.college_id)
           console.log(sessionStorage.getItem("collegeid"))
           sessionStorage.setItem("college_email",response.data.collegedata.college_email)
           console.log(sessionStorage.getItem("college_email"))
           sessionStorage.setItem("collegetoken", response.data.collegetoken)
           console.log(sessionStorage.getItem("collegetoken"))
-          alert("Successfully signed in")
           navigate('/collegehome')
           setInput(
             {
@@ -32,7 +31,7 @@ const CollegeLogin = () => {
               "college_password": ""
             }
           )
-        } else if (response.data.status == "Incorrect mailid") {
+        } else if (response.data.status === "Incorrect mailid") {
           alert("Incorrect Emailid")
           setInput(
             {
@@ -41,7 +40,7 @@ const CollegeLogin = () => {
             }
           )
         }
-        else if (response.data.status == "Incorrect password") {
+        else if (response.data.status === "Incorrect password") {
           alert("Incorrect Password")
           setInput(
             {
