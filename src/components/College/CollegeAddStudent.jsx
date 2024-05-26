@@ -4,7 +4,6 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 const CollegeAddStudent = () => {
-    const [EventData, setEvent] = useState([])
 
     const [input, setInput] = useState(
         {
@@ -13,7 +12,7 @@ const CollegeAddStudent = () => {
             "student_admno": "",
             "student_email": "",
             "student_phone_no": "",
-            "event_id": "",
+            "event_id": sessionStorage.getItem("eventID"),
             "student_college_id": sessionStorage.getItem("collegeid")
 
         }
@@ -34,8 +33,7 @@ const CollegeAddStudent = () => {
                             "student_rollno": "",
                             "student_admno": "",
                             "student_email": "",
-                            "student_phone_no": "",
-                            "event_id": ""
+                            "student_phone_no": ""
                         }
                     )
                 }
@@ -47,8 +45,7 @@ const CollegeAddStudent = () => {
                             "student_rollno": "",
                             "student_admno": "",
                             "student_email": "",
-                            "student_phone_no": "",
-                            "event_id": ""
+                            "student_phone_no": ""
                         }
                     )
 
@@ -56,17 +53,7 @@ const CollegeAddStudent = () => {
             }
         )
     }
-    const readEvents = () => {
-        axios.post("http://localhost:8085/api/college/collegeEvents", { event_private_clgid: sessionStorage.getItem("collegeid") }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
-            .then((response) => {
-                setEvent(response.data)
-                console.log("eventdata", response.data)
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error)
-            })
-    }
-    useEffect(() => { readEvents() }, [])
+    
     return (
         <div>
             <CollegeNavBar />
@@ -91,17 +78,6 @@ const CollegeAddStudent = () => {
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="" className="form-label">Phone No</label>
                         <input type="text" className="form-control" name="student_phone_no" value={input.student_phone_no} onChange={inputHandler} />
-                    </div>
-                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-                        <label className="form-label">Event</label>
-                        <select name="event_id" className="form-select" onChange={inputHandler} >
-                            <option> Select Event </option>
-                            {
-                                EventData.map((value, index) => {
-                                    return <option value={value.event_private_id} >{value.event_private_name}</option>
-                                })
-                            }
-                        </select>
                     </div>
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <button className="btn btn-success" onClick={readValues} >Submit</button>

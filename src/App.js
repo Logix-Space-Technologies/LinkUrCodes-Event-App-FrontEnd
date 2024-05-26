@@ -48,6 +48,9 @@ import DeleteCollege from './components/Admin/DeleteCollege';
 import SearchPrivateEvent from './components/Admin/SearchPrivateEvent';
 import DeletePrivateEvent from './components/Admin/DeletePrivateEvent';
 import RetrievePrivateEvents from './components/Admin/RetrievePrivateEvents';
+import AddStudentCollege from './components/College/AddStudentCollege';
+import ViewCollegeStudents from './components/College/ViewCollegeStudents';
+import StudentDetails from './components/College/StudentsDetails';
 
 
 
@@ -105,6 +108,9 @@ function App() {
         <Route path='/searchprivateevent' element={<SearchPrivateEvent/>}/>
         <Route path='/deleteprivateevent' element={<DeletePrivateEvent/>}/>
         <Route path='/retrieveprivateevent' element={<RetrievePrivateEvents/>}/>
+        <Route path='/addstudent' element={<AddStudentCollege/>}/>
+        <Route path='/viewcollegestudents' element={<ViewCollegeStudents/>}/>
+        <Route path='/studentdetails' element={<StudentDetails/>}/>
 
       </Routes>
       </BrowserRouter>
