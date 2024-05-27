@@ -27,6 +27,7 @@ import SearchEvent from './components/User/SearchEvent';
 import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
 import ViewEvents from './components/User/ViewEvents';
+import AddFeedback from './components/User/AddFeedback';
 
 
 
@@ -49,7 +50,7 @@ function App() {
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/userprofile' element={<UserProfile/>}/>
         <Route path='/registeration' element={<UserRegistration/>}/>
-        {/* <Route path='/searchevent' element={<SearchEvent/>}/> */}
+        <Route path='/adduserfeedback' element={<AddFeedback/>}/>
 
         <Route path='/viewevent' element={<ViewEvents/>}/>
         
