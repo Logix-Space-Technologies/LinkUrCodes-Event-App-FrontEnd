@@ -54,7 +54,7 @@ const ViewPrivateEvent = () => {
                                         (value, index) => {
                                             return <tr>
                                                 <th>{index + 1}</th>
-                                                <td><img src={`http://localhost:8085/${value.event_private_image}`} class="card-img-top" alt="..." /></td>
+                                                <td><img src={`http://localhost:8085/${value.event_private_image}`} class="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                                 <td>{value.event_private_name}</td>
                                                 <td>{value.event_private_amount}</td>
                                                 <th>{value.event_private_description}</th>
