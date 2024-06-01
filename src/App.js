@@ -28,6 +28,7 @@ import About from './components/Homepage/About';
 import Contact from './components/Homepage/Contact';
 import ViewEvents from './components/User/ViewEvents';
 import AddFeedback from './components/User/AddFeedback';
+import UserPayment from './components/User/UserPayment';
 
 
 
@@ -58,6 +59,7 @@ function App() {
         <Route path='/studenthome' element={<StudentHomePage/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/viewuser' element={<ViewUser/>}/>
+        <Route path='/payment' element={<UserPayment/>}/>
 
 
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
