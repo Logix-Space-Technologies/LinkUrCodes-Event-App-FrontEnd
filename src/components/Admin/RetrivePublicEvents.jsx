@@ -20,7 +20,7 @@ const RetrivePublicEvents = () => {
     )
   }
   const retrieveEvent = (id) => {
-    let data = { "event_private_id": id }
+    let data = { "event_public_id": id }
     axios.post("http://localhost:8085/api/events/retrive_public_event", data, { headers: { token: sessionStorage.getItem("admintoken") } })
       .then((response) => {
         if (response.data.status === "unauthorised user") {
