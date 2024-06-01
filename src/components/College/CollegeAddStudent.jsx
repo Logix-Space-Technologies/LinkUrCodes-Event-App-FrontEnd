@@ -12,8 +12,8 @@ const CollegeAddStudent = () => {
             "student_admno": "",
             "student_email": "",
             "student_phone_no": "",
-            "event_id": sessionStorage.getItem("eventID"),
-            "student_college_id": sessionStorage.getItem("collegeid")
+            "event_id": sessionStorage.getItem("eventID")
+            // "student_college_id": sessionStorage.getItem("collegeid")
 
         }
     )
