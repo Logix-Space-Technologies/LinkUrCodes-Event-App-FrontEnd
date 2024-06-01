@@ -10,11 +10,11 @@ const HomePage = () => {
         <div className="row">
           <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
             <div className="row">
-              <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+              <div className="col col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                 <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">
                   <div className="carousel-inner">
                     <div className="carousel-item active">
-                      <img height={150} src="https://www.linkurcodes.com/images/logo.png" className="d-block w-100" alt="..." />
+                      <img height={75} src="https://www.linkurcodes.com/images/logo.png" className="d-block w-100" alt="..." />
                     </div>
                   </div>
                 </div>
@@ -24,7 +24,7 @@ const HomePage = () => {
             <div className="row">
               <div className="col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
                 <div className="card" style={{ border: 'none' }}>
-                  <img height={300} src="https://www.logixspace.com/assets/img/about-img.svg" className="card-img-top" alt="..." />
+                  <img height={300} src="https://img.freepik.com/free-vector/programming-languages-learning-software-coding-courses-website-development-class-script-writing-it-programmers-cartoon-characters_335657-789.jpg" className="card-img-top" alt="..." />
                 </div>
               </div>
               <div className="col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
@@ -40,7 +40,7 @@ const HomePage = () => {
               </div>
               <div className="col col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">
                 <div className="card" style={{ border: 'none' }}>
-                  <img height={300} src="https://www.logixspace.com/assets/img/hero-img.svg" className="card-img-top" alt="..." />
+                  <img height={300} src="https://www.mastersoftwaresolutions.com/wp-content/uploads/2014/08/bnr-1.png" className="card-img-top" alt="..." />
                 </div>
               </div>
             </div>

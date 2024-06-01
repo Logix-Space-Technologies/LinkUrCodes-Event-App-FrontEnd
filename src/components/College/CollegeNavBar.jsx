@@ -21,11 +21,19 @@ const CollegeNavBar = () => {
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to="/collegeprofile">Profile</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/collegehome">Student Details</Link>
+              <li className="nav-item dropdown">
+                <Link className="nav-link dropdown-toggle" to="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Students
+                </Link>
+                <ul className="dropdown-menu">
+                  <li><Link className="dropdown-item" to="/addstudent">Add Student</Link></li>
+
+                  <li><Link className="dropdown-item" to="/viewcollegestudents">View Students</Link></li>
+
+                </ul>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/collegehome">Events</Link>
+                <Link className="nav-link" to="/collegeevents">Events</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/collegehome">Event History</Link>

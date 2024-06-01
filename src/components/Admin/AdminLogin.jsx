@@ -22,7 +22,6 @@ const AdminLogin = () => {
                     sessionStorage.setItem("adminid", response.data.adminData.admin_id)
                     console.log(sessionStorage.getItem("adminid"))
                     navigate('/adminhome')
-                    alert("success")
                 } else if (response.data.status === "Invalid Password") {
                     alert("Incorrect Password")
                     setInput(

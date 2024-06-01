@@ -11,7 +11,7 @@ const CollegeProfile = () => {
   )
   const [output, setOutput] = useState([]);
   const readValues = () => {
-    axios.post("http://localhost:8085/api/college/Viewcollegedetail", input, { headers: { collegetoken: sessionStorage.getItem("token") } })
+    axios.post("http://localhost:8085/api/college/Viewcollegedetail", input, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
       .then((response) => {
 
         setOutput(response.data);
