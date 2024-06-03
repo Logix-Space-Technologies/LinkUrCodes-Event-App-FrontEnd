@@ -53,6 +53,7 @@ import RetrievePrivateEvents from './components/Admin/RetrievePrivateEvents';
 import AddStudentCollege from './components/College/AddStudentCollege';
 import ViewCollegeStudents from './components/College/ViewCollegeStudents';
 import StudentDetails from './components/College/StudentsDetails';
+import AddFaculty from './components/Admin/AddFaculty';
 
 
 
@@ -114,6 +115,7 @@ function App() {
         <Route path='/addstudent' element={<AddStudentCollege/>}/>
         <Route path='/viewcollegestudents' element={<ViewCollegeStudents/>}/>
         <Route path='/studentdetails' element={<StudentDetails/>}/>
+        <Route path='/addfaculty' element={<AddFaculty/>}/>
 
       </Routes>
       </BrowserRouter>
