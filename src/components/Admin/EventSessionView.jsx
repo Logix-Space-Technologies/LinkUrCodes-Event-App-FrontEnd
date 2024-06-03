@@ -43,6 +43,7 @@ const EventSessionView = () => {
                                         <th scope="col">Session Type</th>
                                         <th scope="col">Session Venue</th>
                                         <th scope="col">Session Attendance</th>
+                                        <th scope="col">Is completed</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,7 +55,8 @@ const EventSessionView = () => {
                                             <td>{value.session_start_time}</td>
                                             <td>{value.type}</td>
                                             <td>{value.venue}</td>
-                                            <td>Mark</td>
+                                            <td><button className="btn btn-secondary">Mark</button></td>
+                                            <td><button className="btn btn-success">Done</button></td>
                                         </tr>
                                     ))}
                                 </tbody>
