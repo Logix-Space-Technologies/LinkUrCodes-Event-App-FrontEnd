@@ -54,6 +54,7 @@ import AddStudentCollege from './components/College/AddStudentCollege';
 import ViewCollegeStudents from './components/College/ViewCollegeStudents';
 import StudentDetails from './components/College/StudentsDetails';
 import AddFaculty from './components/Admin/AddFaculty';
+import ViewFaculty from './components/Admin/ViewFaculty';
 
 
 
@@ -116,6 +117,7 @@ function App() {
         <Route path='/viewcollegestudents' element={<ViewCollegeStudents/>}/>
         <Route path='/studentdetails' element={<StudentDetails/>}/>
         <Route path='/addfaculty' element={<AddFaculty/>}/>
+        <Route path='/viewfaculty' element={<ViewFaculty/>}/>
 
       </Routes>
       </BrowserRouter>
