@@ -32,6 +32,8 @@ import CollegeAddStudent from './components/College/CollegeAddStudent';
 import CollegeAddStudExcel from './components/College/CollegeAddStudExcel';
 import CollegeEvents from './components/College/CollegeEvents';
 import ViewEvents from './components/User/ViewEvents';
+import AddFeedback from './components/User/AddFeedback';
+import UserPayment from './components/User/UserPayment';
 
 import AddPublicEvent from './components/Admin/AddPublicEvent';
 import AddPrivateEvent from './components/Admin/AddPrivateEvent';
@@ -73,7 +75,7 @@ function App() {
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/userprofile' element={<UserProfile/>}/>
         <Route path='/registeration' element={<UserRegistration/>}/>
-        {/* <Route path='/searchevent' element={<SearchEvent/>}/> */}
+        <Route path='/adduserfeedback' element={<AddFeedback/>}/>
 
         <Route path='/viewevent' element={<ViewEvents/>}/>
         
@@ -81,6 +83,7 @@ function App() {
         <Route path='/studenthome' element={<StudentHomePage/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
         <Route path='/viewuser' element={<ViewUser/>}/>
+        <Route path='/payment' element={<UserPayment/>}/>
 
         <Route path='addpublicevent' element={<AddPublicEvent/>}/>
         <Route path='addprivateevent' element={<AddPrivateEvent/>}/>

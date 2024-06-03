@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchEvent from './SearchEvent';
+import { useNavigate } from 'react-router-dom';
 
 const ViewEvents = () => {
   const [events, setEvents] = useState([]);
@@ -29,16 +30,20 @@ const ViewEvents = () => {
     fetchEvents();
   }, []); // Run once on component mount
 
+  
+  const navigate=useNavigate()
   const handleRegistration = (eventId) => {
     // Handle event registration logic here
+    navigate('/payment')
     console.log('Register for event with ID:', eventId);
   };
 
   return (
     <div>
-      <SearchEvent />
+      <SearchEvent /><br></br>
       <div className="container">
         <div className="row">
+          <b><h2><i>SELECT EVENTS</i></h2></b>
           {events.map(event => (
             <div className="col-md-4 mb-4" key={event.event_public_id}>
               <div className="card h-100">

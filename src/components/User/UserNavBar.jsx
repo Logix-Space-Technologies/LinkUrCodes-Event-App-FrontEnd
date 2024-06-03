@@ -22,7 +22,7 @@ const UserNavBar = () => {
           <a class="nav-link" href="#">Your events</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Feedback</a>
+          <a class="nav-link" href="/adduserfeedback">Feedback</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/userlogin">Logout</a>
