@@ -12,7 +12,7 @@ const AdminNavbar = () => {
         <div>
             <nav className="navbar navbar-expand-lg bg-tertiary">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="#"><b>Link Ur Codes</b></Link>
+                    <Link className="navbar-brand" to="#"> <img src="https://www.linkurcodes.com/images/logo.png" alt="Logo" className='logo' /></Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

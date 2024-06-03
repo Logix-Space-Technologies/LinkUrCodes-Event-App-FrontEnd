@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 const UserNavBar = () => {
@@ -6,26 +7,26 @@ const UserNavBar = () => {
     <div>
          <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">User</a>
+    <Link class="navbar-brand" to="#"><img src="https://www.linkurcodes.com/images/logo.png" alt="Logo" className='logo' /></Link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/userprofile">Profile</a>
+          <Link class="nav-link" to="/userprofile">Profile</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/viewevent">Events</a>
+          <Link class="nav-link" to="/viewevent">Events</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Your events</a>
+          <Link class="nav-link" to="#">Your events</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adduserfeedback">Feedback</a>
+          <Link class="nav-link" to="/adduserfeedback">Feedback</Link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/userlogin">Logout</a>
+          <Link class="nav-link" to="/userlogin">Logout</Link>
         </li>
       </ul>
     </div>
