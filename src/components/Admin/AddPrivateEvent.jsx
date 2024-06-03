@@ -22,7 +22,7 @@ const AddPrivateEvent = () => {
 
     const inputHandler = (event) => {
         const { name, value, files } = event.target;
-        if (name === 'image') {
+        if (name === 'image' || name=== 'pdf') {
             setInput({ ...input, [name]: files[0] });
         } else {
             setInput({ ...input, [name]: value });
