@@ -7,6 +7,7 @@ const AddCollege = () => {
         college_name: "",
         college_email: "",
         college_phone: "",
+        college_website:"",
         image: null,
         college_addedby: sessionStorage.getItem("adminid")
     });
@@ -23,19 +24,21 @@ const AddCollege = () => {
         for (const key in input) {
             formData.append(key, input[key]);
         }
-
+    
         axios.post("http://localhost:8085/api/college/addCollege", formData, {
             headers: {
                 token: sessionStorage.getItem("admintoken"),
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
+            console.log('Response:', response); // Log the full response
             if (response.data.status === "success") {
                 alert("Successfully added");
                 setInput({
                     college_name: "",
                     college_email: "",
                     college_phone: "",
+                    college_website:"",
                     image: null,
                     college_addedby: sessionStorage.getItem("adminid")
                 });
@@ -47,15 +50,17 @@ const AddCollege = () => {
                     college_name: "",
                     college_email: "",
                     college_phone: "",
+                    college_website:"",
                     image: null,
                     college_addedby: sessionStorage.getItem("adminid")
                 });
             }
         }).catch(error => {
             console.error('Error adding event:', error.message);
-            alert("Something went wrong" + error.message);
+            alert("Something went wrong: " + error.message);
         });
     };
+    
     return (
         <div>
             <AdminNavbar />
@@ -72,6 +77,10 @@ const AddCollege = () => {
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="name" className="form-label">College Phone</label>
                         <input type="text" className="form-control" name='college_phone' value={input.college_phone} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="name" className="form-label">College Website</label>
+                        <input type="url" className="form-control" name='college_website' value={input.college_website} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">College Image</label>
