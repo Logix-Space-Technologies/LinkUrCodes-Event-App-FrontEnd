@@ -39,7 +39,7 @@ const AddStudentCollege = () => {
                       <p className="card-text">Description:{value.event_private_description}</p>
                       <p class="card-text">Start Date : {value.event_private_date}</p>
                       <p className="card-text">Start Time :{value.event_private_time}</p>
-                      <p className="card-text">Status: {value.delete_status === 'active' ? (
+                      <p className="card-text">Status: {value.delete_status === 'Active' ? (
                         <span className="badge text-bg-success ">Active</span>
                       ) : (
                         <span className="badge text-bg-danger">Inactive</span>
