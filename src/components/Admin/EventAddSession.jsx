@@ -18,7 +18,7 @@ const EventAddSession = () => {
     }
     const readValues = () => {
         console.log(input)
-        axios.post("http://localhost:8085/api/events/addSession", input, { headers: { collegetoken: sessionStorage.getItem("admintoken") } }).then(
+        axios.post("http://localhost:8085/api/events/addSession", input, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 if (response.data.status === "success") {
                     alert("Successfully added")
