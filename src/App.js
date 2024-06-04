@@ -73,6 +73,8 @@ import ForgotPassword from './components/Student/ForgotPassword';
 import UpdatePassword from './components/Student/UpdatePassword';
 import FacultyForgotPassword from './components/College/FacultyForgotPassword';
 import FacultyUpdatePassword from './components/College/FacultyUpdatePassword';
+import MarkAttendence from './components/Admin/MarkAttendence';
+import ViewAttendence from './components/Admin/ViewAttendence';
 
 
 
@@ -154,6 +156,8 @@ function App() {
         <Route path='/eventviewsession' element={<EventSessionView/>}/>
         <Route path='/collegeviewsession' element={<CollegeViewSession/>}/>
         <Route path='/viewsessionfeedback' element={<ViewSessionFeedback/>}/>
+        <Route path='/markattendence' element={<MarkAttendence/>}/>
+        <Route path='/viewattendence' element={<ViewAttendence/>}/>
 
       </Routes>
       </BrowserRouter>
