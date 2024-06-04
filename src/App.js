@@ -58,6 +58,8 @@ import ViewFaculty from './components/Admin/ViewFaculty';
 import EventAddSession from './components/Admin/EventAddSession';
 import EventSessionView from './components/Admin/EventSessionView';
 import ViewSessionFeedback from './components/Admin/ViewSessionFeedback';
+import ViewCompletedPrivateEvents from './components/Admin/ViewCompletedPrivateEvents';
+import CompletedPrivateEventSessions from './components/Admin/CompletedPrivateEventSessions';
 
 
 
@@ -94,6 +96,8 @@ function App() {
         <Route path='addprivateevent' element={<AddPrivateEvent/>}/>
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
         <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
+        <Route path='/viewcompletedprivateevents' element={<ViewCompletedPrivateEvents/>}/>
+        <Route path='/viewcompletedprivateeventsessions' element={<CompletedPrivateEventSessions/>}/>
 
         <Route path='/addcollege' element={<AddCollege/>}/>
         <Route path='/viewcollege' element={<ViewCollege/>}/>

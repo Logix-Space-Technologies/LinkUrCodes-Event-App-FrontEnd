@@ -50,7 +50,6 @@ const ViewSessionFeedback = () => {
                             </tbody>
                         </table>
                         )}
-                        <Link className="link" to="/eventviewsession">Back to sessions</Link>
                     </div>
                 </div>
             </div>

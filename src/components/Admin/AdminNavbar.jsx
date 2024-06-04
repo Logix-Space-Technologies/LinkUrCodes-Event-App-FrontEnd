@@ -40,6 +40,7 @@ const AdminNavbar = () => {
                                     <li><Link className="dropdown-item" to="/addprivateevent">Add</Link></li>
                                     <li><Link className="dropdown-item" to="/viewprivateevent">View</Link></li>
                                     <li><Link className="dropdown-item" to="/searchprivateevent">Search</Link></li>
+                                    <li><Link className="dropdown-item" to="/viewcompletedprivateevents">Completed</Link></li>
                                     <li><Link className="dropdown-item" to="/retrieveprivateevent">Retrieve</Link></li>
                                 </ul>
                             </li>
