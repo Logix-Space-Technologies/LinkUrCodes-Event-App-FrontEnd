@@ -6,49 +6,51 @@ const CollegeLogin = () => {
   const navigate = useNavigate()
   const [input, setInput] = new useState(
     {
-      "college_email": "",
-      "college_password": ""
+      "faculty_email": "",
+      "faculty_password": ""
     }
   )
   const inputHandler = (event) => {
     setInput({ ...input, [event.target.name]: event.target.value })
   }
   const readValues = () => {
-    axios.post("http://localhost:8085/api/college/collegeLogin", input).then(
+    axios.post("http://localhost:8085/api/college/departmentLogin", input).then(
       (response) => {
         console.log(response.data)
         if (response.data.status === "success") {
-          sessionStorage.setItem("collegeid", response.data.collegedata.college_id)
+          sessionStorage.setItem("collegeid", response.data.facultyData.college_id)
           console.log(sessionStorage.getItem("collegeid"))
-          sessionStorage.setItem("college_email",response.data.collegedata.college_email)
-          console.log(sessionStorage.getItem("college_email"))
+          sessionStorage.setItem("facultyid", response.data.facultyData.id)
+          console.log(sessionStorage.getItem("facultyid"))
+          // sessionStorage.setItem("college_email",response.data.collegedata.college_email)
+          // console.log(sessionStorage.getItem("college_email"))
           sessionStorage.setItem("collegetoken", response.data.collegetoken)
           console.log(sessionStorage.getItem("collegetoken"))
           navigate('/collegehome')
           setInput(
             {
-              "college_email": "",
-              "college_password": ""
+              "faculty_email": "",
+              "faculty_password": ""
             }
           )
-        } else if (response.data.status === "Incorrect mailid") {
+        } else if (response.data.status === "incorrect email") {
           alert("Incorrect Emailid")
           setInput(
             {
-              "college_email": "",
-              "college_password": ""
+              "faculty_email": "",
+              "faculty_password": ""
             }
           )
         }
-        else if (response.data.status === "Incorrect password") {
+        else if (response.data.status === "incorrect password") {
           alert("Incorrect Password")
           setInput(
             {
-              "college_email": "",
-              "college_password": ""
+              "faculty_email": "",
+              "faculty_password": ""
             }
           )
-        }
+        }        
         else {
           alert("Something went wrong")
         }
@@ -63,16 +65,16 @@ const CollegeLogin = () => {
             <div className="container">
               <div className="row g-3">
                 <div class="card-body">
-                  <h2 class="card-title"><u>COLLEGE LOGIN</u></h2><br></br>
+                  <h2 class="card-title"><u>FACULTY LOGIN</u></h2><br></br>
                   <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div className="row g-3">
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <label htmlFor="" className="form-label" >USERNAME</label>
-                        <input type="text" className="form-control" name="college_email" value={input.college_email} onChange={inputHandler} />
+                        <input type="text" className="form-control" name="faculty_email" value={input.faculty_email} onChange={inputHandler} />
                       </div>
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <label htmlFor="" className="form-label" >PASSWORD</label>
-                        <input type="password" className="form-control" name="college_password" value={input.college_password} onChange={inputHandler} />
+                        <input type="password" className="form-control" name="faculty_password" value={input.faculty_password} onChange={inputHandler} />
                       </div>
                       <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <button className="btn btn-primary" onClick={readValues}>LOGIN</button>
