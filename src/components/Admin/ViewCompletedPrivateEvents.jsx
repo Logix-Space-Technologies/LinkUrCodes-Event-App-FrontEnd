@@ -7,10 +7,18 @@ const ViewCompletedPrivateEvents = () => {
     const navigate=useNavigate()
     const [data, setData] = new useState([])
     const getData = () => {
-        axios.post("http://localhost:8085/api/events/view_completed_private_events", { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post("http://localhost:8085/api/events/view_completed_private_events", { }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
-                setData(response.data)
-                console.log("data", data)
+                if (Array.isArray(response.data)) {
+                    setData(response.data);
+                    console.log("data", data)
+                } else if (response.data.status === "No events found") {
+                    setData([]); // No events found
+                } else {
+                    alert("Something went wrong !")
+                }
+                
+                
             }
         )
     }
@@ -25,6 +33,13 @@ const ViewCompletedPrivateEvents = () => {
       <div className="container">
         <div className="row">
             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+            {data.length === 0 ? ( 
+                        <div>
+                             <center>
+                     <h1>No Events found</h1>
+                 </center>
+                        </div>
+                    ) : (
             <table className="table">
                             <thead>
                                 <tr>
@@ -65,6 +80,7 @@ const ViewCompletedPrivateEvents = () => {
                                 }
                             </tbody>
                         </table>
+                        )}
             </div>
         </div>
       </div>

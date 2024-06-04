@@ -24,6 +24,14 @@ const EventSessionView = () => {
         sessionStorage.setItem("sessionID", id)
         navigate('/viewsessionfeedback')
     }
+    const markAttendence=(id)=>{
+        sessionStorage.setItem("session_ID", id)
+        navigate('/markattendence')
+    }
+    const viewAttendence=(id)=>{
+        sessionStorage.setItem("session_ID", id)
+        navigate('/viewattendence')
+    }
     useEffect(() => { getData() }, [])
     return (
         <div>
@@ -47,7 +55,7 @@ const EventSessionView = () => {
                                         <th scope="col">Session Time</th>
                                         <th scope="col">Session Type</th>
                                         <th scope="col">Session Venue</th>
-                                        <th scope="col">Session Attendance</th>
+                                        <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Session Attendance</th>
                                         <th scope='col'>Session Feedback</th>
                                         <th scope="col">Is completed</th>
                                     </tr>
@@ -61,7 +69,8 @@ const EventSessionView = () => {
                                             <td>{value.session_start_time}</td>
                                             <td>{value.type}</td>
                                             <td>{value.venue}</td>
-                                            <td><button className="btn btn-secondary">Mark</button></td>
+                                            <td><button className="btn btn-warning" onClick={()=>{markAttendence(value.session_private_id)}}>Mark</button></td> 
+                                            <td><button className="btn btn-warning" onClick={()=>{viewAttendence(value.session_private_id)}}>View</button></td>                                                                                       
                                             <td><button className="btn btn-primary" onClick={()=>{sessionFeedback(value.feedback_id)}}>View Feedback</button></td>
                                             <td><button className="btn btn-success">Done</button></td>
                                         </tr>
