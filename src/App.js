@@ -61,6 +61,8 @@ import EventSessionView from './components/Admin/EventSessionView';
 import CollegeViewSession from './components/College/CollegeViewSession';
 
 import ViewSessionFeedback from './components/Admin/ViewSessionFeedback';
+import ViewCompletedPrivateEvents from './components/Admin/ViewCompletedPrivateEvents';
+import CompletedPrivateEventSessions from './components/Admin/CompletedPrivateEventSessions';
 
 import StudentProfile from './components/Student/StudentProfile';
 import StudentEventView from './components/Student/StudentEventView';
@@ -69,6 +71,8 @@ import StudentSessionView from './components/Student/StudentSessionView';
 import AddSessionFeedback from './components/Student/AddSessionFeedback';
 import ForgotPassword from './components/Student/ForgotPassword';
 import UpdatePassword from './components/Student/UpdatePassword';
+import FacultyForgotPassword from './components/College/FacultyForgotPassword';
+import FacultyUpdatePassword from './components/College/FacultyUpdatePassword';
 
 
 
@@ -95,6 +99,8 @@ function App() {
 
         <Route path='/collegelogin' element={<CollegeLogin/>}/>
         <Route path='/collegehome' element={<CollegeHomePage/>}/>
+        <Route path='/forgotfacultypassword' element={<FacultyForgotPassword/>}/>
+        <Route path='/updatefacultypassword' element={<FacultyUpdatePassword/>}/>
 
         <Route path='/userlogin' element={<UserLogin/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
@@ -114,6 +120,8 @@ function App() {
         <Route path='addprivateevent' element={<AddPrivateEvent/>}/>
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
         <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
+        <Route path='/viewcompletedprivateevents' element={<ViewCompletedPrivateEvents/>}/>
+        <Route path='/viewcompletedprivateeventsessions' element={<CompletedPrivateEventSessions/>}/>
 
         <Route path='/addcollege' element={<AddCollege/>}/>
         <Route path='/viewcollege' element={<ViewCollege/>}/>
