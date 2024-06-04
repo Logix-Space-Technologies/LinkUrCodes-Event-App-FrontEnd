@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import CollegeNavBar from './CollegeNavBar'
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
 
 const CollegeEvents = () => {
+    const navigate=useNavigate()
     const [EventData, setEvent] = useState([])
     const readEvents = () => {
         axios.post("http://localhost:8085/api/college/collegeEvents", { event_private_clgid: sessionStorage.getItem("collegeid") }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
@@ -13,6 +15,10 @@ const CollegeEvents = () => {
             .catch((error) => {
                 console.error('Error fetching data:', error)
             })
+    }
+    const sessionView=(id)=>{
+        sessionStorage.setItem("eventID",id)
+        navigate('/collegeviewsession')
     }
 
     useEffect(() => { readEvents() }, [])
@@ -39,6 +45,9 @@ const CollegeEvents = () => {
                                                 <span className="badge text-bg-danger">Inactive</span>
                                             )}
                                             </p>
+                                            <div className="d-flex justify-content-end">
+                                            <p><button className="btn btn-warning" onClick={()=>{sessionView(value.event_private_id)}}>View Session</button></p>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
