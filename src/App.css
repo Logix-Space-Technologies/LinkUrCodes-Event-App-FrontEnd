@@ -66,6 +66,10 @@ body {
   height: 100vh;
 }
 
+.button-container {
+  display: flex;
+  gap: 130px; /* Adjust the value as needed */
+}
 
 
 

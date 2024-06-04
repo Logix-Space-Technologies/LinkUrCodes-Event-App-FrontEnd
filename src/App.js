@@ -53,6 +53,10 @@ import RetrievePrivateEvents from './components/Admin/RetrievePrivateEvents';
 import AddStudentCollege from './components/College/AddStudentCollege';
 import ViewCollegeStudents from './components/College/ViewCollegeStudents';
 import StudentDetails from './components/College/StudentsDetails';
+import StudentProfile from './components/Student/StudentProfile';
+import StudentEventView from './components/Student/StudentEventView';
+import AddStudentFeedback from './components/Student/AddStudentFeedback';
+import StudentSessionView from './components/Student/StudentSessionView';
 
 
 
@@ -66,7 +70,12 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage/>}/>
         <Route path='/adminlogin' element={<AdminLogin/>}/>
+
         <Route path='/studentlogin' element={<StudentLogin/>}/>
+        <Route path='/studentprofile' element={<StudentProfile/>}/>
+        <Route path='/studentevents' element={<StudentEventView/>}/>
+        <Route path='/studentfeedback' element={<AddStudentFeedback/>}/>
+        <Route path='/sessions' element={<StudentSessionView/>}/>
 
         <Route path='/collegelogin' element={<CollegeLogin/>}/>
         <Route path='/collegehome' element={<CollegeHomePage/>}/>
