@@ -72,6 +72,16 @@ body {
   height: 100vh;
 }
 
+.button-container {
+  display: flex;
+  gap: 130px; /* Adjust the value as needed */
+}
+
+.text-center {
+  text-align: center;
+  vertical-align: middle;
+}
+
 
 
 
