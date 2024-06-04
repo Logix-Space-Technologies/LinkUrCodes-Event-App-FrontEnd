@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StudentSessionView = () => {
     const [sessions, setSessions] = useState([]);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const fetchSessions = () => {
         axios.post(
@@ -27,27 +29,39 @@ const StudentSessionView = () => {
         fetchSessions();
     }, []);
 
+    const addSessionFeedback = (eventId) => {
+        sessionStorage.setItem('eventId', eventId);
+        navigate('/sessionfeedback');
+    };
+
     return (
-        <div className="container">
-            <h2>Sessions</h2>
+        <div className="container"><br></br>
+            <h2 className="text-center">Sessions</h2>
             {error && <p>{error}</p>}
             {sessions.length > 0 ? (
-                <table className="table">
+                <table className="table" >
                     <thead>
                         <tr>
-                            <th>Session Name</th>
-                            <th>Date</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th className="text-center">Session Name</th>
+                            <th className="text-center">Date</th>
+                            <th className="text-center">Start Time</th>
+                            <th className="text-center">Venue</th>
+                            <th className="text-center">Feedback</th>
                         </tr>
                     </thead>
                     <tbody>
                         {sessions.map((session, index) => (
                             <tr key={index}>
-                                <td>{session.session_name}</td>
-                                <td>{session.session_date}</td>
-                                <td>{session.start_time}</td>
-                                <td>{session.end_time}</td>
+                                <td className="text-center">{session.session_topic_description}</td>
+                                <td className="text-center">{session.session_date}</td>
+                                <td className="text-center">{session.session_start_time}</td>
+                                <td className="text-center">{session.venue}</td>
+                                <td className="text-center"> {/* Center the button */}
+                                    <button
+                                        className="btn btn-primary" onClick={() => addSessionFeedback(session.event_private_id)}>
+                                        Add
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
