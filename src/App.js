@@ -57,6 +57,7 @@ import AddFaculty from './components/Admin/AddFaculty';
 import ViewFaculty from './components/Admin/ViewFaculty';
 import EventAddSession from './components/Admin/EventAddSession';
 import EventSessionView from './components/Admin/EventSessionView';
+import ViewSessionFeedback from './components/Admin/ViewSessionFeedback';
 
 
 
@@ -123,6 +124,7 @@ function App() {
 
         <Route path='/eventaddsession' element={<EventAddSession/>}/>
         <Route path='/eventviewsession' element={<EventSessionView/>}/>
+        <Route path='/viewsessionfeedback' element={<ViewSessionFeedback/>}/>
 
       </Routes>
       </BrowserRouter>
