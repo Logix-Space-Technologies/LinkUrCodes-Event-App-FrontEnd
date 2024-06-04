@@ -69,6 +69,8 @@ import StudentSessionView from './components/Student/StudentSessionView';
 import AddSessionFeedback from './components/Student/AddSessionFeedback';
 import ForgotPassword from './components/Student/ForgotPassword';
 import UpdatePassword from './components/Student/UpdatePassword';
+import FacultyForgotPassword from './components/College/FacultyForgotPassword';
+import FacultyUpdatePassword from './components/College/FacultyUpdatePassword';
 
 
 
@@ -95,6 +97,8 @@ function App() {
 
         <Route path='/collegelogin' element={<CollegeLogin/>}/>
         <Route path='/collegehome' element={<CollegeHomePage/>}/>
+        <Route path='/forgotfacultypassword' element={<FacultyForgotPassword/>}/>
+        <Route path='/updatefacultypassword' element={<FacultyUpdatePassword/>}/>
 
         <Route path='/userlogin' element={<UserLogin/>}/>
         <Route path='/userhome' element={<UserHomePage/>}/>
