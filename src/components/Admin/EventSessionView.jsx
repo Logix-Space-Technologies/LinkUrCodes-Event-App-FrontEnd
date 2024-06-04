@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const EventSessionView = () => {
+    const navigate=useNavigate()
     const [data, setData] = useState([])
     const getData = () => {
         axios.post("http://localhost:8085/api/events/viewSession", { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -18,6 +19,10 @@ const EventSessionView = () => {
             .catch((error) => {
                 console.error('Error fetching data:', error)
             })
+    }
+    const sessionFeedback=(id)=>{
+        sessionStorage.setItem("sessionID", id)
+        navigate('/viewsessionfeedback')
     }
     useEffect(() => { getData() }, [])
     return (
@@ -43,6 +48,7 @@ const EventSessionView = () => {
                                         <th scope="col">Session Type</th>
                                         <th scope="col">Session Venue</th>
                                         <th scope="col">Session Attendance</th>
+                                        <th scope='col'>Session Feedback</th>
                                         <th scope="col">Is completed</th>
                                     </tr>
                                 </thead>
@@ -56,6 +62,7 @@ const EventSessionView = () => {
                                             <td>{value.type}</td>
                                             <td>{value.venue}</td>
                                             <td><button className="btn btn-secondary">Mark</button></td>
+                                            <td><button className="btn btn-primary" onClick={()=>{sessionFeedback(value.feedback_id)}}>View Feedback</button></td>
                                             <td><button className="btn btn-success">Done</button></td>
                                         </tr>
                                     ))}

@@ -18,6 +18,7 @@ const StudentLogin = () => {
             (response)=>{
                 if(response.data.status=="Success"){
                     sessionStorage.setItem("token",response.data.token)
+                    sessionStorage.setItem("studentID",response.data.studentData.student_id)
                     console.log(sessionStorage.getItem("token"))
                     navigate('/studenthome')
                     
@@ -69,6 +70,7 @@ const StudentLogin = () => {
                                             </div>
                                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                                                 <center><Link to="/" className="nav-link">Back to Home</Link></center>
+                                                <center><Link to="/forgotpassword" className="nav-link">Forgot Password?</Link></center>
                                             </div>
                                         </div>
                                     </div>
