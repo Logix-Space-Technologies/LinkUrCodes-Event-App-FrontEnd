@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import StudentNavBar from './StudentNavBar'
 
 const AddStudentFeedback = () => {
   const [input, setInput] = useState({
+    feedback_student_id:sessionStorage.getItem("studentID"),
     feedback_event_id: sessionStorage.getItem("eventId"),
     feedback_content: ""
   });
@@ -41,6 +43,7 @@ const AddStudentFeedback = () => {
 
   return (
     <div>
+      <StudentNavBar/>
       <br />
       <div className="container">
         <div className="row g-3">

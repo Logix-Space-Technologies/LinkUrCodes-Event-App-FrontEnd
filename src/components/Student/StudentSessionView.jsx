@@ -7,7 +7,7 @@ const StudentSessionView = () => {
 
     const fetchSessions = () => {
         axios.post(
-            "http://localhost:8085/api/viewSession",
+            "http://localhost:8085/api/student/viewSession",
             { event_private_id: sessionStorage.getItem('eventId') },
             { headers: { token: sessionStorage.getItem("token") } }
         )

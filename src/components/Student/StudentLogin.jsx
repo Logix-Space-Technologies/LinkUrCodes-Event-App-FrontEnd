@@ -18,6 +18,7 @@ const StudentLogin = () => {
             (response)=>{
                 if(response.data.status=="Success"){
                     sessionStorage.setItem("token",response.data.token)
+                    sessionStorage.setItem("studentID",response.data.studentData.student_id)
                     console.log(sessionStorage.getItem("token"))
                     navigate('/studenthome')
                     
