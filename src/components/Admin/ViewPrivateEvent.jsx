@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
+import { useNavigate } from 'react-router-dom'
 
 const ViewPrivateEvent = () => {
+    const navigate=useNavigate()
     const [data, setData] = new useState([])
     const getData = () => {
-        axios.post("http://localhost:8085/api/events/view_active_private_events", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post("http://localhost:8085/api/events/view_active_private_events", {event_private_id: sessionStorage.getItem("eventID")}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 setData(response.data)
                 console.log("data", data)
@@ -28,6 +30,14 @@ const ViewPrivateEvent = () => {
                 }
             })
     }
+    const sessionAdd=(id)=>{
+        sessionStorage.setItem("eventID", id)
+        navigate('/eventaddsession')
+    }
+    const sessionView=(id)=>{
+        sessionStorage.setItem("eventID",id)
+        navigate('/eventviewsession')
+    }
     useEffect(() => { getData() }, [])
     return (
         <div>
@@ -39,12 +49,18 @@ const ViewPrivateEvent = () => {
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Image</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Amount</th>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Description</th>
+                                    <th scope='col'>Amount</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Time</th>
+                                    <th scope="col">Total Duration</th>
+                                    <th scope="col">Online Sessions</th>
+                                    <th scope="col">Offline Sessions</th>
+                                    <th scope="col">Recorded Sessions</th>
+                                    <th scope="col">Add Session</th>
+                                    <th scope="col">View Sessions</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -54,12 +70,18 @@ const ViewPrivateEvent = () => {
                                         (value, index) => {
                                             return <tr>
                                                 <th>{index + 1}</th>
-                                                <td><img src={`http://localhost:8085/${value.event_private_image}`} class="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                                 <td>{value.event_private_name}</td>
+                                                <td><img src={`http://localhost:8085/${value.event_private_image}`} class="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                                <td>{value.event_private_description}</td>
                                                 <td>{value.event_private_amount}</td>
-                                                <th>{value.event_private_description}</th>
                                                 <td>{value.event_private_date}</td>
                                                 <td>{value.event_private_time}</td>
+                                                <td>{value.event_private_duration}</td>
+                                                <td>{value.event_private_online}</td>
+                                                <td>{value.event_private_offline}</td>
+                                                <td>{value.event_private_recorded}</td>
+                                                <td><button className="btn btn-success" onClick={()=>{sessionAdd(value.event_private_id)}}>Add Session</button></td>
+                                                <td><button className="btn btn-success" onClick={()=>{sessionView(value.event_private_id)}}>View Session</button></td>
                                                 <td><button className="btn btn-danger" onClick={() => { deleteEvent(value.event_private_id) }} ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                                                 </svg></button></td>

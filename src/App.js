@@ -53,6 +53,13 @@ import RetrievePrivateEvents from './components/Admin/RetrievePrivateEvents';
 import AddStudentCollege from './components/College/AddStudentCollege';
 import ViewCollegeStudents from './components/College/ViewCollegeStudents';
 import StudentDetails from './components/College/StudentsDetails';
+
+import AddFaculty from './components/Admin/AddFaculty';
+import ViewFaculty from './components/Admin/ViewFaculty';
+import EventAddSession from './components/Admin/EventAddSession';
+import EventSessionView from './components/Admin/EventSessionView';
+import ViewSessionFeedback from './components/Admin/ViewSessionFeedback';
+
 import StudentProfile from './components/Student/StudentProfile';
 import StudentEventView from './components/Student/StudentEventView';
 import AddStudentFeedback from './components/Student/AddStudentFeedback';
@@ -60,6 +67,7 @@ import StudentSessionView from './components/Student/StudentSessionView';
 import AddSessionFeedback from './components/Student/AddSessionFeedback';
 import ForgotPassword from './components/Student/ForgotPassword';
 import UpdatePassword from './components/Student/UpdatePassword';
+
 
 
 
@@ -129,6 +137,12 @@ function App() {
         <Route path='/addstudent' element={<AddStudentCollege/>}/>
         <Route path='/viewcollegestudents' element={<ViewCollegeStudents/>}/>
         <Route path='/studentdetails' element={<StudentDetails/>}/>
+        <Route path='/addfaculty' element={<AddFaculty/>}/>
+        <Route path='/viewfaculty' element={<ViewFaculty/>}/>
+
+        <Route path='/eventaddsession' element={<EventAddSession/>}/>
+        <Route path='/eventviewsession' element={<EventSessionView/>}/>
+        <Route path='/viewsessionfeedback' element={<ViewSessionFeedback/>}/>
 
       </Routes>
       </BrowserRouter>

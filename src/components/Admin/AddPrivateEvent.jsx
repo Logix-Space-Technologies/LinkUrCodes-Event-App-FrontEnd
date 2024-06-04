@@ -3,21 +3,26 @@ import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
 
 const AddPrivateEvent = () => {
-    const [data,getData]=useState([])
+    const [data, getData] = useState([])
     const [input, setInput] = useState({
         event_private_name: "",
         event_private_amount: "",
         event_private_description: "",
         event_private_date: "",
         event_private_time: "",
+        event_private_duration: "",
+        event_private_online: "",
+        event_private_offline: "",
+        event_private_recorded: "",
         image: null,
-        event_private_clgid:"",
+        pdf: null,
+        event_private_clgid: "",
         event_addedby: sessionStorage.getItem("adminid")
     });
 
     const inputHandler = (event) => {
         const { name, value, files } = event.target;
-        if (name === 'image') {
+        if (name === 'image' || name=== 'pdf') {
             setInput({ ...input, [name]: files[0] });
         } else {
             setInput({ ...input, [name]: value });
@@ -44,8 +49,13 @@ const AddPrivateEvent = () => {
                     event_private_description: "",
                     event_private_date: "",
                     event_private_time: "",
+                    event_private_duration: "",
+                    event_private_online: "",
+                    event_private_offline: "",
+                    event_private_recorded: "",
                     image: null,
-                    event_private_clgid:"",
+                    pdf: null,
+                    event_private_clgid: "",
                     event_addedby: sessionStorage.getItem("adminid")
                 });
             } else if (response.data.status === "Unauthorized user") {
@@ -58,8 +68,13 @@ const AddPrivateEvent = () => {
                     event_private_description: "",
                     event_private_date: "",
                     event_private_time: "",
+                    event_private_duration: "",
+                    event_private_online: "",
+                    event_private_offline: "",
+                    event_private_recorded: "",
                     image: null,
-                    event_private_clgid:"",
+                    pdf: null,
+                    event_private_clgid: "",
                     event_addedby: sessionStorage.getItem("adminid")
                 });
             }
@@ -68,15 +83,15 @@ const AddPrivateEvent = () => {
             alert("Something went wrong" + error.message);
         });
     };
-    const readColleges=()=>{
+    const readColleges = () => {
         axios.post("http://localhost:8085/api/college/Viewcollege", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
-              getData(response.data)
-              console.log("data", data)
+                getData(response.data)
+                console.log("data", data)
             }
-          )
+        )
     }
-    useEffect(()=>{readColleges()},[])
+    useEffect(() => { readColleges() }, [])
     return (
         <div>
             <AdminNavbar />
@@ -103,8 +118,28 @@ const AddPrivateEvent = () => {
                         <input type="time" className="form-control" name='event_private_time' value={input.event_private_time} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="time" className="form-label">Event Duration(Total)</label>
+                        <input type="text" className="form-control" name='event_private_duration' value={input.event_private_duration} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="time" className="form-label">Online Duration</label>
+                        <input type="text" className="form-control" name='event_private_online' value={input.event_private_online} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="time" className="form-label">Offline Duration</label>
+                        <input type="text" className="form-control" name='event_private_offline' value={input.event_private_offline} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="text" className="form-label">Recorded Duration</label>
+                        <input type="text" className="form-control" name='event_private_recorded' value={input.event_private_recorded} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">Event Image</label>
                         <input type="file" className="form-control" name='image' onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="pdf" className="form-label">Syllabus</label>
+                        <input type="file" className="form-control" name='pdf' onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">College</label>
