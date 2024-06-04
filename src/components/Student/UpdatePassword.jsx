@@ -21,7 +21,7 @@ const UpdatePassword = () => {
                     alert("Password Updated Successfully")
                     navigate('/studentlogin')
                 }
-                else{
+                else if(response.data.status=="invalid"){
                     alert("Invalid code or Verification code has expired")
                     setInput(
                         {
@@ -30,6 +30,19 @@ const UpdatePassword = () => {
                             "student_password":""
                         }
                     )
+                }
+                else if(response.data.status=="expired"){
+                    alert("Verification code has expired")
+                    setInput(
+                        {
+                            "verification_code":"",
+                            "student_email":"",
+                            "student_password":""
+                        }
+                    )
+                }
+                else{
+
                 }
             }
         )
