@@ -19,15 +19,11 @@ const AddSessionFeedback = () => {
             if (response.data.status === "success") {
               alert("Feedback recorded");
               setInput({
-                student_id:"",
-                session_id: "",
                 feedback_contents: ""
               });
             } else {
               alert("Something went wrong");
               setInput({
-                student_id:"",
-                session_id: "",
                 feedback_contents: ""
               });
             }
@@ -36,7 +32,6 @@ const AddSessionFeedback = () => {
             console.error("There was an error submitting the feedback!", error);
             alert("Something went wrong");
             setInput({
-              feedback_event_id: "",
               feedback_content: ""
             });
           });

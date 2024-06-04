@@ -29,8 +29,8 @@ const StudentSessionView = () => {
         fetchSessions();
     }, []);
 
-    const addSessionFeedback = (eventId) => {
-        sessionStorage.setItem('eventId', eventId);
+    const addSessionFeedback = (id) => {
+        sessionStorage.setItem('sessionID', id);
         navigate('/sessionfeedback');
     };
 
@@ -58,7 +58,7 @@ const StudentSessionView = () => {
                                 <td className="text-center">{session.venue}</td>
                                 <td className="text-center"> {/* Center the button */}
                                     <button
-                                        className="btn btn-primary" onClick={() => addSessionFeedback(session.event_private_id)}>
+                                        className="btn btn-primary" onClick={() => addSessionFeedback(session.session_private_id)}>
                                         Add
                                     </button>
                                 </td>
