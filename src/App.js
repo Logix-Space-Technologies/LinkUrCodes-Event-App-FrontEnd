@@ -58,6 +58,8 @@ import AddFaculty from './components/Admin/AddFaculty';
 import ViewFaculty from './components/Admin/ViewFaculty';
 import EventAddSession from './components/Admin/EventAddSession';
 import EventSessionView from './components/Admin/EventSessionView';
+import CollegeViewSession from './components/College/CollegeViewSession';
+
 import ViewSessionFeedback from './components/Admin/ViewSessionFeedback';
 
 import StudentProfile from './components/Student/StudentProfile';
@@ -142,6 +144,7 @@ function App() {
 
         <Route path='/eventaddsession' element={<EventAddSession/>}/>
         <Route path='/eventviewsession' element={<EventSessionView/>}/>
+        <Route path='/collegeviewsession' element={<CollegeViewSession/>}/>
         <Route path='/viewsessionfeedback' element={<ViewSessionFeedback/>}/>
 
       </Routes>
