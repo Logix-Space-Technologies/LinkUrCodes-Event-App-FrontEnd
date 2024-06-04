@@ -22,7 +22,7 @@ const HomeNavbar = () => {
                 <ul className="dropdown-menu">
                   <li><Link className="dropdown-item" to="/adminlogin">Admin Login</Link></li>
 
-                  <li><Link className="dropdown-item" to="/collegelogin">College Login</Link></li>
+                  <li><Link className="dropdown-item" to="/collegelogin">Faculty Login</Link></li>
 
                   <li><Link className="dropdown-item" to="/userlogin">User Login</Link></li>
 
