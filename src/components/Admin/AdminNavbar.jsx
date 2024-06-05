@@ -64,7 +64,7 @@ const AdminNavbar = () => {
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <span className='nav-link' onClick={logOutAction}> Logout</span>
+                                <button className='nav-link' onClick={logOutAction}> Logout</button>
                             </li>
                         </ul>
                     </div>

@@ -90,7 +90,10 @@ const MarkAttendence = () => {
 
 
                     )}
-                    <Link className="link" to="/eventviewsession">Back to session</Link>
+                    <div>
+                        <br /><br />
+                        <Link className="link" to="/eventviewsession">Back to session</Link>
+                    </div>
                 </div>
             </div>
         </div>
