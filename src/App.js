@@ -75,6 +75,7 @@ import FacultyForgotPassword from './components/College/FacultyForgotPassword';
 import FacultyUpdatePassword from './components/College/FacultyUpdatePassword';
 import MarkAttendence from './components/Admin/MarkAttendence';
 import ViewAttendence from './components/Admin/ViewAttendence';
+import ViewEventFeedback from './components/Admin/ViewEventFeedback';
 
 
 
@@ -158,6 +159,7 @@ function App() {
         <Route path='/viewsessionfeedback' element={<ViewSessionFeedback/>}/>
         <Route path='/markattendence' element={<MarkAttendence/>}/>
         <Route path='/viewattendence' element={<ViewAttendence/>}/>
+        <Route path='/vieweventfeedback' element={<ViewEventFeedback/>}/>
 
       </Routes>
       </BrowserRouter>
