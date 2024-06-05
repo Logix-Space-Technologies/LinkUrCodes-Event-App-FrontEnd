@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import StudentNavBar from './StudentNavBar';
 
 const StudentEventView = () => {
     const [eventData, setEventData] = useState([]);
@@ -42,6 +43,7 @@ const StudentEventView = () => {
 
     return (
         <div>
+            <StudentNavBar/>
             <br />
             <div className="container">
                 <div className="row g-3">
