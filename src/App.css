@@ -83,6 +83,15 @@ body {
 }
 
 
+.carousel-item {
+  height: 650px; /* Adjust height as needed */
+}
+
+.carousel-item img {
+  object-fit: cover; /* Optional: Maintain aspect ratio and crop if needed */
+}
+
+
 
 
 

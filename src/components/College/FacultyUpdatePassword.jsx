@@ -19,7 +19,7 @@ const FacultyUpdatePassword = () => {
             (response)=>{
                 if(response.data.status=="success"){
                     alert("Password Updated Successfully")
-                    navigate('/studentlogin')
+                    navigate('/collegelogin')
                 }
                 else if(response.data.status=="invalid"){
                     alert("Invalid code or Verification code has expired")
