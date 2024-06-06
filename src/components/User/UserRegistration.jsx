@@ -51,7 +51,47 @@ const UserRegistration = () => {
                     user_qualification: "",
                     user_skills: ""
                 });
-            } else {
+            }
+            else if(response.data.status === "enter Password")
+                {
+                    alert("Password should be 8 character long with atleast one uppercase,lowercase,special character and a digit");
+                    setInput({
+                        user_name: "",
+                        user_image: null,
+                        user_email: "",
+                        user_password: "",
+                        user_contact_no: "",
+                        user_qualification: "",
+                        user_skills: ""
+                    });
+                }
+            else if(response.data.status === "check Password")
+            {
+                alert("Password should be 8 character long with atleast one uppercase,lowercase,special character and a digit");
+                setInput({
+                    user_name: "",
+                    user_image: null,
+                    user_email: "",
+                    user_password: "",
+                    user_contact_no: "",
+                    user_qualification: "",
+                    user_skills: ""
+                });
+            }
+            else if(response.data.status==="file not chosen")
+                {
+                    alert("Please upload a profile picture")
+                    setInput({
+                        user_name: "",
+                        user_image: null,
+                        user_email: "",
+                        user_password: "",
+                        user_contact_no: "",
+                        user_qualification: "",
+                        user_skills: ""
+                    });
+                }
+                else {
                 alert("Something went wrong");
                 setInput({
                     user_name: "",
@@ -63,18 +103,7 @@ const UserRegistration = () => {
                     user_skills: ""
                 });
             }
-        }).catch((error) => {
-            alert(`Error: ${error.response?.data?.message || 'Something went wrong'}`);
-            setInput({
-                user_name: "",
-                user_image: null,
-                user_email: "",
-                user_password: "",
-                user_contact_no: "",
-                user_qualification: "",
-                user_skills: ""
-            });
-        });
+        })
     };
 
     return (
