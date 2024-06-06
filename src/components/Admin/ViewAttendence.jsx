@@ -97,7 +97,6 @@ const ViewAttendence = () => {
                                 </div>
                             </div>
                         )}
-                        <Link className="link" to="/eventviewsession">Back to session</Link>
                     </div>
                 </div>
             </div>

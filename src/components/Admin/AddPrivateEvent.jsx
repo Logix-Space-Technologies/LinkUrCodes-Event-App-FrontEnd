@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddPrivateEvent = () => {
     const [data, getData] = useState([])

@@ -1,11 +1,12 @@
 import React from 'react'
 import AdminNavbar from './AdminNavbar'
+import Slider from '../College/Slider'
 
 const AdminHomePage = () => {
   return (
     <div>
       <AdminNavbar/>
-      <h1>Admin Homepage</h1>
+      <Slider/>
     </div>
   )
 }
