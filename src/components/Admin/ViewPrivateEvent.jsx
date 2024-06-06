@@ -75,9 +75,9 @@ const ViewPrivateEvent = () => {
                                     <th scope="col">Online Sessions</th>
                                     <th scope="col">Offline Sessions</th>
                                     <th scope="col">Recorded Sessions</th>
-                                    <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Sessions</th>
+                                    <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Sessions Action</th>
                                     <th scope='col'>Is completed</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
