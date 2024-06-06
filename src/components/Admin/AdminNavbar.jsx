@@ -29,6 +29,7 @@ const AdminNavbar = () => {
                                     <li><Link className="dropdown-item" to="/addpublicevent">Add</Link></li>
                                     <li><Link className="dropdown-item" to="/viewpublicevent">View</Link></li>
                                     <li><Link className="dropdown-item" to="/searchpublicevent">Search</Link></li>
+                                    <li><Link className="dropdown-item" to="">Completed</Link></li>
                                     <li><Link className="dropdown-item" to="/retrivepublicevent">Retrieve</Link></li>
                                 </ul>
                             </li>
@@ -61,6 +62,15 @@ const AdminNavbar = () => {
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="/viewuser">View</Link></li>
                                     <li><Link className="dropdown-item" to="/searchuser">Search</Link></li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Payment History
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <li><Link className="dropdown-item" to="">College Payment</Link></li>
+                                    <li><Link className="dropdown-item" to="">User Payment</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item">

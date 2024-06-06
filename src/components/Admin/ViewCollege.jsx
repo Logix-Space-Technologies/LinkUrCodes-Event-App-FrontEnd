@@ -54,7 +54,8 @@ const ViewCollege = () => {
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Website</th>
-                  <th colspan="3">Action</th>
+                  <th colspan="2" style={{ textAlign: 'center' }}>Faculty Action</th>
+                  <th scope="col">Delete</th>
                 </tr>
               </thead>
               <tbody>
