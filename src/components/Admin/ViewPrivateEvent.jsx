@@ -38,6 +38,12 @@ const ViewPrivateEvent = () => {
         sessionStorage.setItem("eventID", id)
         navigate('/eventviewsession')
     }
+
+    const feedbackView = (id) => {
+        sessionStorage.setItem("eventID", id)
+        navigate('/vieweventfeedback')
+    }
+
     const eventComplete = (id) => {
         let data = { "event_private_id": id }
         axios.post("http://localhost:8085/api/events/complete_private_event", data, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -77,6 +83,7 @@ const ViewPrivateEvent = () => {
                                     <th scope="col">Recorded Sessions</th>
                                     <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Sessions Action</th>
                                     <th scope='col'>Is completed</th>
+                                    <th scope='col'>Feedback</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
@@ -99,6 +106,7 @@ const ViewPrivateEvent = () => {
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionAdd(value.event_private_id) }}>Add</button></td>
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
                                                 <td><button className='btn btn-success' onClick={()=>{eventComplete(value.event_private_id)}}>Done</button></td>
+                                                <td><button className='btn btn-success' onClick={()=>{feedbackView(value.event_private_id)}}>View</button></td>
                                                 <td><button className="btn btn-danger" onClick={() => { deleteEvent(value.event_private_id) }} ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                                                 </svg></button></td>
