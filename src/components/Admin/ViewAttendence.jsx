@@ -67,7 +67,6 @@ const ViewAttendence = () => {
                                 </tbody>
                             </table>
                         )}
-                        <Link className="link" to="/eventviewsession">Back to session</Link>
                     </div>
                 </div>
             </div>
