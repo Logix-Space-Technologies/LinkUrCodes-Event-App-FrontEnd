@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import UserNavBar from './UserNavBar';
 
 const AddSessionFeedback = () => {
     const [input, setInput] = useState({
-        student_id:sessionStorage.getItem("studentID"),
+        student_id:sessionStorage.getItem("userstudentID"),
         session_id: sessionStorage.getItem("sessionID"),
         feedback_contents: ""
       });
@@ -38,7 +39,9 @@ const AddSessionFeedback = () => {
       };
     
   return (
-    <div><br></br>
+    <div>
+      <UserNavBar/>
+      <br /><br />
        <div className="container">
         <div className="row g-3">
           <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
