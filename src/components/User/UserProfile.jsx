@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import UserNavBar from './UserNavBar'
 
 const UserProfile = () => {
   const [userData, setProfileData] = useState(null)
@@ -20,7 +21,7 @@ const UserProfile = () => {
 
   return (
     <div>
-        <div className="bg-image">
+        <UserNavBar/>
          <div className="container">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
@@ -52,7 +53,6 @@ const UserProfile = () => {
 
                     </div>
                 </div>
-            </div>
             </div>
     </div>
   )
