@@ -24,6 +24,10 @@ const CompletedPrivateEventSessions = () => {
         sessionStorage.setItem("sessionID", id)
         navigate('/viewsessionfeedback')
     }
+    const viewAttendence=(id)=>{
+        sessionStorage.setItem("session_ID", id)
+        navigate('/viewattendence')
+    }
     useEffect(() => { getData() }, [])
   return (
     <div>
@@ -48,6 +52,7 @@ const CompletedPrivateEventSessions = () => {
                                         <th scope="col">Session Type</th>
                                         <th scope="col">Session Venue</th>
                                         <th scope='col'>Session Feedback</th>
+                                        <th scope='col'>Session Attendance</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,7 +64,8 @@ const CompletedPrivateEventSessions = () => {
                                             <td>{value.session_start_time}</td>
                                             <td>{value.type}</td>
                                             <td>{value.venue}</td>
-                                            <td><button className="btn btn-primary" onClick={()=>{sessionFeedback(value.feedback_id)}}>View Feedback</button></td>
+                                            <td><button className="btn btn-primary" onClick={()=>{sessionFeedback(value.feedback_id)}}>View</button></td>
+                                            <td><button className="btn btn-warning" onClick={()=>{viewAttendence(value.feedback_id)}}>View</button></td>
                                         </tr>
                                     ))}
                                 </tbody>

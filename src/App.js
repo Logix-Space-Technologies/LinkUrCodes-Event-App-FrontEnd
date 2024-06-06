@@ -119,8 +119,8 @@ function App() {
         <Route path='/viewuser' element={<ViewUser/>}/>
         <Route path='/payment' element={<UserPayment/>}/>
 
-        <Route path='addpublicevent' element={<AddPublicEvent/>}/>
-        <Route path='addprivateevent' element={<AddPrivateEvent/>}/>
+        <Route path='/addpublicevent' element={<AddPublicEvent/>}/>
+        <Route path='/addprivateevent' element={<AddPrivateEvent/>}/>
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
         <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
         <Route path='/viewcompletedprivateevents' element={<ViewCompletedPrivateEvents/>}/>
