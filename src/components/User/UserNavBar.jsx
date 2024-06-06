@@ -1,8 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const UserNavBar = () => {
+  let navigate = useNavigate()
+    const logOutAction = () => {
+        sessionStorage.clear()
+        navigate("/userlogin")
+    }
   return (
     <div>
          <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -20,13 +25,16 @@ const UserNavBar = () => {
           <Link class="nav-link" to="/viewevent">Events</Link>
         </li>
         <li class="nav-item">
+          <Link class="nav-link" to="/studentevents">College Events</Link>
+        </li>
+        <li class="nav-item">
           <Link class="nav-link" to="#">Your events</Link>
         </li>
         <li class="nav-item">
           <Link class="nav-link" to="/adduserfeedback">Feedback</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" to="/userlogin">Logout</Link>
+          <button class="nav-link"  onClick={logOutAction}>Logout</button>
         </li>
       </ul>
     </div>

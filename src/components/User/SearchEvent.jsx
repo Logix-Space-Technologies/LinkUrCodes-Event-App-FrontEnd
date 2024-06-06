@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import UserNavBar from './UserNavBar';
 
 const SearchEvent = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,6 +28,7 @@ const SearchEvent = () => {
 
   return (
     <div>
+      <UserNavBar/>
       <div className="bg-event-image"><br></br>
         <div className="container">
           <div className="row g-3">
