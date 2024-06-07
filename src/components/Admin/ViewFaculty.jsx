@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import '../../config'
 
 const ViewFaculty = () => {
+    const apiUrl = global.config.urls.api.server + "/api/college/viewFaculty"
     const [data, setData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [sessionsPerPage] = useState(5)
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/college/viewFaculty", { college_id: sessionStorage.getItem("collegeID") }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl, { college_id: sessionStorage.getItem("collegeID") }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 if (Array.isArray(response.data)) {
                     setData(response.data);

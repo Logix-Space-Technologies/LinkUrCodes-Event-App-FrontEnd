@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import UserNavBar from './UserNavBar';
+import '../../config'
 
 const AddSessionFeedback = () => {
+  const apiUrl = global.config.urls.api.server + "/api/feedback/addSessionStudFeedback"
     const [input, setInput] = useState({
         student_id:sessionStorage.getItem("userstudentID"),
         session_id: sessionStorage.getItem("sessionID"),
@@ -15,7 +17,7 @@ const AddSessionFeedback = () => {
     
       const readValues = () => {
         console.log(input);
-        axios.post("http://localhost:8085/api/feedback/addSessionStudFeedback", input, { headers: { token: sessionStorage.getItem("token") } })
+        axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("token") } })
           .then((response) => {
             if (response.data.status === "success") {
               alert("Feedback recorded");

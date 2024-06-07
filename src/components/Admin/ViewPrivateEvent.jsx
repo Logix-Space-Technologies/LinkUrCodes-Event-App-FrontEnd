@@ -2,8 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import { useNavigate } from 'react-router-dom';
+import '../../config'
 
 const ViewPrivateEvent = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view_active_private_events"
+    const apiUrl1 = global.config.urls.api.server + "/api/events/delete_private_event"
+    const apiUrl2 = global.config.urls.api.server + "/api/events/complete_private_event"
+    const apiUrl3 = global.config.urls.api.server + "/api/events/search-private-events"
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +24,7 @@ const ViewPrivateEvent = () => {
     }, []);
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/events/view_active_private_events", { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 setData(response.data);
             }
@@ -28,7 +33,7 @@ const ViewPrivateEvent = () => {
 
     const deleteEvent = (id) => {
         let data = { "event_private_id": id };
-        axios.post("http://localhost:8085/api/events/delete_private_event", data, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl1, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "unauthorised user") {
                     alert("Unauthorized access!");
@@ -53,7 +58,7 @@ const ViewPrivateEvent = () => {
 
     const eventComplete = (id) => {
         let data = { "event_private_id": id };
-        axios.post("http://localhost:8085/api/events/complete_private_event", data, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "unauthorised user") {
                     alert("Unauthorized access!");
@@ -77,7 +82,7 @@ const ViewPrivateEvent = () => {
         }
 
         setSearchClicked(true);
-        axios.post("http://localhost:8085/api/events/search-private-events", { event_private_name: searchInput }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl3, { event_private_name: searchInput }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.length === 0) {
                     setNoEventsFound(true);

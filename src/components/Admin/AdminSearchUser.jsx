@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
+import '../../config'
 
 const AdminSearchUser = () => {
+    const apiUrl = global.config.urls.api.server + "/api/users/searchusers"
     const [input, setInput] = useState({ term: "" });
     const [output, setOutput] = useState([]);
     const [noUsersFound, setNoUsersFound] = useState(false);
@@ -20,7 +22,7 @@ const AdminSearchUser = () => {
 
         setSearchClicked(true); // Set search clicked to true
         console.log("Search Term:", input.term);
-        axios.post("http://localhost:8085/api/users/searchusers", input, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 console.log("Response Data:", response.data);
                 if (response.data.status === "No users found") {

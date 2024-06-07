@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CollegeNavBar from './CollegeNavBar';
 import ExampleExcelFile from '../Student_details.xlsx';
+import '../../config'
 
 const CollegeAddStudExcel = () => {
+    const apiUrl = global.config.urls.api.server + "/api/college/studentupload"
     const [file, setFile] = useState(null);
 
     const handleFileChange = (event) => {
@@ -17,7 +19,7 @@ const CollegeAddStudExcel = () => {
             formData.append('college_id', sessionStorage.getItem('collegeid'));
             formData.append('event_id', sessionStorage.getItem('eventID'));
             try {
-                const response = await axios.post('http://localhost:8085/api/college/studentupload', formData, {
+                const response = await axios.post(apiUrl, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'collegetoken': sessionStorage.getItem('collegetoken')

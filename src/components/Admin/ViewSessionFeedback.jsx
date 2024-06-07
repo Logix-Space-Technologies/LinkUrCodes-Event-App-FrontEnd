@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import '../../config'
 
 const ViewSessionFeedback = () => {
+    const apiUrl = global.config.urls.api.server + "/api/feedback/viewSessionStudFeedback"
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10); // Number of records per page
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/feedback/viewSessionStudFeedback", { session_id: sessionStorage.getItem("sessionID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, { session_id: sessionStorage.getItem("sessionID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);

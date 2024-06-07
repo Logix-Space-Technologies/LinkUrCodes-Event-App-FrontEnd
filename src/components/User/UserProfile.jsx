@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import UserNavBar from './UserNavBar'
+import '../../config'
 
 const UserProfile = () => {
+    const apiUrl = global.config.urls.api.server + "/api/users/view-user-profile"
     const [userData, setProfileData] = useState(null)
     const user_id = sessionStorage.getItem("userid")
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post("http://localhost:8085/api/users/view-user-profile", { user_id }, { headers: { token: sessionStorage.getItem("token") } })
+                const response = await axios.post(apiUrl, { user_id }, { headers: { token: sessionStorage.getItem("token") } })
                 setProfileData(response.data)
             } catch (error) {
                 console.error('Error fetching user profile:', error)

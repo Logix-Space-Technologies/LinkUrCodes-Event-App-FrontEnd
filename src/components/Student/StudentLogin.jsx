@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import '../../config'
 
 const StudentLogin = () => {
+    const apiUrl = global.config.urls.api.server + "/api/student/loginstudent"
     const [input,setInput]=new useState(
         {
             "student_email":"",
@@ -14,7 +16,7 @@ const StudentLogin = () => {
         setInput({...input,[event.target.name]:event.target.value})
     }
     const readValues=()=>{
-        axios.post("http://localhost:8085/api/student/loginstudent",input).then(
+        axios.post(apiUrl,input).then(
             (response)=>{
                 if(response.data.status=="Success"){
                     sessionStorage.setItem("token",response.data.token)

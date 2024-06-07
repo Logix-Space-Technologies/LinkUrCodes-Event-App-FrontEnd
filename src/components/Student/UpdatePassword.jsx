@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import '../../config'
 
 const UpdatePassword = () => {
+    const apiUrl = global.config.urls.api.server + "/api/student/updatePassword"
     const [input,setInput]=new useState(
         {
             "verification_code":"",
@@ -15,7 +17,7 @@ const UpdatePassword = () => {
         setInput({...input,[event.target.name]:event.target.value})
     }
     const readValues=()=>{
-        axios.put("http://localhost:8085/api/student/updatePassword",input).then(
+        axios.put(apiUrl,input).then(
             (response)=>{
                 if(response.data.status=="success"){
                     alert("Password Updated Successfully")

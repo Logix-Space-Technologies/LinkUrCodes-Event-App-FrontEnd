@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import '../../config'
 
 const MarkAttendence = () => {
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewAbsentAttendence"
+    const apiUrl1 = global.config.urls.api.server + "/api/attendence/updateAttendence"
     const [selectedRollNos, setSelectedRollNos] = useState([]);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +22,7 @@ const MarkAttendence = () => {
     };
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/attendence/viewAbsentAttendence", { session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, { session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.formattedResults.length === 0) {
                     setData([]);
@@ -39,7 +42,7 @@ const MarkAttendence = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const markAttendence = () => {
-        axios.post("http://localhost:8085/api/attendence/updateAttendence", { student_id: selectedRollNos, session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl1, { student_id: selectedRollNos, session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then(
                 (response) => {
                     if (response.data.status === "success") {
