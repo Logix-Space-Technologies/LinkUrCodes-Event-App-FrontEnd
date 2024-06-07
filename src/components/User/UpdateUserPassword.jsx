@@ -15,7 +15,7 @@ const UpdateUserPassword = () => {
         setInput({...input,[event.target.name]:event.target.value})
     }
     const readValues=()=>{
-        axios.put("http://localhost:8085/api/users/updateuserPassword",input).then(
+        axios.put("http://localhost:8085/api/users/updatePassword",input).then(
             (response)=>{
                 if(response.data.status=="success"){
                     alert("Password Updated Successfully")
@@ -41,8 +41,31 @@ const UpdateUserPassword = () => {
                         }
                     )
                 }
+                else if(response.data.status==="all fields required"){
+                    alert("All fields are required")
+                }
+                else if(response.data.status==="Invalid email"){
+                    alert("Invalid Email")
+                }
+                else if(response.data.status==="error"){
+                    alert("Something went wrong ! Try again")
+                    setInput(
+                        {
+                            "verification_code":"",
+                            "user_email":"",
+                            "user_password":""
+                        }
+                    )
+                }
                 else{
-
+                    alert("Something went wrong ! Try again")
+                    setInput(
+                        {
+                            "verification_code":"",
+                            "user_email":"",
+                            "user_password":""
+                        }
+                    )
                 }
             }
         )

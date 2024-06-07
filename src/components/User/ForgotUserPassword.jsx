@@ -19,8 +19,24 @@ const ForgotUserPassword = () => {
                     alert("Verification code sent to your email.Please check your mail box")
                     navigate('/updateuserpassword')
                 }
+                else if(response.data.status=="Invalid user email"){
+                    alert("Invalid email")
+                    setInput(
+                        {
+                            "user_email":""
+                        }
+                    )
+                }
+                else if(response.data.status==="error"){
+                    alert("Something went wrong ! Try again")
+                    setInput(
+                        {
+                            "user_email":""
+                        }
+                    )
+                }
                 else{
-                    alert("Something went wrong")
+                    alert("Something went wrong ! Try again")
                     setInput(
                         {
                             "user_email":""
