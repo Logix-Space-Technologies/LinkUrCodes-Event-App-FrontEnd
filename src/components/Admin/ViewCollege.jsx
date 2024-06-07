@@ -65,7 +65,10 @@ const ViewCollege = () => {
           {data.length === 0 ? (
             <div>
               <center>
-                <h1>No Colleges found</h1>
+                Events found<div class="alert alert-warning" role="alert">
+                  No Colleges found
+                </div>
+
               </center>
             </div>
           ) : (

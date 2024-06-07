@@ -19,6 +19,9 @@ const FacultyForgotPassword = () => {
                     alert("Verification code sent to your email.Please check your mail box")
                     navigate('/updatefacultypassword')
                 }
+                else if(response.data.status==="inavaild email  "){
+                    alert("invalid email")
+                }
                 else{
                     alert("Something went wrong")
                     setInput(

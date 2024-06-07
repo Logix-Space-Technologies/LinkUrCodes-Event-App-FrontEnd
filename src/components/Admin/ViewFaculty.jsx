@@ -43,7 +43,10 @@ const ViewFaculty = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No faculties found</h1>
+                                    <div class="alert alert-warning" role="alert">
+                                        No faculties found
+                                    </div>
+                                    <h1></h1>
                                 </center>
                             </div>
                         ) : (

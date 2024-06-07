@@ -59,7 +59,9 @@ const EventSessionView = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No sessions found</h1>
+                                    <div class="alert alert-warning" role="alert">
+                                        No sessions found
+                                    </div>
                                 </center>
                             </div>
                         ) : (

@@ -49,7 +49,9 @@ const ViewCompletedPrivateEvents = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No Events found</h1>
+                                <div class="alert alert-warning" role="alert">
+                                        No Events found
+                                    </div>
                                 </center>
                             </div>
                         ) : (

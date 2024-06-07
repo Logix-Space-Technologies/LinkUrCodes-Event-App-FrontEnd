@@ -67,7 +67,9 @@ const MarkAttendence = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No Students found</h1>
+                                <div class="alert alert-warning" role="alert">
+                                No Students found
+                                    </div>
                                 </center>
                             </div>
                         ) : (

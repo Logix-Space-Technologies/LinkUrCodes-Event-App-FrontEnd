@@ -41,8 +41,11 @@ const FacultyUpdatePassword = () => {
                         }
                     )
                 }
+                else if(response.data.status==="all fields required"){
+                    alert("All fields are required")
+                }
                 else{
-
+                    alert("Something went wrong !")
                 }
             }
         )

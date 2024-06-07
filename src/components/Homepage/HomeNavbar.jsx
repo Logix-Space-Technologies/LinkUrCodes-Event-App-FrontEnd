@@ -26,7 +26,7 @@ const HomeNavbar = () => {
 
                   <li><Link className="dropdown-item" to="/userlogin">User Login</Link></li>
 
-                  <li><Link className="dropdown-item" to="/studentlogin">Student Login</Link></li>
+                  
                 </ul>
               </li>
               <li className="nav-item">

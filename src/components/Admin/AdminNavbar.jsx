@@ -40,7 +40,6 @@ const AdminNavbar = () => {
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="/addprivateevent">Add</Link></li>
                                     <li><Link className="dropdown-item" to="/viewprivateevent">View</Link></li>
-                                    <li><Link className="dropdown-item" to="/searchprivateevent">Search</Link></li>
                                     <li><Link className="dropdown-item" to="/viewcompletedprivateevents">Completed</Link></li>
                                     <li><Link className="dropdown-item" to="/retrieveprivateevent">Retrieve</Link></li>
                                 </ul>
@@ -61,7 +60,6 @@ const AdminNavbar = () => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="/viewuser">View</Link></li>
-                                    <li><Link className="dropdown-item" to="/searchuser">Search</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">

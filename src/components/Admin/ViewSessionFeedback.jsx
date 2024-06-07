@@ -41,7 +41,9 @@ const ViewSessionFeedback = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No feedbacks found</h1>
+                                    <div class="alert alert-warning" role="alert">
+                                        No feedbacks found
+                                    </div>
                                 </center>
                             </div>
                         ) : (
