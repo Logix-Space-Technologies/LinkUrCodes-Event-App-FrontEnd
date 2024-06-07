@@ -22,7 +22,6 @@ const UserProfile = () => {
     return (
         <div>
             <UserNavBar />
-            <div className="bg-image">
                 <div className="container">
                     <div className="row">
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 d-flex justify-content-center ">
@@ -41,7 +40,7 @@ const UserProfile = () => {
                                         <h5 class="card-title">Name : {userData.name}</h5>
                                         <p class="card-text">Qualification : {userData.qualification}</p>
                                         <p class="card-text">Skills : {userData.skills}</p>
-                                        <p class="card-text">Email : {userData.skills}</p>
+                                        <p class="card-text">Email : {userData.email}</p>
                                         <p class="card-text">Contact : {userData.contact}</p>
                                     </div>
                                 </div>
@@ -54,7 +53,6 @@ const UserProfile = () => {
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     )
 }
