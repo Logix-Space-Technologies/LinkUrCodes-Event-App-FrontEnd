@@ -4,14 +4,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import AdminNavbar from './AdminNavbar'
 
 const CompletedPrivateEventSessions = () => {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const [data, setData] = useState([])
     const getData = () => {
         axios.post("http://localhost:8085/api/events/viewSession", { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
-                    console.log("da",data)
+                    console.log("da", data)
                 } else if (response.data.length === 0) {
                     setData([]);
                 }
@@ -20,25 +20,27 @@ const CompletedPrivateEventSessions = () => {
                 console.error('Error fetching data:', error)
             })
     }
-    const sessionFeedback=(id)=>{
+    const sessionFeedback = (id) => {
         sessionStorage.setItem("sessionID", id)
         navigate('/viewsessionfeedback')
     }
-    const viewAttendence=(id)=>{
+    const viewAttendence = (id) => {
         sessionStorage.setItem("session_ID", id)
         navigate('/viewattendence')
     }
     useEffect(() => { getData() }, [])
-  return (
-    <div>
-      <AdminNavbar/>
+    return (
+        <div>
+            <AdminNavbar />
             <div className="container">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No sessions found   </h1>
+                                    <div class="alert alert-warning" role="alert">
+                                        No sessions found
+                                    </div>
                                 </center>
                             </div>
                         ) : (
@@ -64,8 +66,8 @@ const CompletedPrivateEventSessions = () => {
                                             <td>{value.session_start_time}</td>
                                             <td>{value.type}</td>
                                             <td>{value.venue}</td>
-                                            <td><button className="btn btn-primary" onClick={()=>{sessionFeedback(value.feedback_id)}}>View</button></td>
-                                            <td><button className="btn btn-warning" onClick={()=>{viewAttendence(value.feedback_id)}}>View</button></td>
+                                            <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.feedback_id) }}>View</button></td>
+                                            <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.feedback_id) }}>View</button></td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -75,8 +77,8 @@ const CompletedPrivateEventSessions = () => {
                     </div>
                 </div>
             </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default CompletedPrivateEventSessions

@@ -46,7 +46,9 @@ const ViewAttendence = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No Students found</h1>
+                                    No Colleges found<div class="alert alert-warning" role="alert">
+                                        No Students found
+                                    </div>
                                 </center>
                             </div>
                         ) : (

@@ -62,7 +62,9 @@ const SearchPublicEvent = () => {
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                             {noEventsFound ? (
                                 <center>
-                                    <h1>No Events found</h1>
+                                    <div class="alert alert-warning" role="alert">
+                                        No Events found
+                                    </div>
                                 </center>
                             ) : (
                                 <table className="table">
