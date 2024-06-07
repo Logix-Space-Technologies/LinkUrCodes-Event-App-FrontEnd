@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import '../../config'
 
 const ViewEventFeedback = () => {
+    const apiUrl = global.config.urls.api.server + "/api/feedback/viewallfeedbackuser"
     const [data, setData] = useState([]);
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/feedback/viewallfeedbackuser",
+        axios.post(apiUrl,
             { feedback_id: sessionStorage.getItem("feedbackID") },
             { headers: { token: sessionStorage.getItem("admintoken") } }
         ).then((response) => {

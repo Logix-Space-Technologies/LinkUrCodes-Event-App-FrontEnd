@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import '../../config'
 
 const ViewCollege = () => {
+  const apiUrl = global.config.urls.api.server + "/api/college/Viewcollege"
+  const apiUrl1 = global.config.urls.api.server + "/api/college/deleteCollege"
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const collegesPerPage = 5;
 
   const getData = () => {
-    axios.post("http://localhost:8085/api/college/Viewcollege", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+    axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
       (response) => {
         if (Array.isArray(response.data)) {
           setData(response.data);
@@ -23,7 +26,7 @@ const ViewCollege = () => {
 
   const deleteCollege = (id) => {
     let data = { "college_id": id };
-    axios.post("http://localhost:8085/api/college/deleteCollege", data, { headers: { token: sessionStorage.getItem("admintoken") } })
+    axios.post(apiUrl1, data, { headers: { token: sessionStorage.getItem("admintoken") } })
       .then((response) => {
         if (response.data.status === "unauthorised user") {
           alert("Unauthorized access!");

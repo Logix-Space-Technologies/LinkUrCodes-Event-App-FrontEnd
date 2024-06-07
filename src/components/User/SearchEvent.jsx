@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import UserNavBar from './UserNavBar';
+import '../../config'
 
 const SearchEvent = () => {
+  const apiUrl = global.config.urls.api.server + "/api/events/search-user_public-events"
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(null);
@@ -12,7 +14,7 @@ const SearchEvent = () => {
     try {
       const token = sessionStorage.getItem('token'); // Assuming token is stored in sessionStorage
       const response = await axios.post(
-        'http://localhost:8085/api/events/search-user_public-events',
+        apiUrl,
         { event_public_name: searchTerm },
         { headers: { 'token': token } } // Include token in request headers
       );

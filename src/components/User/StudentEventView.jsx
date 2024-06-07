@@ -2,8 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserNavBar from './UserNavBar';
+import '../../config'
 
 const StudentEventView = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view-student-private-events"
     const [eventData, setEventData] = useState([]);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +14,7 @@ const StudentEventView = () => {
 
     const readEvents = () => {
         axios.post(
-            "http://localhost:8085/api/events/view-student-private-events",
+            apiUrl,
             {},
             { headers: { token: sessionStorage.getItem("token") } }
         )

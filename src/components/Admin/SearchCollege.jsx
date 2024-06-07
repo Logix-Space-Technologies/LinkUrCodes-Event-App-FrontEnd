@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
+import '../../config'
 
 const SearchCollege = () => {
+  const apiUrl = global.config.urls.api.server + "/api/college/searchCollege"
   const [input, setInput] = useState({ term: "" });
   const [output, setOutput] = useState([]);
   const [noCollegesFound, setNoCollegesFound] = useState(false);
@@ -19,7 +21,7 @@ const SearchCollege = () => {
 
     setSearchClicked(true); // Set search clicked to true
     console.log("Search Term:", input.term);
-    axios.post("http://localhost:8085/api/college/searchCollege", input, { headers: { token: sessionStorage.getItem("admintoken") } })
+    axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("admintoken") } })
       .then((response) => {
         console.log("Response Data:", response.data);
         if (response.data.status === "No College found") {

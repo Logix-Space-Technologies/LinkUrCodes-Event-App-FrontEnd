@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import '../../config'
 
 const ForgotUserPassword = () => {
+    const apiUrl = global.config.urls.api.server + "/api/users/forgotpassword"
     const [input,setInput]=new useState(
         {
             "user_email":""
@@ -13,7 +15,7 @@ const ForgotUserPassword = () => {
         setInput({...input,[event.target.name]:event.target.value})
     }
     const readValues=()=>{
-        axios.post("http://localhost:8085/api/users/forgotpassword",input).then(
+        axios.post(apiUrl,input).then(
             (response)=>{
                 if(response.data.status=="success"){
                     alert("Verification code sent to your email.Please check your mail box")

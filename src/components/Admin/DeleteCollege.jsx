@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
+import '../../config'
 
 const DeleteCollege = () => {
+  const apiUrl = global.config.urls.api.server + "/api/college/Viewcollege"
+  const apiUrl1 = global.config.urls.api.server + "/api/college/deleteCollege"
   const [data, setData] = new useState([])
   const getData = () => {
-    axios.post("http://localhost:8085/api/college/Viewcollege", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+    axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
       (response) => {
         setData(response.data)
         console.log("data", data)
@@ -14,7 +17,7 @@ const DeleteCollege = () => {
   }
   const deleteCollege = (id) => {
     let data = { "college_id": id }
-    axios.post("http://localhost:8085/api/college/deleteCollege", data, { headers: { token: sessionStorage.getItem("admintoken") } })
+    axios.post(apiUrl1, data, { headers: { token: sessionStorage.getItem("admintoken") } })
       .then((response) => {
         if (response.data.status === "unauthorised user") {
           alert("Unauthorized access!")

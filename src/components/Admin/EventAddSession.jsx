@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import '../../config'
 
 const EventAddSession = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/addSession"
     const navigate=useNavigate()
     const [input, setInput] = useState({
         "event_private_id": sessionStorage.getItem("eventID"),
@@ -18,7 +20,7 @@ const EventAddSession = () => {
     }
     const readValues = () => {
         console.log(input)
-        axios.post("http://localhost:8085/api/events/addSession", input, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 if (response.data.status === "success") {
                     alert("Successfully added")

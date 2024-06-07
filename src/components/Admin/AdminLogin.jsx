@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
+    const apiUrl = global.config.urls.api.server + "/api/admin/loginadmin"
     const [input, setInput] = new useState(
         {
             "admin_username": "",
@@ -14,7 +15,7 @@ const AdminLogin = () => {
         setInput({ ...input, [event.target.name]: event.target.value })
     }
     const readValues = () => {
-        axios.post("http://localhost:8085/api/admin/loginadmin", input).then(
+        axios.post(apiUrl, input).then(
             (response) => {
                 if (response.data.status === "success") {
                     sessionStorage.setItem("admintoken", response.data.admintoken)

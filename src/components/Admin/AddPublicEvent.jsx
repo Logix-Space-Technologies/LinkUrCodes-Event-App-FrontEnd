@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
+import '../../config'
 
 const AddPublicEvent = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/add_public_events"
     const [input, setInput] = useState({
         event_public_name: "",
         event_public_amount: "",
@@ -30,7 +32,7 @@ const AddPublicEvent = () => {
             formData.append(key, input[key]);
         }
 
-        axios.post("http://localhost:8085/api/events/add_public_events", formData, {
+        axios.post(apiUrl, formData, {
             headers: {
                 token: sessionStorage.getItem("admintoken"),
                 'Content-Type': 'multipart/form-data'

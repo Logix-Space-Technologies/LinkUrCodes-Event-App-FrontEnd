@@ -2,8 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserNavBar from './UserNavBar';
+import '../../config'
 
 const StudentSessionView = () => {
+    const apiUrl = global.config.urls.api.server + "/api/student/viewSession"
     const [sessions, setSessions] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [sessionsPerPage] = useState(5);
@@ -11,7 +13,7 @@ const StudentSessionView = () => {
     const navigate = useNavigate();
 
     const fetchSessions = () => {
-        axios.post("http://localhost:8085/api/student/viewSession",{ event_private_id: sessionStorage.getItem('eventId') },{ headers: { token: sessionStorage.getItem("token") } })
+        axios.post(apiUrl,{ event_private_id: sessionStorage.getItem('eventId') },{ headers: { token: sessionStorage.getItem("token") } })
         .then((response) => {
             if (Array.isArray(response.data.data)) {
                 setSessions(response.data.data);

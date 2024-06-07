@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
+import '../../config'
 
 const RetrievePrivateEvents = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view_deleted_private_events"
+    const apiUrl1 = global.config.urls.api.server + "/api/events/retrive_private_event"
     const [data, setData] = useState([]);
     const [noEventFound, setNoEventFound] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +15,7 @@ const RetrievePrivateEvents = () => {
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/events/view_deleted_private_events", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 if (response.data.status === "No events found") {
                     setNoEventFound(true);
@@ -29,7 +32,7 @@ const RetrievePrivateEvents = () => {
 
     const retrieveEvent = (id) => {
         let data = { "event_private_id": id }
-        axios.post("http://localhost:8085/api/events/retrive_private_event", data, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl1, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "unauthorised user") {
                     alert("Unauthorized access!")

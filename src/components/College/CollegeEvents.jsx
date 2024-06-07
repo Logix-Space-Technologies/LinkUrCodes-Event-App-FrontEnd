@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import CollegeNavBar from './CollegeNavBar'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import '../../config'
 
 const CollegeEvents = () => {
+    const apiUrl = global.config.urls.api.server + "/api/college/collegeEvents"
     const navigate=useNavigate()
     const [EventData, setEvent] = useState([])
     const readEvents = () => {
-        axios.post("http://localhost:8085/api/college/collegeEvents", { event_private_clgid: sessionStorage.getItem("collegeid") }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
+        axios.post(apiUrl, { event_private_clgid: sessionStorage.getItem("collegeid") }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
             .then((response) => {
                 setEvent(response.data)
                 console.log("eventdata", response.data)

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import CollegeNavBar from './CollegeNavBar'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import '../../config'
 
 const CollegeProfile = () => {
+  const apiUrl = global.config.urls.api.server + "/api/college/viewFacultyProfile"
   const [input] = useState(
     {
       id: sessionStorage.getItem("facultyid")
@@ -13,7 +15,7 @@ const CollegeProfile = () => {
   const [data, setData] = useState([]);
 
   const readValues = () => {
-    axios.post("http://localhost:8085/api/college/viewFacultyProfile", input, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } }).then((response) => {
+    axios.post(apiUrl, input, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } }).then((response) => {
       console.log("response", response);
       if (response.data) {
         setData(Array.isArray(response.data) ? response.data : [response.data]);

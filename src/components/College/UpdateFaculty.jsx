@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import CollegeNavBar from './CollegeNavBar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import '../../config'
 
 const UpdateFaculty = () => {
+    const apiUrl = global.config.urls.api.server + "/api/college/update_faculty"
     const [input, setInput] = useState({
         id: sessionStorage.getItem('facultyid'),
         faculty_name: '',
@@ -17,7 +19,7 @@ const UpdateFaculty = () => {
 
     const updateFaculty = () => {
         console.log(input);
-        axios.post('http://localhost:8085/api/college/update_faculty', input, {headers: { collegetoken: sessionStorage.getItem('collegetoken') } })
+        axios.post(apiUrl, input, {headers: { collegetoken: sessionStorage.getItem('collegetoken') } })
         .then((response) => {
             if (response.data.status === 'success') {
                 alert('Successfully updated');

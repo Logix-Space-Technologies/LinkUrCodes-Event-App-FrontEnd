@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const CollegeLogin = () => {
+  const apiUrl = global.config.urls.api.server + "/api/college/departmentLogin"
   const navigate = useNavigate()
   const [input, setInput] = new useState(
     {
@@ -14,7 +15,7 @@ const CollegeLogin = () => {
     setInput({ ...input, [event.target.name]: event.target.value })
   }
   const readValues = () => {
-    axios.post("http://localhost:8085/api/college/departmentLogin", input).then(
+    axios.post(apiUrl, input).then(
       (response) => {
         console.log(response.data)
         if (response.data.status === "success") {

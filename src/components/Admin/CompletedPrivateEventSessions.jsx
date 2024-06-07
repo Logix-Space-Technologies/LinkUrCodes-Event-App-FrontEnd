@@ -2,12 +2,14 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AdminNavbar from './AdminNavbar'
+import '../../config'
 
 const CompletedPrivateEventSessions = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/viewSession"
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const getData = () => {
-        axios.post("http://localhost:8085/api/events/viewSession", { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
