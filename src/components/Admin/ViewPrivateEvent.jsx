@@ -44,6 +44,11 @@ const ViewPrivateEvent = () => {
         navigate('/eventviewsession')
     }
 
+    const updatePage = (id) => {
+        sessionStorage.setItem("eventID", id)
+        navigate('/updateprivateevent')
+    }
+
     const eventComplete = (id) => {
         let data = { "event_private_id": id }
         axios.post("http://localhost:8085/api/events/complete_private_event", data, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -79,7 +84,7 @@ const ViewPrivateEvent = () => {
             <div className="container">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                        
+
                         <table className="table">
                             <thead>
                                 <tr>
@@ -96,6 +101,7 @@ const ViewPrivateEvent = () => {
                                     <th scope="col">Recorded Sessions</th>
                                     <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Sessions Action</th>
                                     <th scope='col'>Is completed</th>
+                                    <th scope="col">Update/Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
@@ -118,6 +124,9 @@ const ViewPrivateEvent = () => {
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionAdd(value.event_private_id) }}>Add</button></td>
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
                                                 <td><button className='btn btn-success' onClick={() => { eventComplete(value.event_private_id) }}>Done</button></td>
+                                                <td><button className='btn btn-info' onClick={() => { updatePage(value.event_private_id) }}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                    <path d="M12.854.146a.5.5 0 0 1 .636.057l2.5 2.5a.5.5 0 0 1-.057.636l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zm-10.36 10.7l-.941 2.353 2.353-.941L12.44 4.56 9.44 1.56 2.493 8.507zm9.121-9.121L9.44 1.56l2.5 2.5 1.415-1.414-2.5-2.5z" />
+                                                </svg></button></td>
                                                 <td><button className="btn btn-danger" onClick={() => { deleteEvent(value.event_private_id) }} ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                                                 </svg></button></td>

@@ -76,6 +76,7 @@ import FacultyUpdatePassword from './components/College/FacultyUpdatePassword';
 import MarkAttendence from './components/Admin/MarkAttendence';
 import ViewAttendence from './components/Admin/ViewAttendence';
 import UpdateFaculty from './components/College/UpdateFaculty';
+import UpdatePrivateEvent from './components/Admin/UpdatePrivateEvent';
 
 
 
@@ -125,6 +126,7 @@ function App() {
         <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
         <Route path='/viewcompletedprivateevents' element={<ViewCompletedPrivateEvents/>}/>
         <Route path='/viewcompletedprivateeventsessions' element={<CompletedPrivateEventSessions/>}/>
+        <Route path='/updateprivateevent' element={<UpdatePrivateEvent/>}/>
 
         <Route path='/addcollege' element={<AddCollege/>}/>
         <Route path='/viewcollege' element={<ViewCollege/>}/>
