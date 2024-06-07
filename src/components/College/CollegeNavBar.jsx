@@ -18,11 +18,8 @@ const CollegeNavBar = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/collegeprofile">Profile</Link>
-              </li>
               <li className="nav-item dropdown">
-                <Link className="nav-link dropdown-toggle" to="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Link className="nav-link dropdown-toggle" to="/collegehome"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Students
                 </Link>
                 <ul className="dropdown-menu">
@@ -34,9 +31,6 @@ const CollegeNavBar = () => {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/collegeevents">Events</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/collegehome">Event History</Link>
               </li>
               <li className="nav-item">
                 <button className='nav-link' onClick={logOutAction}> Logout</button>

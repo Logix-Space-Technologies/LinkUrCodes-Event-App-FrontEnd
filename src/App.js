@@ -65,10 +65,10 @@ import ViewCompletedPrivateEvents from './components/Admin/ViewCompletedPrivateE
 import CompletedPrivateEventSessions from './components/Admin/CompletedPrivateEventSessions';
 
 import StudentProfile from './components/Student/StudentProfile';
-import StudentEventView from './components/Student/StudentEventView';
-import AddStudentFeedback from './components/Student/AddStudentFeedback';
-import StudentSessionView from './components/Student/StudentSessionView';
-import AddSessionFeedback from './components/Student/AddSessionFeedback';
+import StudentEventView from './components/User/StudentEventView';
+import AddStudentFeedback from './components/User/AddStudentFeedback';
+import StudentSessionView from './components/User/StudentSessionView';
+import AddSessionFeedback from './components/User/AddSessionFeedback';
 import ForgotPassword from './components/Student/ForgotPassword';
 import UpdatePassword from './components/Student/UpdatePassword';
 import FacultyForgotPassword from './components/College/FacultyForgotPassword';
@@ -124,8 +124,8 @@ function App() {
         <Route path='/viewuser' element={<ViewUser/>}/>
         <Route path='/payment' element={<UserPayment/>}/>
 
-        <Route path='addpublicevent' element={<AddPublicEvent/>}/>
-        <Route path='addprivateevent' element={<AddPrivateEvent/>}/>
+        <Route path='/addpublicevent' element={<AddPublicEvent/>}/>
+        <Route path='/addprivateevent' element={<AddPrivateEvent/>}/>
         <Route path='/viewpublicevent' element={<ViewPublicEvent/>}/>
         <Route path='/viewprivateevent' element={<ViewPrivateEvent/>}/>
         <Route path='/viewcompletedprivateevents' element={<ViewCompletedPrivateEvents/>}/>

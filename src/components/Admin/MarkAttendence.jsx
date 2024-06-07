@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 const MarkAttendence = () => {
     const [selectedRollNos, setSelectedRollNos] = useState([]);
     const [data, setData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(10); // Number of records per page
 
     const inputHandler = (event) => {
         const rollNo = event.target.value;
@@ -29,69 +31,98 @@ const MarkAttendence = () => {
                 console.error('Error fetching data:', error);
             });
     };
-    console.log("selectedrollnos", selectedRollNos)
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentData = data.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const markAttendence = () => {
         axios.post("http://localhost:8085/api/attendence/updateAttendence", { student_id: selectedRollNos, session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then(
                 (response) => {
                     if (response.data.status === "success") {
-                        alert("Attendence Marked")
-                        getData()
+                        alert("Attendence Marked");
+                        getData();
+                    } else if (response.data.status === "No record found to update") {
+                        alert("Attendence already marked");
+                    } else if (response.data.status === "error") {
+                        alert("Something went wrong ! Try again !");
+                    } else {
+                        alert("Something went wrong ! Try again !");
                     }
-                    else if (response.data.status === "No record found to update") {
-                        alert("Attendence already marked")
-                    }
-                    else if (response.data.status === "error") {
-                        alert("Something went wrong ! Try again !")
-                    }
-                    else {
-                        alert("Something went wrong ! Try again !")
-                    }
-
                 }
-            )
-    }
+            );
+    };
 
     useEffect(() => { getData(); }, []);
-
 
     return (
         <div>
             <AdminNavbar />
             <div className="container">
                 <div className="row">
-                    {data.length === 0 ? (
-                        <div>
-                            <center>
-                                <h1>No Students found</h1>
-                            </center>
-                        </div>
-                    ) : (
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                            <h2>Select Rollno</h2>
-                            {data.map((value) => (
-                                <div className="form-check form-check-inline" key={value.student_id}>
-                                    <input className="form-check-input" type="checkbox" id={`inlineCheckbox${value.student_id}`}
-                                        value={value.student_id} onChange={inputHandler} />
-
-                                    <label className="form-check-label" htmlFor={`inlineCheckbox${value.student_id}`} >
-                                        {value.student_rollno}
-                                    </label>
-
-                                </div>
-
-                            ))}
-                            <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 ">
-                                <br /><br />
-                                <button className="btn btn-primary" onClick={markAttendence}>Mark Attendence</button>
+                    <div className="col col-12">
+                        {data.length === 0 ? (
+                            <div>
+                                <center>
+                                <div class="alert alert-warning" role="alert">
+                                No Students found
+                                    </div>
+                                </center>
                             </div>
-                        </div>
-
-
-                    )}
-                    <div>
-                        <br /><br />
+                        ) : (
+                            <div>
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Rollno</th>
+                                            <th scope="col">Admission No</th>
+                                            <th scope="col">Attendance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentData.map((value, index) => (
+                                            <tr key={index}>
+                                                <th>{index + 1}</th>
+                                                <td>{value.session_topic_description}</td>
+                                                <td>{value.student_rollno}</td>
+                                                <td>{value.student_admno}</td>
+                                                <td>
+                                                    <div className="form-check form-check-inline" key={value.student_id}>
+                                                        <input className="form-check-input" type="checkbox" id={`inlineCheckbox${value.student_id}`}
+                                                            value={value.student_id} onChange={inputHandler} />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <span>
+                                        Showing {indexOfFirstPost + 1} to {Math.min(indexOfLastPost, data.length)} of {data.length} records
+                                    </span>
+                                    <ul className="pagination">
+                                        {Array.from({ length: Math.ceil(data.length / postsPerPage) }, (_, i) => (
+                                            <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
+                                                <button onClick={() => paginate(i + 1)} className="page-link">
+                                                    {i + 1}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="col col-12 d-flex justify-content-end">
+                                    <button className="btn btn-primary" onClick={markAttendence}>Mark Attendence</button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className="col col-12">
+                        <br />
                         <Link className="link" to="/eventviewsession">Back to session</Link>
                     </div>
                 </div>

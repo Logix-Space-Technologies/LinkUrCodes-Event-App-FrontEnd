@@ -1,67 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import AdminNavbar from './AdminNavbar';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import UserNavBar from './UserNavBar';
 
-const EventSessionView = () => {
-    const navigate = useNavigate();
-    const [data, setData] = useState([]);
+const StudentSessionView = () => {
+    const [sessions, setSessions] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [sessionsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
+    const navigate = useNavigate();
 
-    const getData = () => {
-        axios.post("http://localhost:8085/api/events/viewSession", { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
-            .then((response) => {
-                if (Array.isArray(response.data.data)) {
-                    setData(response.data.data);
-                    setTotalRecords(response.data.data.length);
-                } else if (response.data.data.length === 0) {
-                    setData([]);
-                    setTotalRecords(0);
-                }
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-            });
+    const fetchSessions = () => {
+        axios.post("http://localhost:8085/api/student/viewSession",{ event_private_id: sessionStorage.getItem('eventId') },{ headers: { token: sessionStorage.getItem("token") } })
+        .then((response) => {
+            if (Array.isArray(response.data.data)) {
+                setSessions(response.data.data);
+                setTotalRecords(response.data.data.length);
+            } else if (response.data.data.length === 0) {
+                setSessions([]);
+                setTotalRecords(0);
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching data:', error);
+        });
+};
+
+    useEffect(() => {fetchSessions(); }, []);
+       // Pagination
+       const indexOfLastSession = currentPage * sessionsPerPage;
+       const indexOfFirstSession = indexOfLastSession - sessionsPerPage;
+       const currentSessions = sessions.slice(indexOfFirstSession, indexOfLastSession);
+   
+       const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const addSessionFeedback = (id) => {
+        sessionStorage.setItem('sessionID', id);
+        navigate('/sessionfeedback');
     };
-
-    const sessionFeedback = (id) => {
-        sessionStorage.setItem("sessionID", id);
-        navigate('/viewsessionfeedback');
-    };
-
-    const markAttendence = (id) => {
-        sessionStorage.setItem("session_ID", id);
-        navigate('/markattendence');
-    };
-
-    const viewAttendence = (id) => {
-        sessionStorage.setItem("session_ID", id);
-        navigate('/viewattendence');
-    };
-
-    useEffect(() => { getData() }, []);
-
-    // Pagination
-    const indexOfLastSession = currentPage * sessionsPerPage;
-    const indexOfFirstSession = indexOfLastSession - sessionsPerPage;
-    const currentSessions = data.slice(indexOfFirstSession, indexOfLastSession);
-
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div>
-            <AdminNavbar />
+            <UserNavBar/>
             <div className="container">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                        {data.length === 0 ? (
+                        {sessions.length === 0 ? (
                             <div>
                                 <center>
-                                    <div class="alert alert-warning" role="alert">
-                                        No sessions found
-                                    </div>
+                                    <h1>No sessions found</h1>
                                 </center>
                             </div>
                         ) : (
@@ -75,9 +62,8 @@ const EventSessionView = () => {
                                             <th scope="col">Session Time</th>
                                             <th scope="col">Session Type</th>
                                             <th scope="col">Session Venue</th>
-                                            <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Session Attendance</th>
-                                            <th scope="col">Session Feedback</th>
                                             <th scope="col">Is completed</th>
+                                            <th scope="col">Session Feedback</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,10 +75,20 @@ const EventSessionView = () => {
                                                 <td>{value.session_start_time}</td>
                                                 <td>{value.type}</td>
                                                 <td>{value.venue}</td>
-                                                <td><button className="btn btn-warning" onClick={() => { markAttendence(value.session_private_id) }}>Mark</button></td>
-                                                <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_private_id) }}>View</button></td>
-                                                <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_private_id) }}>View Feedback</button></td>
-                                                <td><button className="btn btn-success">Done</button></td>
+                                                <td>
+                                                {value.is_completed === 0 ? (
+                                                <span className="badge text-bg-warning ">Active</span>
+                                            ) : (
+                                                <span className="badge text-bg-success">Completed</span>
+                                            )}
+                                                </td>
+                                                <td>
+                                                {value.is_completed === 0 ? (
+                                                <button className="btn btn-warning" onClick={() => { addSessionFeedback(value.session_private_id) }}>Add Feedback</button>
+                                            ) : (
+                                                <span className="badge text-bg-success">Session Completed</span>
+                                            )}
+                                                </td>    
                                             </tr>
                                         ))}
                                     </tbody>
@@ -113,7 +109,7 @@ const EventSessionView = () => {
                                 </div>
                             </div>
                         )}
-                        <Link className="link" to="/viewprivateevent">Back to events</Link>
+                        <Link className="link" to="/studentevents">Back to events</Link>
                     </div>
                 </div>
             </div>
@@ -121,4 +117,4 @@ const EventSessionView = () => {
     );
 };
 
-export default EventSessionView;
+export default StudentSessionView;
