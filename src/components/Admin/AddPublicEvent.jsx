@@ -11,15 +11,21 @@ const AddPublicEvent = () => {
         event_public_description: "",
         event_public_date: "",
         event_public_time: "",
+        event_public_duration: "",
+        event_public_online: "",
+        event_public_offline: "",
+        event_public_recorded: "",
         image: null,
+        pdf: null,
         event_syllabus: "",
         event_venue: "",
-        event_addedby: sessionStorage.getItem("adminid")
+        event_addedby: sessionStorage.getItem("adminid"),
+        event_updatedby:sessionStorage.getItem("adminid")
     });
 
     const inputHandler = (event) => {
         const { name, value, files } = event.target;
-        if (name === 'image') {
+        if (name === 'image' || name=== 'pdf') {
             setInput({ ...input, [name]: files[0] });
         } else {
             setInput({ ...input, [name]: value });
@@ -46,10 +52,16 @@ const AddPublicEvent = () => {
                     event_public_description: "",
                     event_public_date: "",
                     event_public_time: "",
+                    event_public_duration: "",
+                    event_public_online: "",
+                    event_public_offline: "",
+                    event_public_recorded: "",
                     image: null,
+                    pdf: null,
                     event_syllabus: "",
                     event_venue: "",
-                    event_addedby: sessionStorage.getItem("adminid")
+                    event_addedby: sessionStorage.getItem("adminid"),
+                    event_updatedby:sessionStorage.getItem("adminid")
                 });
             } else if (response.data.status === "Unauthorized user") {
                 alert("Unauthorized access");
@@ -61,10 +73,16 @@ const AddPublicEvent = () => {
                     event_public_description: "",
                     event_public_date: "",
                     event_public_time: "",
+                    event_public_duration: "",
+                    event_public_online: "",
+                    event_public_offline: "",
+                    event_public_recorded: "",
                     image: null,
+                    pdf: null,
                     event_syllabus: "",
                     event_venue: "",
-                    event_addedby: sessionStorage.getItem("adminid")
+                    event_addedby: sessionStorage.getItem("adminid"),
+                    event_updatedby:sessionStorage.getItem("adminid")
                 });
             }
         }).catch(error => {
@@ -75,7 +93,7 @@ const AddPublicEvent = () => {
 
     return (
         <div>
-            <AdminNavbar/>
+            <AdminNavbar />
             <div className="container">
                 <div className="row g-3">
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
@@ -99,12 +117,28 @@ const AddPublicEvent = () => {
                         <input type="time" className="form-control" name='event_public_time' value={input.event_public_time} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="time" className="form-label">Event Duration(Total)</label>
+                        <input type="text" className="form-control" name='event_public_duration' value={input.event_public_duration} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="time" className="form-label">Online Duration</label>
+                        <input type="text" className="form-control" name='event_public_online' value={input.event_public_online} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="time" className="form-label">Offline Duration</label>
+                        <input type="text" className="form-control" name='event_public_offline' value={input.event_public_offline} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="text" className="form-label">Recorded Duration</label>
+                        <input type="text" className="form-control" name='event_public_recorded' value={input.event_public_recorded} onChange={inputHandler} />
+                    </div>
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">Event Image</label>
                         <input type="file" className="form-control" name='image' onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-                        <label htmlFor="syllabus" className="form-label">Event Syllabus</label>
-                        <input type="text" className="form-control" name='event_syllabus' value={input.event_syllabus} onChange={inputHandler} />
+                        <label htmlFor="pdf" className="form-label">Syllabus</label>
+                        <input type="file" className="form-control" name='pdf' onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="venue" className="form-label">Event Venue</label>
