@@ -1,7 +1,7 @@
 module.exports = global.config = {
     urls:{
         api:{
-            server: "http://localhost:8085"
+            server: "https://events.api.linkurcodes.com"
             // server: "https://api.linkurcodes.com"
         }
     }
