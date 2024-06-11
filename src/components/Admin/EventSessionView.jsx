@@ -6,11 +6,13 @@ import '../../config'
 
 const EventSessionView = () => {
     const apiUrl = global.config.urls.api.server + "/api/events/viewSession"
+    const apiUrl2 = global.config.urls.api.server + "/api/events/complete_private_session"
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [sessionsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
+    
 
     const getData = () => {
         axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -41,6 +43,21 @@ const EventSessionView = () => {
     const viewAttendence = (id) => {
         sessionStorage.setItem("session_ID", id);
         navigate('/viewattendence');
+    };
+
+    const sessionComplete = (id) => {
+        let data = { "session_private_id": id };
+        axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
+            .then((response) => {
+                if (response.data.status === "unauthorised user") {
+                    alert("Unauthorized access!");
+                } else if (response.data.status === "success") {
+                    alert("Successfully completed");
+                    getData();
+                } else {
+                    alert("Something went wrong, try again!");
+                }
+            });
     };
 
     useEffect(() => { getData() }, []);
@@ -94,7 +111,9 @@ const EventSessionView = () => {
                                                 <td><button className="btn btn-warning" onClick={() => { markAttendence(value.session_private_id) }}>Mark</button></td>
                                                 <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_private_id) }}>View</button></td>
                                                 <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_private_id) }}>View Feedback</button></td>
-                                                <td><button className="btn btn-success">Done</button></td>
+                                                <td>
+                                                        <button className='btn btn-success' onClick={() => { sessionComplete(value.session_private_id) }}>Done</button>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
