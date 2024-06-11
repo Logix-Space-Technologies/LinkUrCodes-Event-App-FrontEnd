@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../../config'
 
 const AddPrivateEvent = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/add_private_events"
+    const apiUrl1 = global.config.urls.api.server + "/api/college/Viewcollege"
     const [data, getData] = useState([])
     const [input, setInput] = useState({
         event_private_name: "",
@@ -36,7 +39,7 @@ const AddPrivateEvent = () => {
             formData.append(key, input[key]);
         }
 
-        axios.post("http://localhost:8085/api/events/add_private_events", formData, {
+        axios.post(apiUrl, formData, {
             headers: {
                 token: sessionStorage.getItem("admintoken"),
                 'Content-Type': 'multipart/form-data'
@@ -85,7 +88,7 @@ const AddPrivateEvent = () => {
         });
     };
     const readColleges = () => {
-        axios.post("http://localhost:8085/api/college/Viewcollege", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl1, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 getData(response.data)
                 console.log("data", data)

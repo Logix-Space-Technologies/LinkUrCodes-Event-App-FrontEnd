@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import CollegeNavBar from './CollegeNavBar'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import '../../config'
 
 const CollegeAddStudent = () => {
-
+    const apiUrl = global.config.urls.api.server + "/api/student/addstudent"
     const [input, setInput] = useState(
         {
             "student_name": "",
@@ -23,7 +24,7 @@ const CollegeAddStudent = () => {
     console.log("input", input)
     const readValues = () => {
         console.log(input)
-        axios.post("http://localhost:8085/api/student/addstudent", input, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } }).then(
+        axios.post(apiUrl, input, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } }).then(
             (response) => {
                 if (response.data.status === "success") {
                     alert("Successfully registered")

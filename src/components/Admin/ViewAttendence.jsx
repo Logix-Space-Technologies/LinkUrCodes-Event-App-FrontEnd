@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../../config'
 
 const ViewAttendence = () => {
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewattendence"
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -11,7 +13,7 @@ const ViewAttendence = () => {
     const [totalRecords, setTotalRecords] = useState(0);
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/attendence/viewattendence", { session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, { session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.formattedResults)) {
                     setData(response.data.formattedResults);

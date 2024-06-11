@@ -1,9 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import '../../config'
 
 const UserLogin = () => {
-
+  const apiUrl = global.config.urls.api.server + "/api/users/loginuser"
   const [input, setInput] = new useState(
     {
       "user_email": "",
@@ -15,7 +16,7 @@ const UserLogin = () => {
     setInput({ ...input, [event.target.name]: event.target.value })
   }
   const readValues = () => {
-    axios.post("http://localhost:8085/api/users/loginuser", input).then(
+    axios.post(apiUrl, input).then(
       (response) => {
         if (response.data.status === "Success") {
           sessionStorage.setItem("token", response.data.token)

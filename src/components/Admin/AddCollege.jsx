@@ -3,6 +3,7 @@ import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
 
 const AddCollege = () => {
+    const apiUrl = global.config.urls.api.server + "/api/college/addCollege"
     const [input, setInput] = useState({
         college_name: "",
         college_email: "",
@@ -25,7 +26,7 @@ const AddCollege = () => {
             formData.append(key, input[key]);
         }
     
-        axios.post("http://localhost:8085/api/college/addCollege", formData, {
+        axios.post(apiUrl,formData, {
             headers: {
                 token: sessionStorage.getItem("admintoken"),
                 'Content-Type': 'multipart/form-data'

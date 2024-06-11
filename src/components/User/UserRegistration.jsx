@@ -2,8 +2,10 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HomeNavbar from '../Homepage/HomeNavbar';
+import '../../config'
 
 const UserRegistration = () => {
+    const apiUrl = global.config.urls.api.server + "/api/users/signup"
     const navigate = useNavigate();
     const [input, setInput] = useState({
         user_name: "",
@@ -34,7 +36,7 @@ const UserRegistration = () => {
         formData.append('user_qualification', input.user_qualification);
         formData.append('user_skills', input.user_skills);
 
-        axios.post("http://localhost:8085/api/users/signup", formData, {
+        axios.post(apiUrl, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

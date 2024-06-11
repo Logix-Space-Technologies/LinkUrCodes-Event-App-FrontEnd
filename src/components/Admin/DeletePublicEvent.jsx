@@ -1,11 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
+import '../../config'
 
 const DeletePublicEvent = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view_active_public_events"
+  const apiUrl1 = global.config.urls.api.server + "/api/events/delete_public_event"
     const [data, setData] = new useState([])
     const getData = () => {
-        axios.post("http://localhost:8085/api/events/view_active_public_events", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 setData(response.data)
                 console.log("data", data)
@@ -14,7 +17,7 @@ const DeletePublicEvent = () => {
     }
     const deleteEvent = (id) => {
         let data = { "event_public_id": id }
-        axios.post("http://localhost:8085/api/events/delete_public_event", data, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl1, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "Unauthorized user") {
                     alert("Unauthorized access!")

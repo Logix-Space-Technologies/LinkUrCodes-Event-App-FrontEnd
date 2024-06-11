@@ -1,15 +1,17 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import StudentNavBar from './StudentNavBar'
+import '../../config'
 
 const StudentProfile = () => {
+        const apiUrl = global.config.urls.api.server + "/api/student/view-student-profile"
         const [studentData, setProfileData] = useState(null)
         const student_id = sessionStorage.getItem("student_id")
       
         useEffect(() => {
             const fetchData = async () => {
                 try {
-                    const response = await axios.post("http://localhost:8085/api/student/view-student-profile", { student_id },{headers:{token:sessionStorage.getItem("token")}})
+                    const response = await axios.post(apiUrl, { student_id },{headers:{token:sessionStorage.getItem("token")}})
                     setProfileData(response.data)
                 } catch (error) {
                     console.error('Error fetching user profile:', error)

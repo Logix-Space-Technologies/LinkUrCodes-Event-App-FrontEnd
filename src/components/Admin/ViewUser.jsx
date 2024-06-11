@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
+import '../../config'
 
 const ViewUser = () => {
+    const apiUrl = global.config.urls.api.server + "/api/users/viewusers"
+    const apiUrl1 = global.config.urls.api.server + "/api/users/delete-users"
+    const apiUrl2 = global.config.urls.api.server + "/api/users/searchusers"
     const [data, setData] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +16,7 @@ const ViewUser = () => {
     const [noUsersFound, setNoUsersFound] = useState(false);
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/users/viewusers", {}, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 setData(response.data);
                 setSearchResults(response.data);
@@ -21,7 +25,7 @@ const ViewUser = () => {
 
     const deleteUser = (id) => {
         let data = { "user_id": id };
-        axios.post("http://localhost:8085/api/users/delete-users", data, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl1, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "Unauthorized user") {
                     alert("Unauthorized access!");
@@ -46,7 +50,7 @@ const ViewUser = () => {
 
         setSearchClicked(true); // Set search clicked to true
 
-        axios.post("http://localhost:8085/api/users/searchusers", { term: searchTerm }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl2, { term: searchTerm }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "No users found") {
                     setNoUsersFound(true);

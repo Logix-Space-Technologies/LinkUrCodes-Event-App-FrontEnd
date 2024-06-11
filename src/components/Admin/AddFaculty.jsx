@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
+import '../../config'
 
 const AddFaculty = () => {
+    const apiUrl = global.config.urls.api.server + "/api/college/addDepartment"
     const [input, setInput] = useState(
         {
             "college_id": sessionStorage.getItem("collegeID"),
@@ -19,7 +21,7 @@ const AddFaculty = () => {
             faculty_password: name === 'faculty_phone' ? value : prevInput.faculty_password}));
     };
     const readValues = () => {
-        axios.post("http://localhost:8085/api/college/addDepartment", input, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 if (response.data.status === "success") {
                     alert("Faculty added successfully")

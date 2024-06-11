@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import CollegeNavBar from './CollegeNavBar'
+import '../../config'
 
 const CollegeStudentDetails = () => {
+    const apiUrl = global.config.urls.api.server + "/api/college/collegeStudentDetails"
     const [data, setData] = useState([])
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/college/collegeStudentDetails", {student_college_id:sessionStorage.getItem("collegeid")}, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
+        axios.post(apiUrl, {student_college_id:sessionStorage.getItem("collegeid")}, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
             .then((response) => {
                 setData(response.data)
                 console.log("data", response.data)

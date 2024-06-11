@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
+import '../../config'
 
 const SearchPrivateEvent = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/search-private-events"
     const [input, setInput] = useState({ event_private_name: "" });
     const [output, setOutput] = useState([]);
     const [noEventsFound, setNoEventsFound] = useState(false);
@@ -19,7 +21,7 @@ const SearchPrivateEvent = () => {
 
         setSearchClicked(true); // Set search clicked to true
         console.log("Search Term:", input.event_private_name);
-        axios.post("http://localhost:8085/api/events/search-private-events", input, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 console.log("Response Data:", response.data);
                 if (response.data.length === 0) {

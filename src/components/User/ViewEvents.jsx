@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchEvent from './SearchEvent';
 import { useNavigate } from 'react-router-dom';
+import '../../config'
 
 const ViewEvents = () => {
+  const apiUrl = global.config.urls.api.server + "/api/events/user_view_public_events"
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
 
@@ -12,7 +14,7 @@ const ViewEvents = () => {
       try {
         const token = sessionStorage.getItem('token');
         const response = await axios.post(
-          'http://localhost:8085/api/events/user_view_public_events',
+          apiUrl,
           {},
           { headers: { 'token': token } }
         );

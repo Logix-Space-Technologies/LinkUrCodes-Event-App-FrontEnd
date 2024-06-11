@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import '../../config'
 
 const ViewCompletedPrivateEvents = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view_completed_private_events"
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [eventsPerPage] = useState(5)
 
     const getData = () => {
-        axios.post("http://localhost:8085/api/events/view_completed_private_events", {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 if (Array.isArray(response.data)) {
                     setData(response.data);
