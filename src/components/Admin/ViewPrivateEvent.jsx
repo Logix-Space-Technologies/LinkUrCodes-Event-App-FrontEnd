@@ -56,6 +56,11 @@ const ViewPrivateEvent = () => {
         navigate('/eventviewsession');
     };
 
+    const paymentAdd = (id) => {
+        sessionStorage.setItem("eventID", id);
+        navigate('/addcollegepayment');
+    };
+
     const eventComplete = (id) => {
         let data = { "event_private_id": id };
         axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -130,7 +135,7 @@ const ViewPrivateEvent = () => {
                         {searchClicked && noEventsFound ? (
                             <center>
                                 <div class="alert alert-warning" role="alert">
-                                No Events found
+                                    No Events found
                                 </div>
                             </center>
                         ) : (
@@ -151,6 +156,7 @@ const ViewPrivateEvent = () => {
                                             <th scope="col">Offline Sessions</th>
                                             <th scope="col">Recorded Sessions</th>
                                             <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Sessions Action</th>
+                                            <th scope='col'>Payment Info</th>
                                             <th scope='col'>Is completed</th>
                                             <th scope="col">Delete</th>
                                         </tr>
@@ -179,6 +185,7 @@ const ViewPrivateEvent = () => {
                                                 </td>
 
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
+                                                <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id) }}>Add</button></td>
                                                 <td>
                                                     {(value.delete_status === "active" && value.cancel_status === "active" && value.is_completed === "not completed") ? (
                                                         <button className='btn btn-success' onClick={() => { eventComplete(value.event_private_id) }}>Done</button>
