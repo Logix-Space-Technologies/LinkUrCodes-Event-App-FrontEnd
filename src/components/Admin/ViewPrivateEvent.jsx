@@ -141,6 +141,7 @@ const ViewPrivateEvent = () => {
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Image</th>
+                                            <th scope='col'>College</th>
                                             <th scope="col">Description</th>
                                             <th scope='col'>Amount</th>
                                             <th scope="col">Date</th>
@@ -160,6 +161,7 @@ const ViewPrivateEvent = () => {
                                                 <th>{indexOfFirstItem + index + 1}</th>
                                                 <td>{value.event_private_name}</td>
                                                 <td><img src={`http://localhost:8085/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                                <td>{value.college_name}</td>
                                                 <td>{value.event_private_description}</td>
                                                 <td>{value.event_private_amount}</td>
                                                 <td>{value.event_private_date}</td>
