@@ -6,7 +6,7 @@ import '../../config'
 
 const EventSessionView = () => {
     const apiUrl = global.config.urls.api.server + "/api/events/viewSession"
-    const apiUrl2 = global.config.urls.api.server + "/api/events/complete_private_session"
+    const apiUrl2 = global.config.urls.api.server + "/api/events/updateSession"
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -45,11 +45,14 @@ const EventSessionView = () => {
         navigate('/viewattendence');
     };
 
-    const sessionComplete = (id) => {
-        let data = { "session_private_id": id };
+    const sessionComplete = (event_ID,session_ID) => {
+        let data = {
+            "event_private_id":event_ID,
+            "session_private_id":session_ID
+        }
         axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
-                if (response.data.status === "unauthorised user") {
+                if (response.data.status === "Unauthorized") {
                     alert("Unauthorized access!");
                 } else if (response.data.status === "success") {
                     alert("Successfully completed");
@@ -108,11 +111,21 @@ const EventSessionView = () => {
                                                 <td>{value.session_start_time}</td>
                                                 <td>{value.type}</td>
                                                 <td>{value.venue}</td>
-                                                <td><button className="btn btn-warning" onClick={() => { markAttendence(value.session_private_id) }}>Mark</button></td>
+                                                <td>
+                                                {(value.is_completed === 0) ? (
+                                                        <button className="btn btn-warning" onClick={() => { markAttendence(value.session_private_id) }}>Mark</button>
+                                                    ) : (
+                                                        <span className="badge text-bg-success">Completed</span>
+                                                    )}
+                                                    </td>
                                                 <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_private_id) }}>View</button></td>
                                                 <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_private_id) }}>View Feedback</button></td>
                                                 <td>
-                                                        <button className='btn btn-success' onClick={() => { sessionComplete(value.session_private_id) }}>Done</button>
+                                                {(value.is_completed === 0) ? (
+                                                        <button className='btn btn-success' onClick={() => { sessionComplete(value.event_private_id,value.session_private_id) }}>Done</button>
+                                                    ) : (
+                                                        <span className="badge text-bg-success">Completed</span>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}
