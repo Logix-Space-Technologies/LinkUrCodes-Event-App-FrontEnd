@@ -6,11 +6,13 @@ import '../../config'
 
 const EventSessionView = () => {
     const apiUrl = global.config.urls.api.server + "/api/events/viewSession"
+    const apiUrl2 = global.config.urls.api.server + "/api/events/updateSession"
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [sessionsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
+    
 
     const getData = () => {
         axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -41,6 +43,24 @@ const EventSessionView = () => {
     const viewAttendence = (id) => {
         sessionStorage.setItem("session_ID", id);
         navigate('/viewattendence');
+    };
+
+    const sessionComplete = (event_ID,session_ID) => {
+        let data = {
+            "event_private_id":event_ID,
+            "session_private_id":session_ID
+        }
+        axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
+            .then((response) => {
+                if (response.data.status === "Unauthorized") {
+                    alert("Unauthorized access!");
+                } else if (response.data.status === "success") {
+                    alert("Successfully completed");
+                    getData();
+                } else {
+                    alert("Something went wrong, try again!");
+                }
+            });
     };
 
     useEffect(() => { getData() }, []);
@@ -91,10 +111,22 @@ const EventSessionView = () => {
                                                 <td>{value.session_start_time}</td>
                                                 <td>{value.type}</td>
                                                 <td>{value.venue}</td>
-                                                <td><button className="btn btn-warning" onClick={() => { markAttendence(value.session_private_id) }}>Mark</button></td>
+                                                <td>
+                                                {(value.is_completed === 0) ? (
+                                                        <button className="btn btn-warning" onClick={() => { markAttendence(value.session_private_id) }}>Mark</button>
+                                                    ) : (
+                                                        <span className="badge text-bg-success">Completed</span>
+                                                    )}
+                                                    </td>
                                                 <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_private_id) }}>View</button></td>
                                                 <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_private_id) }}>View Feedback</button></td>
-                                                <td><button className="btn btn-success">Done</button></td>
+                                                <td>
+                                                {(value.is_completed === 0) ? (
+                                                        <button className='btn btn-success' onClick={() => { sessionComplete(value.event_private_id,value.session_private_id) }}>Done</button>
+                                                    ) : (
+                                                        <span className="badge text-bg-success">Completed</span>
+                                                    )}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
