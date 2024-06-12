@@ -18,6 +18,9 @@ const CollegeNavBar = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
+            <li className="nav-item">
+                <Link className="nav-link" to="/collegeprofile">Profile</Link>
+              </li>
               <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" to="/collegehome"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Students
