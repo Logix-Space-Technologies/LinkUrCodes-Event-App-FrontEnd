@@ -79,6 +79,7 @@ import UpdateFaculty from './components/College/UpdateFaculty';
 import ViewEventFeedback from './components/Admin/ViewEventFeedback';
 import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
+import ViewCompletedPublicEvents from './components/Admin/ViewCompletedPublicEvents';
 
 
 
@@ -166,6 +167,7 @@ function App() {
         <Route path='/viewattendence' element={<ViewAttendence/>}/>
         <Route path='/updatefaculty' element={<UpdateFaculty/>}/>
         <Route path='/vieweventfeedback' element={<ViewEventFeedback/>}/>
+        <Route path='/viewcompletedpublicevents' element={<ViewCompletedPublicEvents/>}/>
       </Routes>
       </BrowserRouter>
     </div>
