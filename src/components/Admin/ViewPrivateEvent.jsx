@@ -56,8 +56,9 @@ const ViewPrivateEvent = () => {
         navigate('/eventviewsession');
     };
 
-    const paymentAdd = (id) => {
+    const paymentAdd = (id,clgid) => {
         sessionStorage.setItem("eventID", id);
+        sessionStorage.setItem("collegeID", clgid);
         navigate('/addcollegepayment');
     };
 
