@@ -45,7 +45,7 @@ const ViewPrivateEvent = () => {
     }
 
     const updatePage = (id) => {
-        sessionStorage.setItem("eventID", id)
+        sessionStorage.setItem("Event_ID", id)
         navigate('/updateprivateevent')
     }
 
