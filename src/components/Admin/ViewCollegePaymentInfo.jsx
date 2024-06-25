@@ -68,11 +68,11 @@ const ViewCollegePaymentInfo = () => {
                                         {currentItems.map((value, index) => (
                                             <tr key={index}>
                                                 <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                                                <td>{value.college_id}</td>
-                                                <td>{value.private_event_id}</td>
-                                                <td>{value.college_payment_date}</td>
-                                                <td>{value.amount}</td>
-                                                <td>{value.invoice_no}</td>
+                                                <td>{value.College}</td>
+                                                <td>{value.Event}</td>
+                                                <td>{value.Date}</td>
+                                                <td>{value.Amount}</td>
+                                                <td>{value.Invoice}</td>
                                             </tr>
                                         ))}
                                     </tbody>
