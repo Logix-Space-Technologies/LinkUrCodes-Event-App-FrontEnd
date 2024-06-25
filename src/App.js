@@ -79,10 +79,15 @@ import UpdateFaculty from './components/College/UpdateFaculty';
 import ViewEventFeedback from './components/Admin/ViewEventFeedback';
 import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
+
+import AddCollegePaymentInfo from './components/Admin/AddCollegePaymentInfo';
+import ViewCollegePaymentInfo from './components/Admin/ViewCollegePaymentInfo';
+
 import ViewCompletedPublicEvents from './components/Admin/ViewCompletedPublicEvents';
 import ViewAdminLogs from './components/Admin/ViewAdminLogs';
 import ViewFacultyLogs from './components/Admin/ViewFacultyLogs';
 import ViewUserLogs from './components/Admin/ViewUserLogs';
+
 
 
 
@@ -170,11 +175,16 @@ function App() {
         <Route path='/viewattendence' element={<ViewAttendence/>}/>
         <Route path='/updatefaculty' element={<UpdateFaculty/>}/>
         <Route path='/vieweventfeedback' element={<ViewEventFeedback/>}/>
+
+        <Route path='/addcollegepayment' element={<AddCollegePaymentInfo/>}/>
+        <Route path='/viewcollegepayment' element={<ViewCollegePaymentInfo/>}/>
+
         <Route path='/viewcompletedpublicevents' element={<ViewCompletedPublicEvents/>}/>
 
         <Route path='/viewadminlogs' element={<ViewAdminLogs/>}/>
         <Route path='/viewfacultylogs' element={<ViewFacultyLogs/>}/>
         <Route path='/viewuserlogs' element={<ViewUserLogs/>}/>
+
 
       </Routes>
       </BrowserRouter>

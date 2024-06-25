@@ -56,6 +56,12 @@ const ViewPrivateEvent = () => {
         navigate('/eventviewsession');
     };
 
+    const paymentAdd = (id,clgid) => {
+        sessionStorage.setItem("eventID", id);
+        sessionStorage.setItem("collegeID", clgid);
+        navigate('/addcollegepayment');
+    };
+
     const eventComplete = (id) => {
         let data = { "event_private_id": id };
         axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -130,7 +136,7 @@ const ViewPrivateEvent = () => {
                         {searchClicked && noEventsFound ? (
                             <center>
                                 <div class="alert alert-warning" role="alert">
-                                No Events found
+                                    No Events found
                                 </div>
                             </center>
                         ) : (
@@ -141,6 +147,7 @@ const ViewPrivateEvent = () => {
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Image</th>
+                                            <th scope='col'>College</th>
                                             <th scope="col">Description</th>
                                             <th scope='col'>Amount</th>
                                             <th scope="col">Date</th>
@@ -150,6 +157,7 @@ const ViewPrivateEvent = () => {
                                             <th scope="col">Offline Sessions</th>
                                             <th scope="col">Recorded Sessions</th>
                                             <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Sessions Action</th>
+                                            <th scope='col'>Payment Info</th>
                                             <th scope='col'>Is completed</th>
                                             <th scope="col">Delete</th>
                                         </tr>
@@ -160,6 +168,7 @@ const ViewPrivateEvent = () => {
                                                 <th>{indexOfFirstItem + index + 1}</th>
                                                 <td>{value.event_private_name}</td>
                                                 <td><img src={`http://localhost:8085/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                                <td>{value.college_name}</td>
                                                 <td>{value.event_private_description}</td>
                                                 <td>{value.event_private_amount}</td>
                                                 <td>{value.event_private_date}</td>
@@ -177,6 +186,7 @@ const ViewPrivateEvent = () => {
                                                 </td>
 
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
+                                                <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id) }}>Add</button></td>
                                                 <td>
                                                     {(value.delete_status === "active" && value.cancel_status === "active" && value.is_completed === "not completed") ? (
                                                         <button className='btn btn-success' onClick={() => { eventComplete(value.event_private_id) }}>Done</button>
