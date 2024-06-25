@@ -10,7 +10,7 @@ const ViewAdminLogs = () => {
     const [totalRecords, setTotalRecords] = useState(0);
 
     const getData = () => {
-        axios.post(apiUrl, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl,{}, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
