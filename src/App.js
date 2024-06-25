@@ -80,6 +80,7 @@ import ViewEventFeedback from './components/Admin/ViewEventFeedback';
 import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
 import ViewCompletedPublicEvents from './components/Admin/ViewCompletedPublicEvents';
+import ViewAdminLogs from './components/Admin/ViewAdminLogs';
 
 
 
@@ -168,6 +169,9 @@ function App() {
         <Route path='/updatefaculty' element={<UpdateFaculty/>}/>
         <Route path='/vieweventfeedback' element={<ViewEventFeedback/>}/>
         <Route path='/viewcompletedpublicevents' element={<ViewCompletedPublicEvents/>}/>
+
+        <Route path='/viewadminlogs' element={<ViewAdminLogs/>}/>
+
       </Routes>
       </BrowserRouter>
     </div>

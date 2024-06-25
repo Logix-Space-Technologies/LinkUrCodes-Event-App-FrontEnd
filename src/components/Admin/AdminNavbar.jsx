@@ -69,6 +69,16 @@ const AdminNavbar = () => {
                                     <li><Link className="dropdown-item" to="">User Payment</Link></li>
                                 </ul>
                             </li>
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Logs
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <li><Link className="dropdown-item" to="/viewadminlogs">Admin Logs</Link></li>
+                                    <li><Link className="dropdown-item" to="">Faculty Logs</Link></li>
+                                    <li><Link className="dropdown-item" to="">User Logs</Link></li>
+                                </ul>
+                            </li>
                             <li className="nav-item">
                                 <button className='nav-link' onClick={logOutAction}> Logout</button>
                             </li>
