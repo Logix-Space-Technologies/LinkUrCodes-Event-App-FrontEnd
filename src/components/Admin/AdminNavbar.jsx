@@ -75,8 +75,8 @@ const AdminNavbar = () => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="/viewadminlogs">Admin Logs</Link></li>
-                                    <li><Link className="dropdown-item" to="">Faculty Logs</Link></li>
-                                    <li><Link className="dropdown-item" to="">User Logs</Link></li>
+                                    <li><Link className="dropdown-item" to="/viewfacultylogs">Faculty Logs</Link></li>
+                                    <li><Link className="dropdown-item" to="/viewuserlogs">User Logs</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item">

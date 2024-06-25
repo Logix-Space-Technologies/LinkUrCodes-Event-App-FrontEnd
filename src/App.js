@@ -81,6 +81,8 @@ import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
 import ViewCompletedPublicEvents from './components/Admin/ViewCompletedPublicEvents';
 import ViewAdminLogs from './components/Admin/ViewAdminLogs';
+import ViewFacultyLogs from './components/Admin/ViewFacultyLogs';
+import ViewUserLogs from './components/Admin/ViewUserLogs';
 
 
 
@@ -171,6 +173,8 @@ function App() {
         <Route path='/viewcompletedpublicevents' element={<ViewCompletedPublicEvents/>}/>
 
         <Route path='/viewadminlogs' element={<ViewAdminLogs/>}/>
+        <Route path='/viewfacultylogs' element={<ViewFacultyLogs/>}/>
+        <Route path='/viewuserlogs' element={<ViewUserLogs/>}/>
 
       </Routes>
       </BrowserRouter>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import AdminNavbar from './AdminNavbar'
+import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 
-const ViewAdminLogs = () => {
-    const apiUrl = global.config.urls.api.server + "/api/admin/viewadminlogs"
+const ViewUserLogs = () => {
+    const apiUrl = global.config.urls.api.server + "/api/admin/viewuserlogs"
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
@@ -35,11 +35,10 @@ const ViewAdminLogs = () => {
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    return (
-        <div>
-            <AdminNavbar />
-            <div className="container">
+  return (
+    <div>
+      <AdminNavbar/>
+      <div className="container">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         {data.length === 0 ? (
@@ -56,7 +55,7 @@ const ViewAdminLogs = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Admin Name</th>
+                                            <th scope="col">User Name</th>
                                             <th scope="col">Action</th>
                                             <th scope="col">Date & Time</th>
                                         </tr>
@@ -65,7 +64,7 @@ const ViewAdminLogs = () => {
                                         {currentItems.map((value, index) => (
                                             <tr key={index}>
                                                 <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                                                <td>{value.admin_username}</td>
+                                                <td>{value.user_name}</td>
                                                 <td>{value.action}</td>
                                                 <td>{value.date_time}</td>
                                             </tr>
@@ -91,8 +90,8 @@ const ViewAdminLogs = () => {
                     </div>
                 </div>
             </div>
-        </div>
-    )
+    </div>
+  )
 }
 
-export default ViewAdminLogs
+export default ViewUserLogs

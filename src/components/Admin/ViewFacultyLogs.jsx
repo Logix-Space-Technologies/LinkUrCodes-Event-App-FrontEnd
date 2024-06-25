@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import AdminNavbar from './AdminNavbar';
 
-const ViewAdminLogs = () => {
-    const apiUrl = global.config.urls.api.server + "/api/admin/viewadminlogs"
+const ViewFacultyLogs = () => {
+    const apiUrl = global.config.urls.api.server + "/api/admin/viewfacultylogs"
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
@@ -35,7 +35,6 @@ const ViewAdminLogs = () => {
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
     return (
         <div>
             <AdminNavbar />
@@ -56,7 +55,7 @@ const ViewAdminLogs = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Admin Name</th>
+                                            <th scope="col">Faculty Name</th>
                                             <th scope="col">Action</th>
                                             <th scope="col">Date & Time</th>
                                         </tr>
@@ -65,7 +64,7 @@ const ViewAdminLogs = () => {
                                         {currentItems.map((value, index) => (
                                             <tr key={index}>
                                                 <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                                                <td>{value.admin_username}</td>
+                                                <td>{value.faculty_name}</td>
                                                 <td>{value.action}</td>
                                                 <td>{value.date_time}</td>
                                             </tr>
@@ -95,4 +94,4 @@ const ViewAdminLogs = () => {
     )
 }
 
-export default ViewAdminLogs
+export default ViewFacultyLogs
