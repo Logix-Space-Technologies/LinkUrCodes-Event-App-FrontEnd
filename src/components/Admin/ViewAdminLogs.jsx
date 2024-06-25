@@ -12,10 +12,10 @@ const ViewAdminLogs = () => {
     const getData = () => {
         axios.post(apiUrl, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
-                if (Array.isArray(response.data.results)) {
-                    setData(response.data.results);
-                    setTotalRecords(response.data.results.length);
-                } else if (response.data.results.length === 0) {
+                if (Array.isArray(response.data.data)) {
+                    setData(response.data.data);
+                    setTotalRecords(response.data.data.length);
+                } else if (response.data.data.length === 0) {
                     setData([]);
                     setTotalRecords(0);
                 } else {
