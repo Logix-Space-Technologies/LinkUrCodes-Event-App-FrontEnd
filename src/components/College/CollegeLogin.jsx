@@ -21,7 +21,7 @@ const CollegeLogin = () => {
         if (response.data.status === "success") {
           sessionStorage.setItem("collegeid", response.data.facultyData.college_id)
           console.log(sessionStorage.getItem("collegeid"))
-          sessionStorage.setItem("facultyid", response.data.facultyData.id)
+          sessionStorage.setItem("facultyid", response.data.facultyData.department_id)
           console.log(sessionStorage.getItem("facultyid"))
           // sessionStorage.setItem("college_email",response.data.collegedata.college_email)
           // console.log(sessionStorage.getItem("college_email"))

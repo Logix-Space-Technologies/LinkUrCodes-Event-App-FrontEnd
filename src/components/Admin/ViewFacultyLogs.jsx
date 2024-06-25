@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import AdminNavbar from './AdminNavbar';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../../config'
+import React, { useEffect, useState } from 'react'
+import AdminNavbar from './AdminNavbar';
 
-const ViewAttendence = () => {
-    const apiUrl = global.config.urls.api.server + "/api/attendence/viewattendence"
-    const navigate = useNavigate();
+const ViewFacultyLogs = () => {
+    const apiUrl = global.config.urls.api.server + "/api/admin/viewfacultylogs"
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
 
     const getData = () => {
-        axios.post(apiUrl, { session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
-                if (Array.isArray(response.data.formattedResults)) {
-                    setData(response.data.formattedResults);
-                    setTotalRecords(response.data.formattedResults.length);
-                } else if (response.data.formattedResults.length === 0) {
+                if (Array.isArray(response.data.data)) {
+                    setData(response.data.data);
+                    setTotalRecords(response.data.data.length);
+                } else if (response.data.data.length === 0) {
                     setData([]);
                     setTotalRecords(0);
                 } else {
@@ -38,7 +35,6 @@ const ViewAttendence = () => {
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
     return (
         <div>
             <AdminNavbar />
@@ -49,7 +45,7 @@ const ViewAttendence = () => {
                             <div>
                                 <center>
                                     <div class="alert alert-warning" role="alert">
-                                        No Students found
+                                        No logs found
                                     </div>
                                 </center>
                             </div>
@@ -59,28 +55,18 @@ const ViewAttendence = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Rollno</th>
-                                            <th scope="col">Admission No</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Attendance</th>
+                                            <th scope="col">Faculty Name</th>
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Date & Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {currentItems.map((value, index) => (
                                             <tr key={index}>
                                                 <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                                                <td>{value.student_name}</td>
-                                                <td>{value.student_rollno}</td>
-                                                <td>{value.student_admno}</td>
-                                                <td>{value.added_date}</td>
-                                                <td>
-                                                    {value.status === 0 ? (
-                                                        <span className="badge text-bg-danger">Absent</span>
-                                                    ) : (
-                                                        <span className="badge text-bg-success">Present</span>
-                                                    )}
-                                                </td>
+                                                <td>{value.faculty_name}</td>
+                                                <td>{value.action}</td>
+                                                <td>{value.date_time}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -105,7 +91,7 @@ const ViewAttendence = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ViewAttendence;
+export default ViewFacultyLogs
