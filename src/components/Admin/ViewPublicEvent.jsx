@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import '../../config';
+import { useNavigate } from 'react-router-dom';
 
 const ViewPublicEvent = () => {
+    const navigate=useNavigate()
     const apiUrl = global.config.urls.api.server + "/api/events/view_active_public_events";
     const apiUrlSearch = global.config.urls.api.server + "/api/events/search-public-events";
     const apiUrlDelete = global.config.urls.api.server + "/api/events/delete_public_event";
@@ -53,6 +55,15 @@ const ViewPublicEvent = () => {
                     alert("Something went wrong, try again!");
                 }
             });
+    };
+
+    const sessionAdd = (id) => {
+        navigate('/addpublicsession',{ state: { Eventid: id } });
+    };
+
+    const sessionView = (id) => {
+        sessionStorage.setItem("eventViewID", id);
+        navigate('/viewpublicsession')
     };
 
     useEffect(() => {
@@ -156,12 +167,12 @@ const ViewPublicEvent = () => {
                                                     <td>{value.event_public_recorded}</td>
                                                     <td>
                                                         {(value.delete_status === "active" && value.cancel_status === "active" && value.is_completed === "not completed") ? (
-                                                            <button className="btn btn-secondary">Add</button>
+                                                           <button className="btn btn-secondary" onClick={() => { sessionAdd(value.event_public_id) }}>Add</button>
                                                         ) : (
                                                             <span className="badge text-bg-success">Completed</span>
                                                         )}
                                                     </td>
-                                                    <td><button className="btn btn-secondary">View</button></td>
+                                                    <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_public_id) }}>View</button></td>
                                                     <td>
                                                     {(value.delete_status === "active" && value.cancel_status === "active" && value.is_completed === "not completed") ? (
                                                             <button className='btn btn-success' onClick={() => { completeEvent(value.event_public_id) }}>Done</button>

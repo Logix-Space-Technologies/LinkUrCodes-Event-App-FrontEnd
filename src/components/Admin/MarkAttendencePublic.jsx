@@ -4,9 +4,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../config'
 
-const MarkAttendence = () => {
-    const apiUrl = global.config.urls.api.server + "/api/attendence/viewAbsentAttendence"
-    const apiUrl1 = global.config.urls.api.server + "/api/attendence/updateAttendence"
+const MarkAttendencePublic = () => {
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewUserAbsentAttendence"
+    const apiUrl1 = global.config.urls.api.server + "/api/attendence/updateUserAttendence"
     const [selectedRollNos, setSelectedRollNos] = useState([]);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +42,7 @@ const MarkAttendence = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const markAttendence = () => {
-        axios.post(apiUrl1, { student_id: selectedRollNos, session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl1, { user_id: selectedRollNos, session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then(
                 (response) => {
                     if (response.data.status === "success") {
@@ -71,7 +71,7 @@ const MarkAttendence = () => {
                             <div>
                                 <center>
                                 <div class="alert alert-warning" role="alert">
-                                No Students found
+                                No users found
                                     </div>
                                 </center>
                             </div>
@@ -82,8 +82,8 @@ const MarkAttendence = () => {
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
-                                            <th scope="col">Rollno</th>
-                                            <th scope="col">Admission No</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Phone No</th>
                                             <th scope="col">Attendance</th>
                                         </tr>
                                     </thead>
@@ -91,13 +91,13 @@ const MarkAttendence = () => {
                                         {currentData.map((value, index) => (
                                             <tr key={index}>
                                                 <th>{index + 1}</th>
-                                                <td>{value.student_name}</td>
-                                                <td>{value.student_rollno}</td>
-                                                <td>{value.student_admno}</td>
+                                                <td>{value.user_name}</td>
+                                                <td>{value.user_email}</td>
+                                                <td>{value.user_contact_no}</td>
                                                 <td>
-                                                    <div className="form-check form-check-inline" key={value.student_id}>
-                                                        <input className="form-check-input" type="checkbox" id={`inlineCheckbox${value.student_id}`}
-                                                            value={value.student_id} onChange={inputHandler} />
+                                                    <div className="form-check form-check-inline" key={value.user_id}>
+                                                        <input className="form-check-input" type="checkbox" id={`inlineCheckbox${value.user_id}`}
+                                                            value={value.user_id} onChange={inputHandler} />
                                                     </div>
                                                 </td>
                                             </tr>
@@ -126,7 +126,7 @@ const MarkAttendence = () => {
                     </div>
                     <div className="col col-12">
                         <br />
-                        <Link className="link" to="/eventviewsession">Back to session</Link>
+                        <Link className="link" to="/viewpublicsession">Back to session</Link>
                     </div>
                 </div>
             </div>
@@ -134,4 +134,4 @@ const MarkAttendence = () => {
     );
 };
 
-export default MarkAttendence;
+export default MarkAttendencePublic;

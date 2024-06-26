@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../config'
 
-const ViewAttendence = () => {
-    const apiUrl = global.config.urls.api.server + "/api/attendence/viewattendence"
+const ViewAttendencePublic = () => {
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewUserAttendence"
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +13,7 @@ const ViewAttendence = () => {
     const [totalRecords, setTotalRecords] = useState(0);
 
     const getData = () => {
-        axios.post(apiUrl, { session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, { session_id: sessionStorage.getItem("sessionPublic_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.formattedResults)) {
                     setData(response.data.formattedResults);
@@ -49,7 +49,7 @@ const ViewAttendence = () => {
                             <div>
                                 <center>
                                     <div class="alert alert-warning" role="alert">
-                                        No Students found
+                                        No Users found
                                     </div>
                                 </center>
                             </div>
@@ -60,8 +60,8 @@ const ViewAttendence = () => {
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
-                                            <th scope="col">Rollno</th>
-                                            <th scope="col">Admission No</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Phone No</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Attendance</th>
                                         </tr>
@@ -70,9 +70,9 @@ const ViewAttendence = () => {
                                         {currentItems.map((value, index) => (
                                             <tr key={index}>
                                                 <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                                                <td>{value.student_name}</td>
-                                                <td>{value.student_rollno}</td>
-                                                <td>{value.student_admno}</td>
+                                                <td>{value.user_name}</td>
+                                                <td>{value.user_email}</td>
+                                                <td>{value.user_contact_no}</td>
                                                 <td>{value.added_date}</td>
                                                 <td>
                                                     {value.status === 0 ? (
@@ -102,11 +102,11 @@ const ViewAttendence = () => {
                             </div>
                         )}
                     </div>
-                    <Link to="/eventviewsession">Back to session</Link>
+                    <Link to="/viewpublicsession">Back to Session</Link>
                 </div>
             </div>
         </div>
     );
 };
 
-export default ViewAttendence;
+export default ViewAttendencePublic;

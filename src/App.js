@@ -87,6 +87,10 @@ import ViewCompletedPublicEvents from './components/Admin/ViewCompletedPublicEve
 import ViewAdminLogs from './components/Admin/ViewAdminLogs';
 import ViewFacultyLogs from './components/Admin/ViewFacultyLogs';
 import ViewUserLogs from './components/Admin/ViewUserLogs';
+import AddPublicSession from './components/Admin/AddPublicSession';
+import ViewPublicSession from './components/Admin/ViewPublicSession';
+import MarkAttendencePublic from './components/Admin/MarkAttendencePublic';
+import ViewAttendencePublic from './components/Admin/ViewAttendencePublic';
 
 
 
@@ -184,6 +188,10 @@ function App() {
         <Route path='/viewadminlogs' element={<ViewAdminLogs/>}/>
         <Route path='/viewfacultylogs' element={<ViewFacultyLogs/>}/>
         <Route path='/viewuserlogs' element={<ViewUserLogs/>}/>
+        <Route path='/addpublicsession' element={<AddPublicSession/>}/>
+        <Route path='/viewpublicsession' element={<ViewPublicSession/>}/>
+        <Route path='/markattendencepublic' element={<MarkAttendencePublic/>}/>
+        <Route path='/viewattendencepublic' element={<ViewAttendencePublic/>}/>
 
 
       </Routes>
