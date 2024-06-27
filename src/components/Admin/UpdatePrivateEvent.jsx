@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UpdatePrivateEvent = () => {
-    const [data, getData] = useState([]);
+    const navigate=useNavigate()
     const [input, setInput] = useState({
+        event_private_id:"",
         event_private_name: "",
         event_private_amount: "",
         event_private_description: "",
@@ -16,10 +18,9 @@ const UpdatePrivateEvent = () => {
         event_private_recorded: "",
         image: null,
         pdf: null,
-        event_private_clgid: "",
         event_updatedby: sessionStorage.getItem("adminid")
     });
-
+console.log("Admin",sessionStorage.getItem("adminid"))
     const inputHandler = (event) => {
         const { name, value, files } = event.target;
         if (name === 'image' || name === 'pdf') {
@@ -27,16 +28,6 @@ const UpdatePrivateEvent = () => {
         } else {
             setInput({ ...input, [name]: value });
         }
-    };
-
-    const readColleges = () => {
-        axios.post("http://localhost:8085/api/college/Viewcollege", {}, {
-            headers: { token: sessionStorage.getItem("admintoken") }
-        }).then(
-            (response) => {
-                getData(response.data);
-            }
-        );
     };
 
     const readEvents = () => {
@@ -49,6 +40,7 @@ const UpdatePrivateEvent = () => {
                 const eventData = response.data[0]; // Assuming response.data is an array and taking the first item
                 const formattedDate = new Date(eventData.event_private_date).toISOString().split('T')[0];
                 setInput({
+                    event_private_id:eventData.event_private_id,
                     event_private_name: eventData.event_private_name,
                     event_private_amount: eventData.event_private_amount,
                     event_private_description: eventData.event_private_description,
@@ -60,8 +52,7 @@ const UpdatePrivateEvent = () => {
                     event_private_recorded: eventData.event_private_recorded,
                     image: null,
                     pdf: null,
-                    event_private_clgid: eventData.event_private_clgid,
-                    event_addedby: sessionStorage.getItem("adminid")
+                    event_updatedby: sessionStorage.getItem("adminid")
                 });
             }
         );
@@ -73,7 +64,7 @@ const UpdatePrivateEvent = () => {
             formData.append(key, input[key]);
         }
 
-        axios.post("http://localhost:8085/api/events/add_private_events", formData, {
+        axios.post("http://localhost:8085/api/events/update_private_events", formData, {
             headers: {
                 token: sessionStorage.getItem("admintoken"),
                 'Content-Type': 'multipart/form-data'
@@ -81,7 +72,8 @@ const UpdatePrivateEvent = () => {
         }).then((response) => {
             if (response.data.status === "success") {
                 alert("Successfully updated");
-            } else if (response.data.status === "Unauthorized user") {
+                navigate("/viewprivateevent")
+            } else if (response.data.status === "Unauthorized") {
                 alert("Unauthorized access");
             } else {
                 alert("Something went wrong");
@@ -92,7 +84,6 @@ const UpdatePrivateEvent = () => {
         });
     };
 
-    useEffect(() => { readColleges() }, []);
     useEffect(() => { readEvents() }, []);
 
     return (
@@ -143,15 +134,6 @@ const UpdatePrivateEvent = () => {
                     <div className="col-12 col-sm-6">
                         <label htmlFor="pdf" className="form-label">Syllabus</label>
                         <input type="file" className="form-control" name='pdf' onChange={inputHandler} />
-                    </div>
-                    <div className="col-12 col-sm-6">
-                        <label htmlFor="college" className="form-label">College</label>
-                        <select name='event_private_clgid' className="form-control" value={input.event_private_clgid} onChange={inputHandler}>
-                            <option value="">Select college</option>
-                            {data.map((value, index) => (
-                                <option key={index} value={value.college_id}>{value.college_name}</option>
-                            ))}
-                        </select>
                     </div>
                     <div className="col-12">
                         <button className="btn btn-success" onClick={updateEvent}>Update Event</button>
