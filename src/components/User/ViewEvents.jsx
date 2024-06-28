@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../config'
 
 const ViewEvents = () => {
-  const apiUrl = global.config.urls.api.server + "/api/events/user_view_public_events"
+  const apiUrl = global.config.urls.api.server + "/api/events/view_user_public_events"
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
 
@@ -35,21 +35,27 @@ const ViewEvents = () => {
   
   const navigate=useNavigate()
   const handleRegistration = (eventId) => {
-    // Handle event registration logic here
-    navigate('/payment')
-    console.log('Register for event with ID:', eventId);
+    const selectedEvent = events.find(event => event.event_public_id === eventId);
+    if (selectedEvent) {
+      navigate('/payment', { state: { event: selectedEvent } });
+    } else {
+      // Handle case where event with eventId is not found
+      alert('Event not found. Please try again.');
+    }
   };
+  
+  
 
   return (
     <div>
-      <SearchEvent /><br></br>
+      <SearchEvent/><br></br>
       <div className="container">
         <div className="row">
           <b><h2><i>SELECT EVENTS</i></h2></b>
           {events.map(event => (
             <div className="col-md-4 mb-4" key={event.event_public_id}>
               <div className="card h-100">
-                <img src={event.event_public_image} className="card-img-top" alt="Event" />
+                <img src={`http://localhost:8085/${event.event_public_image}`} className="card-img-top" alt="Event" />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{event.event_public_name}</h5>
                   <p className="card-text">Description: {event.event_public_description}</p>

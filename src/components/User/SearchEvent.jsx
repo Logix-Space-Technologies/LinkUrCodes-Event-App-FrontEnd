@@ -52,6 +52,7 @@ const SearchEvent = () => {
               </div>
             </nav>
           </div>
+          
         </div><br></br>
         {error && <div className="alert alert-danger" role="alert">{error}</div>}
         <div className="container">

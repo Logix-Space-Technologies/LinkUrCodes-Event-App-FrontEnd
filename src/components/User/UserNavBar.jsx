@@ -24,6 +24,10 @@ const UserNavBar = () => {
         <li class="nav-item">
           <Link class="nav-link" to="/studentevents">College Events</Link>
         </li>
+        
+        <li class="nav-item">
+          <Link class="nav-link" to="/viewevent">Events</Link>
+        </li>
         <li class="nav-item">
           <button class="nav-link"  onClick={logOutAction}>Logout</button>
         </li>
