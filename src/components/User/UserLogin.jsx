@@ -22,6 +22,9 @@ const UserLogin = () => {
           sessionStorage.setItem("token", response.data.token)
           console.log(sessionStorage.getItem("token"))
           sessionStorage.setItem("userid", response.data.userData.user_id)
+          sessionStorage.setItem("username", response.data.userData.user_name);
+          sessionStorage.setItem("useremail", response.data.userData.user_email);
+          sessionStorage.setItem("usercontact", response.data.userData.user_contact_no);
           console.log(sessionStorage.getItem("userid"))
           navigate('/userhome')
         } else if (response.data.status === "Invalid Password") {
