@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import '../../config'
+import '../../config';
 
 const ViewCollege = () => {
   const apiUrl = global.config.urls.api.server + "/api/college/Viewcollege";
@@ -86,25 +86,86 @@ const ViewCollege = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const renderPageNumbers = () => {
+    const totalPages = Math.ceil(totalRecords / collegesPerPage);
+    const maxVisiblePages = 5; // Maximum number of pages to display
+    const pageNumbers = [];
+
+    if (totalPages <= maxVisiblePages) {
+      // Display all pages if total pages are less than or equal to maxVisiblePages
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(
+          <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => paginate(i)}>
+              {i}
+            </button>
+          </li>
+        );
+      }
+    } else {
+      // Implementing ellipsis pagination
+      let startPage, endPage;
+      if (currentPage <= Math.floor(maxVisiblePages / 2)) {
+        startPage = 1;
+        endPage = maxVisiblePages;
+      } else if (currentPage + Math.floor(maxVisiblePages / 2) >= totalPages) {
+        startPage = totalPages - maxVisiblePages + 1;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - Math.floor(maxVisiblePages / 2);
+        endPage = currentPage + Math.floor(maxVisiblePages / 2);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(
+          <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => paginate(i)}>
+              {i}
+            </button>
+          </li>
+        );
+      }
+
+      // Adding ellipses at the beginning if necessary
+      if (startPage > 1) {
+        pageNumbers.unshift(
+          <li key={0} className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+      }
+
+      // Adding ellipses at the end if necessary
+      if (endPage < totalPages) {
+        pageNumbers.push(
+          <li key={totalPages + 1} className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+      }
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <div>
       <AdminNavbar />
       <div className="container">
         <div className="row g-3">
-         {/* search college */}
-         <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                        <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Search college" name="term" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                            <div className="input-group-append">
-                                <button className="btn btn-success" type="button" onClick={searchColleges}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
+          <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+            <div className="input-group">
+              <input type="text" className="form-control" placeholder="Search college" name="term" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+              <div className="input-group-append">
+                <button className="btn btn-success" type="button" onClick={searchColleges}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+       
         <div className="row g-3">
           {totalRecords === 0 ? (
             <div>
@@ -168,20 +229,14 @@ const ViewCollege = () => {
                   Showing {indexOfFirstCollege + 1} to {Math.min(indexOfLastCollege, totalRecords)} of {totalRecords} records
                 </span>
                 <ul className="pagination">
-                  {Array.from({ length: Math.ceil(totalRecords / collegesPerPage) }, (_, i) => (
-                    <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                      <button onClick={() => paginate(i + 1)} className="page-link">
-                        {i + 1}
-                      </button>
-                    </li>
-                  ))}
+                  {renderPageNumbers()}
                 </ul>
               </div>
             </div>
           )}
         </div>
       </div>
-    </div>
+      </div>
     </div>
   );
 };

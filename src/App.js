@@ -91,6 +91,8 @@ import AddPublicSession from './components/Admin/AddPublicSession';
 import ViewPublicSession from './components/Admin/ViewPublicSession';
 import MarkAttendencePublic from './components/Admin/MarkAttendencePublic';
 import ViewAttendencePublic from './components/Admin/ViewAttendencePublic';
+import UpdatePrivateEvent from './components/Admin/UpdatePrivateEvent';
+import UpdatePublicEvent from './components/Admin/UpdatePublicEvent';
 
 
 
@@ -192,6 +194,8 @@ function App() {
         <Route path='/viewpublicsession' element={<ViewPublicSession/>}/>
         <Route path='/markattendencepublic' element={<MarkAttendencePublic/>}/>
         <Route path='/viewattendencepublic' element={<ViewAttendencePublic/>}/>
+        <Route path='/updateprivateevent' element={<UpdatePrivateEvent/>}/>
+        <Route path='/updatepublicevent' element={<UpdatePublicEvent/>}/>
 
 
       </Routes>

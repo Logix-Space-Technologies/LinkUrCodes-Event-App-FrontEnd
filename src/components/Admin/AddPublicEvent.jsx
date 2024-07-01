@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import '../../config'
@@ -20,12 +20,14 @@ const AddPublicEvent = () => {
         event_syllabus: "",
         event_venue: "",
         event_addedby: sessionStorage.getItem("adminid"),
-        event_updatedby:sessionStorage.getItem("adminid")
+        event_updatedby: sessionStorage.getItem("adminid")
     });
+    const imageRef = useRef(null);
+    const pdfRef = useRef(null);
 
     const inputHandler = (event) => {
         const { name, value, files } = event.target;
-        if (name === 'image' || name=== 'pdf') {
+        if (name === 'image' || name === 'pdf') {
             setInput({ ...input, [name]: files[0] });
         } else {
             setInput({ ...input, [name]: value });
@@ -56,13 +58,13 @@ const AddPublicEvent = () => {
                     event_public_online: "",
                     event_public_offline: "",
                     event_public_recorded: "",
-                    image: null,
-                    pdf: null,
                     event_syllabus: "",
                     event_venue: "",
                     event_addedby: sessionStorage.getItem("adminid"),
-                    event_updatedby:sessionStorage.getItem("adminid")
+                    event_updatedby: sessionStorage.getItem("adminid")
                 });
+                imageRef.current.value = null;
+                pdfRef.current.value = null;
             } else if (response.data.status === "Unauthorized user") {
                 alert("Unauthorized access");
             } else {
@@ -77,17 +79,19 @@ const AddPublicEvent = () => {
                     event_public_online: "",
                     event_public_offline: "",
                     event_public_recorded: "",
-                    image: null,
-                    pdf: null,
                     event_syllabus: "",
                     event_venue: "",
                     event_addedby: sessionStorage.getItem("adminid"),
-                    event_updatedby:sessionStorage.getItem("adminid")
+                    event_updatedby: sessionStorage.getItem("adminid")
                 });
+                imageRef.current.value = null;
+                pdfRef.current.value = null;
             }
         }).catch(error => {
             console.error('Error adding event:', error.message);
-            alert("Something went wrong" + error.message);
+            alert("Something went wrong");
+            imageRef.current.value = null;
+            pdfRef.current.value = null;
         });
     };
 
@@ -134,11 +138,11 @@ const AddPublicEvent = () => {
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">Event Image</label>
-                        <input type="file" className="form-control" name='image' onChange={inputHandler} />
+                        <input type="file" className="form-control" name='image' ref={imageRef} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="pdf" className="form-label">Syllabus</label>
-                        <input type="file" className="form-control" name='pdf' onChange={inputHandler} />
+                        <input type="file" className="form-control" name='pdf' ref={pdfRef} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="venue" className="form-label">Event Venue</label>

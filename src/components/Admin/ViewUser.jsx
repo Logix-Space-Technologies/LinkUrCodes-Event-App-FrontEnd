@@ -70,12 +70,72 @@ const ViewUser = () => {
         getData();
     }, []);
 
+    //pagination logic
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const usersToDisplay = searchClicked ? searchResults : data;
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        const totalPageNumbers = Math.ceil(usersToDisplay.length / postsPerPage);
+        const siblingCount = 1; // Number of pages to show around the current page
+
+        if (totalPageNumbers <= 5) {
+            // Show all pages if total pages is less than or equal to the maximum pages to show
+            for (let i = 1; i <= totalPageNumbers; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+        } else {
+            // Show the first page, last page, and a few pages around the current page
+            const startPage = Math.max(2, currentPage - siblingCount);
+            const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
+
+            pageNumbers.push(
+                <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(1)} className="page-link">
+                        1
+                    </button>
+                </li>
+            );
+
+            if (startPage > 2) {
+                pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+
+            if (endPage < totalPageNumbers - 1) {
+                pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            pageNumbers.push(
+                <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
+                    <button onClick={() => paginate(totalPageNumbers)} className="page-link">
+                        {totalPageNumbers}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
 
     return (
         <div>
@@ -124,16 +184,16 @@ const ViewUser = () => {
                                             <td>{value.user_qualification}</td>
                                             <td>{value.user_skills}</td>
                                             <td>
-                                            {value.user_delete_status === 0 ? (
-                                               <button className="btn btn-danger" onClick={() => { deleteUser(value.user_id) }} >
-                                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                   <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H75a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5" />
-                                               </svg>
-                                               </button>
-                                            ) : (
-                                                <span className="badge text-bg-danger">Deleted</span>
-                                            )}
-                                                </td>
+                                                {value.user_delete_status === 0 ? (
+                                                    <button className="btn btn-danger" onClick={() => { deleteUser(value.user_id) }} >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H75a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5" />
+                                                        </svg>
+                                                    </button>
+                                                ) : (
+                                                    <span className="badge text-bg-danger">Deleted</span>
+                                                )}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -144,13 +204,7 @@ const ViewUser = () => {
                                 Showing {indexOfFirstPost + 1} to {Math.min(indexOfLastPost, usersToDisplay.length)} of {usersToDisplay.length} records
                             </span>
                             <ul className="pagination">
-                                {Array.from({ length: Math.ceil(usersToDisplay.length / postsPerPage) }, (_, i) => (
-                                    <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                        <button onClick={() => paginate(i + 1)} className="page-link">
-                                            {i + 1}
-                                        </button>
-                                    </li>
-                                ))}
+                                {renderPageNumbers()}
                             </ul>
                         </div>
                     </div>
@@ -161,4 +215,3 @@ const ViewUser = () => {
 };
 
 export default ViewUser;
-

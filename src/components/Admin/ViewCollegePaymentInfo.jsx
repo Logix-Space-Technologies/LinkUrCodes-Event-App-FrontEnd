@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import AdminNavbar from './AdminNavbar'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import AdminNavbar from './AdminNavbar';
+import axios from 'axios';
 
 const ViewCollegePaymentInfo = () => {
-    const apiUrl = global.config.urls.api.server + "/api/payment/viewPaymentsCollege"
-    const [data, setData] = useState([])
+    const apiUrl = global.config.urls.api.server + "/api/payment/viewPaymentsCollege";
+    const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
-    
 
     const getData = () => {
         axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -27,6 +26,23 @@ const ViewCollegePaymentInfo = () => {
                 console.error('Error fetching data:', error);
             });
     };
+    const formattedDateTime = (isoString) => {
+        const d = new Date(isoString);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const year = d.getFullYear();
+        
+        let hours = d.getHours();
+        const minutes = String(d.getMinutes()).padStart(2, '0');
+        const seconds = String(d.getSeconds()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        hours = String(hours).padStart(2, '0');
+    
+        return `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+    }
 
     useEffect(() => { getData() }, []);
 
@@ -37,6 +53,38 @@ const ViewCollegePaymentInfo = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    // Ellipsis logic for pagination
+    const pageNumbers = [];
+    const totalPages = Math.ceil(totalRecords / itemsPerPage);
+    const maxPageNumbersToShow = 5;
+
+    if (totalPages <= maxPageNumbersToShow) {
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
+    } else {
+        const startPage = Math.max(currentPage - 2, 1);
+        const endPage = Math.min(currentPage + 2, totalPages);
+
+        if (startPage > 1) {
+            pageNumbers.push(1);
+            if (startPage > 2) {
+                pageNumbers.push('...');
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                pageNumbers.push('...');
+            }
+            pageNumbers.push(totalPages);
+        }
+    }
+
     return (
         <div>
             <AdminNavbar />
@@ -46,7 +94,7 @@ const ViewCollegePaymentInfo = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <div class="alert alert-warning" role="alert">
+                                    <div className="alert alert-warning" role="alert">
                                         No logs found
                                     </div>
                                 </center>
@@ -70,7 +118,7 @@ const ViewCollegePaymentInfo = () => {
                                                 <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
                                                 <td>{value.College}</td>
                                                 <td>{value.Event}</td>
-                                                <td>{value.Date}</td>
+                                                <td>{formattedDateTime(value.Date)}</td>
                                                 <td>{value.Amount}</td>
                                                 <td>{value.Invoice}</td>
                                             </tr>
@@ -82,11 +130,15 @@ const ViewCollegePaymentInfo = () => {
                                         Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalRecords)} of {totalRecords} records
                                     </span>
                                     <ul className="pagination">
-                                        {Array.from({ length: Math.ceil(totalRecords / itemsPerPage) }, (_, i) => (
-                                            <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                                <button onClick={() => paginate(i + 1)} className="page-link">
-                                                    {i + 1}
-                                                </button>
+                                        {pageNumbers.map((page, index) => (
+                                            <li key={index} className={`page-item ${currentPage === page ? 'active' : ''} ${page === '...' ? 'disabled' : ''}`}>
+                                                {page === '...' ? (
+                                                    <span className="page-link">...</span>
+                                                ) : (
+                                                    <button onClick={() => paginate(page)} className="page-link">
+                                                        {page}
+                                                    </button>
+                                                )}
                                             </li>
                                         ))}
                                     </ul>
@@ -97,7 +149,7 @@ const ViewCollegePaymentInfo = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default ViewCollegePaymentInfo
+export default ViewCollegePaymentInfo;

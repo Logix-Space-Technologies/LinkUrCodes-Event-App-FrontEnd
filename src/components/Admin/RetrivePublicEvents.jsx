@@ -45,6 +45,14 @@ const RetrivePublicEvents = () => {
 
   useEffect(() => { getData() }, [])
 
+  const formattedDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+}
+
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
@@ -90,14 +98,14 @@ const RetrivePublicEvents = () => {
                         <td>{value.event_public_name}</td>
                         <td>{value.event_public_amount}</td>
                         <td>{value.event_public_description}</td>
-                        <td>{value.event_public_date}</td>
+                        <td>{formattedDate(value.event_public_date)}</td>
                         <td>{value.event_public_time}</td>
                         <td>{value.event_syllabus}</td>
                         <td>{value.event_venue}</td>
                         <td>{value.event_addedby}</td>
                         <td>{value.event_updatedby}</td>
-                        <td>{value.event_added_date}</td>
-                        <td>{value.event_updated_date}</td>
+                        <td>{formattedDate(value.event_added_date)}</td>
+                        <td>{formattedDate(value.event_updated_date)}</td>
                         <td><button className="btn btn-success" onClick={() => { retrieveEvent(value.event_public_id) }} >
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z" />

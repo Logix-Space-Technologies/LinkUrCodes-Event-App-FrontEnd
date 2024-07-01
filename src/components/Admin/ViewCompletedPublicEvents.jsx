@@ -27,6 +27,14 @@ const ViewCompletedPublicEvents = () => {
 
     useEffect(() => { getData() }, [])
 
+    const formattedDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
     // Pagination logic
     const indexOfLastEvent = currentPage * eventsPerPage
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
@@ -37,7 +45,64 @@ const ViewCompletedPublicEvents = () => {
         setCurrentPage(pageNumber)
     }
 
-   
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        const totalPageNumbers = Math.ceil(totalEvents / eventsPerPage);
+        const siblingCount = 1; // Number of pages to show around the current page
+
+        if (totalPageNumbers <= 5) {
+            // Show all pages if total pages is less than or equal to the maximum pages to show
+            for (let i = 1; i <= totalPageNumbers; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+        } else {
+            // Show the first page, last page, and a few pages around the current page
+            const startPage = Math.max(2, currentPage - siblingCount);
+            const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
+
+            pageNumbers.push(
+                <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(1)} className="page-link">
+                        1
+                    </button>
+                </li>
+            );
+
+            if (startPage > 2) {
+                pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+
+            if (endPage < totalPageNumbers - 1) {
+                pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            pageNumbers.push(
+                <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
+                    <button onClick={() => paginate(totalPageNumbers)} className="page-link">
+                        {totalPageNumbers}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
 
     return (
         <div>
@@ -80,7 +145,7 @@ const ViewCompletedPublicEvents = () => {
                                                     <td><img src={`http://localhost:8085/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                                     <td>{value.event_public_description}</td>
                                                     <td>{value.event_public_amount}</td>
-                                                    <td>{value.event_public_date}</td>
+                                                    <td>{formattedDate(value.event_public_date)}</td>
                                                     <td>{value.event_public_time}</td>
                                                     <td>{value.event_venue}</td>
                                                     <td>{value.event_public_duration}</td>
@@ -100,13 +165,7 @@ const ViewCompletedPublicEvents = () => {
                             </span>
                             <nav>
                                 <ul className="pagination">
-                                    {Array.from({ length: Math.ceil(totalEvents / eventsPerPage) }, (_, i) => (
-                                        <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                            <button onClick={() => paginate(i + 1)} className="page-link">
-                                                {i + 1}
-                                            </button>
-                                        </li>
-                                    ))}
+                                    {renderPageNumbers()}
                                 </ul>
                             </nav>
                         </div>
