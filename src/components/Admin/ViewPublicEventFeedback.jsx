@@ -4,21 +4,20 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../config';
 
-const ViewEventFeedback = () => {
+const ViewPublicEventFeedback = () => {
     const apiUrl = global.config.urls.api.server + "/api/feedback/viewallfeedbackuser";
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
-
     const getData = () => {
         axios.post(apiUrl,
-            { feedback_id: sessionStorage.getItem("feedbackID") },
+            { feedback_event_id: sessionStorage.getItem("FeedbackEvent_ID") },
             { headers: { token: sessionStorage.getItem("admintoken") } }
         ).then((response) => {
-            if (Array.isArray(response.data.data)) {
-                setData(response.data.data);
-                setTotalRecords(response.data.data.length);
+            if (Array.isArray(response.data)) {
+                setData(response.data);
+                setTotalRecords(response.data.length);
             } else if (response.data.length === 0) {
                 setData([]);
                 setTotalRecords(0);
@@ -79,11 +78,11 @@ const ViewEventFeedback = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                <div class="alert alert-warning" role="alert">
+                                    <div class="alert alert-warning" role="alert">
                                         No feedbacks found
                                     </div>
                                 </center>
-                                
+
                             </div>
                         ) : (
                             <div>
@@ -123,7 +122,7 @@ const ViewEventFeedback = () => {
                                 </div>
                             </div>
                         )}
-                        <Link className="link" to="/viewprivateevent">Back to events</Link>
+                        <Link className="link" to="/viewcompletedpublicevents">Back to events</Link>
                     </div>
                 </div>
             </div>
@@ -131,4 +130,4 @@ const ViewEventFeedback = () => {
     );
 };
 
-export default ViewEventFeedback;
+export default ViewPublicEventFeedback;

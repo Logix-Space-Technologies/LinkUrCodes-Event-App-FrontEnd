@@ -33,7 +33,7 @@ const ViewCompletedPrivateEvents = () => {
         navigate('/viewcompletedprivateeventsessions')
     }
     const viewFeedback = (id) => {
-        sessionStorage.setItem("feedbackID", id)
+        sessionStorage.setItem("feedbackEventID", id)
         navigate('/vieweventfeedback')
     }
 

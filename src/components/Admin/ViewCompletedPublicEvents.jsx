@@ -25,6 +25,11 @@ const ViewCompletedPublicEvents = () => {
         )
     }
 
+    const viewFeedback = (id) => {
+        sessionStorage.setItem("FeedbackEvent_ID", id)
+        navigate('/viewpubliceventfeedback')
+    }
+
     useEffect(() => { getData() }, [])
 
     const formattedDate = (date) => {
@@ -135,6 +140,7 @@ const ViewCompletedPublicEvents = () => {
                                             <th scope="col">Offline Sessions</th>
                                             <th scope="col">Recorded Sessions</th>
                                             <th scope="col" >Sessions</th>
+                                            <th scope="col" >Feedback</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -153,6 +159,7 @@ const ViewCompletedPublicEvents = () => {
                                                     <td>{value.event_public_offline}</td>
                                                     <td>{value.event_public_recorded}</td>
                                                     <td><button className="btn btn-secondary">View</button></td>
+                                                    <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_public_id) }}>View</button></td>
                                         </tr>
                                     ))}
                                 </tbody>
