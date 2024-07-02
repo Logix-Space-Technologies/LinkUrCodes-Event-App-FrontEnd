@@ -78,6 +78,7 @@ import ViewAttendence from './components/Admin/ViewAttendence';
 import UpdateFaculty from './components/College/UpdateFaculty';
 import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
+import SearchEvent from './components/User/SearchEvent';
 
 import AddCollegePaymentInfo from './components/Admin/AddCollegePaymentInfo';
 import ViewCollegePaymentInfo from './components/Admin/ViewCollegePaymentInfo';
