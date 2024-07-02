@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../config'
 
@@ -152,9 +152,6 @@ const ViewAttendence = () => {
                                 </div>
                             </div>
                         )}
-                    </div>
-                    <div className="col col-12">
-                        <Link to="/eventviewsession">Back to session</Link>
                     </div>
                 </div>
             </div>

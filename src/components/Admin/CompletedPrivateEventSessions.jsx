@@ -32,7 +32,7 @@ const CompletedPrivateEventSessions = () => {
 
     const viewAttendance = (id) => {
         sessionStorage.setItem("session_ID", id)
-        navigate('/viewattendance')
+        navigate('/viewattendence')
     }
 
     useEffect(() => { getData() }, [])
@@ -151,8 +151,8 @@ const CompletedPrivateEventSessions = () => {
                                             <td>{value.session_start_time}</td>
                                             <td>{value.type}</td>
                                             <td>{value.venue}</td>
-                                            <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.feedback_id) }}>View</button></td>
-                                            <td><button className="btn btn-warning" onClick={() => { viewAttendance(value.feedback_id) }}>View</button></td>
+                                            <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_private_id) }}>View</button></td>
+                                            <td><button className="btn btn-warning" onClick={() => { viewAttendance(value.session_private_id) }}>View</button></td>
                                         </tr>
                                     ))}
                                 </tbody>

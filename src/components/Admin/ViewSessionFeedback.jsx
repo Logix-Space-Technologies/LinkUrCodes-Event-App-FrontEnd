@@ -13,8 +13,8 @@ const ViewSessionFeedback = () => {
     const getData = () => {
         axios.post(apiUrl, { session_id: sessionStorage.getItem("sessionID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
-                if (Array.isArray(response.data.data)) {
-                    setData(response.data.data);
+                if (Array.isArray(response.data)) {
+                    setData(response.data);
                 } else if (response.data.length === 0) {
                     setData([]);
                 }
@@ -121,7 +121,6 @@ const ViewSessionFeedback = () => {
                                 </div>
                             </div>
                         )}
-                        <Link className="link" to="/eventviewsession">Back to sessions</Link>
                     </div>
                 </div>
             </div>
