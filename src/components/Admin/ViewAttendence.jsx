@@ -5,7 +5,7 @@ import axios from 'axios';
 import '../../config'
 
 const ViewAttendence = () => {
-    const apiUrl = global.config.urls.api.server + "/api/attendence/viewattendence"
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewattendence";
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +39,63 @@ const ViewAttendence = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        const totalPageNumbers = Math.ceil(totalRecords / itemsPerPage);
+        const siblingCount = 1; // Number of pages to show around the current page
+
+        if (totalPageNumbers <= 5) {
+            for (let i = 1; i <= totalPageNumbers; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+        } else {
+            const startPage = Math.max(2, currentPage - siblingCount);
+            const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
+
+            pageNumbers.push(
+                <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(1)} className="page-link">
+                        1
+                    </button>
+                </li>
+            );
+
+            if (startPage > 2) {
+                pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+
+            if (endPage < totalPageNumbers - 1) {
+                pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            pageNumbers.push(
+                <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
+                    <button onClick={() => paginate(totalPageNumbers)} className="page-link">
+                        {totalPageNumbers}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
+
     return (
         <div>
             <AdminNavbar />
@@ -48,7 +105,7 @@ const ViewAttendence = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <div class="alert alert-warning" role="alert">
+                                    <div className="alert alert-warning" role="alert">
                                         No Students found
                                     </div>
                                 </center>
@@ -90,19 +147,15 @@ const ViewAttendence = () => {
                                         Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalRecords)} of {totalRecords} records
                                     </span>
                                     <ul className="pagination">
-                                        {Array.from({ length: Math.ceil(totalRecords / itemsPerPage) }, (_, i) => (
-                                            <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                                <button onClick={() => paginate(i + 1)} className="page-link">
-                                                    {i + 1}
-                                                </button>
-                                            </li>
-                                        ))}
+                                        {renderPageNumbers()}
                                     </ul>
                                 </div>
                             </div>
                         )}
                     </div>
-                    <Link to="/eventviewsession">Back to session</Link>
+                    <div className="col col-12">
+                        <Link to="/eventviewsession">Back to session</Link>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,56 +5,38 @@ import { Link } from 'react-router-dom'
 import '../../config'
 
 const CollegeAddStudent = () => {
-    const apiUrl = global.config.urls.api.server + "/api/student/addstudent"
-    const [input, setInput] = useState(
-        {
-            "student_name": "",
-            "student_rollno": "",
-            "student_admno": "",
-            "student_email": "",
-            "student_phone_no": "",
-            "event_id": sessionStorage.getItem("eventID"),
-            "student_college_id": sessionStorage.getItem("collegeid")
+    const apiUrl = global.config.urls.api.server + "/api/student/addstudent";
+    const initialInputState = {
+        "student_name": "",
+        "student_rollno": "",
+        "student_admno": "",
+        "student_email": "",
+        "student_phone_no": "",
+        "event_id": sessionStorage.getItem("eventID"),
+        "student_college_id": sessionStorage.getItem("collegeid")
+    };
+    const [input, setInput] = useState(initialInputState);
 
-        }
-    )
     const inputHandler = (event) => {
-        setInput({ ...input, [event.target.name]: event.target.value })
+        setInput({ ...input, [event.target.name]: event.target.value });
     }
-    console.log("input", input)
+
     const readValues = () => {
-        console.log(input)
         axios.post(apiUrl, input, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } }).then(
             (response) => {
                 if (response.data.status === "success") {
-                    alert("Successfully registered")
-                    setInput(
-                        {
-                            "student_name": "",
-                            "student_rollno": "",
-                            "student_admno": "",
-                            "student_email": "",
-                            "student_phone_no": ""
-                        }
-                    )
+                    alert("Successfully registered");
+                } else {
+                    alert("Something went wrong");
                 }
-                else {
-                    alert("Something went wrong")
-                    setInput(
-                        {
-                            "student_name": "",
-                            "student_rollno": "",
-                            "student_admno": "",
-                            "student_email": "",
-                            "student_phone_no": ""
-                        }
-                    )
-
-                }
+                setInput({ ...initialInputState });
             }
-        )
+        ).catch((error) => {
+            alert("Error: " + error.message);
+            setInput({ ...initialInputState });
+        });
     }
-    
+
     return (
         <div>
             <CollegeNavBar />
@@ -83,8 +65,8 @@ const CollegeAddStudent = () => {
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <button className="btn btn-success" onClick={readValues} >Submit</button>
                     </div>
-
-                </div><br></br>
+                </div>
+                <br></br>
                 <div className="row g-3">
                     <Link to="/collegeaddstudexcel">Add via Excel Sheet</Link> 
                 </div>
@@ -93,4 +75,4 @@ const CollegeAddStudent = () => {
     )
 }
 
-export default CollegeAddStudent
+export default CollegeAddStudent;

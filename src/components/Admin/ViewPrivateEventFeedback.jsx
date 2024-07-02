@@ -1,50 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import '../../config';
 
-const ViewCollegePaymentInfo = () => {
-    const apiUrl = global.config.urls.api.server + "/api/payment/viewPaymentsCollege";
+const ViewPrivateEventFeedback = () => {
+    const apiUrl = global.config.urls.api.server + "/api/feedback/viewallfeedbackstud";
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
-
     const getData = () => {
-        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } })
-            .then((response) => {
-                if (Array.isArray(response.data.data)) {
-                    setData(response.data.data);
-                    setTotalRecords(response.data.data.length);
-                } else if (response.data.data.length === 0) {
-                    setData([]);
-                    setTotalRecords(0);
-                } else {
-                    alert("Something went wrong!");
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        axios.post(apiUrl,
+            { feedback_event_id: sessionStorage.getItem("feedbackEventID") },
+            { headers: { token: sessionStorage.getItem("admintoken") } }
+        ).then((response) => {
+            if (Array.isArray(response.data)) {
+                setData(response.data);
+                setTotalRecords(response.data.length);
+            } else if (response.data.length === 0) {
+                setData([]);
+                setTotalRecords(0);
+            }
+        }).catch((error) => {
+            console.error("Error fetching data: ", error);
+            alert("Error fetching data. Please try again later.");
+        });
     };
-    const formattedDateTime = (isoString) => {
-        const d = new Date(isoString);
-        const day = String(d.getDate()).padStart(2, '0');
-        const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-        const year = d.getFullYear();
-        
-        let hours = d.getHours();
-        const minutes = String(d.getMinutes()).padStart(2, '0');
-        const seconds = String(d.getSeconds()).padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-    
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        hours = String(hours).padStart(2, '0');
-    
-        return `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
-    }
 
-    useEffect(() => { getData() }, []);
+    useEffect(() => { getData(); }, []);
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -94,10 +78,11 @@ const ViewCollegePaymentInfo = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <div className="alert alert-warning" role="alert">
-                                        No logs found
+                                    <div class="alert alert-warning" role="alert">
+                                        No feedbacks found
                                     </div>
                                 </center>
+
                             </div>
                         ) : (
                             <div>
@@ -105,22 +90,14 @@ const ViewCollegePaymentInfo = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">College Name</th>
-                                            <th scope="col">Event Name</th>
-                                            <th scope="col">Date & Time</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Invoice No</th>
+                                            <th scope="col">Feedback</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {currentItems.map((value, index) => (
+                                        {currentItems.map((feedback, index) => (
                                             <tr key={index}>
-                                                <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                                                <td>{value.College}</td>
-                                                <td>{value.Event}</td>
-                                                <td>{formattedDateTime(value.Date)}</td>
-                                                <td>{value.Amount}</td>
-                                                <td>{value.Invoice}</td>
+                                                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                                                <td>{feedback.feedback_content}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -145,11 +122,12 @@ const ViewCollegePaymentInfo = () => {
                                 </div>
                             </div>
                         )}
+                        <Link className="link" to="/viewcompletedprivateevents">Back to events</Link>
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
-export default ViewCollegePaymentInfo;
+export default ViewPrivateEventFeedback;

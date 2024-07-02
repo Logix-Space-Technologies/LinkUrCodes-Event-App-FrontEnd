@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../../config'
+import '../../config';
 
 const ViewAttendencePublic = () => {
-    const apiUrl = global.config.urls.api.server + "/api/attendence/viewUserAttendence"
-    const navigate = useNavigate();
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewUserAttendence";
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     const getData = () => {
         axios.post(apiUrl, { session_id: sessionStorage.getItem("sessionPublic_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -30,14 +33,73 @@ const ViewAttendencePublic = () => {
             });
     };
 
-    useEffect(() => { getData() }, []);
-
-    // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const renderPageNumbers = () => {
+        const totalPages = Math.ceil(totalRecords / itemsPerPage);
+        const maxVisiblePages = 5; // Maximum number of pages to display
+        const pageNumbers = [];
+
+        if (totalPages <= maxVisiblePages) {
+            // Display all pages if total pages are less than or equal to maxVisiblePages
+            for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button className="page-link" onClick={() => paginate(i)}>
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+        } else {
+            // Implementing ellipsis pagination
+            let startPage, endPage;
+            if (currentPage <= Math.floor(maxVisiblePages / 2)) {
+                startPage = 1;
+                endPage = maxVisiblePages;
+            } else if (currentPage + Math.floor(maxVisiblePages / 2) >= totalPages) {
+                startPage = totalPages - maxVisiblePages + 1;
+                endPage = totalPages;
+            } else {
+                startPage = currentPage - Math.floor(maxVisiblePages / 2);
+                endPage = currentPage + Math.floor(maxVisiblePages / 2);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button className="page-link" onClick={() => paginate(i)}>
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+
+            // Adding ellipses at the beginning if necessary
+            if (startPage > 1) {
+                pageNumbers.unshift(
+                    <li key={0} className="page-item disabled">
+                        <span className="page-link">...</span>
+                    </li>
+                );
+            }
+
+            // Adding ellipses at the end if necessary
+            if (endPage < totalPages) {
+                pageNumbers.push(
+                    <li key={totalPages + 1} className="page-item disabled">
+                        <span className="page-link">...</span>
+                    </li>
+                );
+            }
+        }
+
+        return pageNumbers;
+    };
 
     return (
         <div>
@@ -48,7 +110,7 @@ const ViewAttendencePublic = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <div class="alert alert-warning" role="alert">
+                                    <div className="alert alert-warning" role="alert">
                                         No Users found
                                     </div>
                                 </center>
@@ -90,19 +152,15 @@ const ViewAttendencePublic = () => {
                                         Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalRecords)} of {totalRecords} records
                                     </span>
                                     <ul className="pagination">
-                                        {Array.from({ length: Math.ceil(totalRecords / itemsPerPage) }, (_, i) => (
-                                            <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                                <button onClick={() => paginate(i + 1)} className="page-link">
-                                                    {i + 1}
-                                                </button>
-                                            </li>
-                                        ))}
+                                        {renderPageNumbers()}
                                     </ul>
                                 </div>
                             </div>
                         )}
                     </div>
-                    <Link to="/viewpublicsession">Back to Session</Link>
+                    <div className="col col-12">
+                        <Link to="/viewpublicsession">Back to Session</Link>
+                    </div>
                 </div>
             </div>
         </div>

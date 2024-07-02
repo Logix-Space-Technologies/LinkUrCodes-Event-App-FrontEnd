@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -23,10 +23,12 @@ const AddPrivateEvent = () => {
         event_private_clgid: "",
         event_addedby: sessionStorage.getItem("adminid")
     });
+    const imageRef = useRef(null);
+    const pdfRef = useRef(null);
 
     const inputHandler = (event) => {
         const { name, value, files } = event.target;
-        if (name === 'image' || name=== 'pdf') {
+        if (name === 'image' || name === 'pdf') {
             setInput({ ...input, [name]: files[0] });
         } else {
             setInput({ ...input, [name]: value });
@@ -57,11 +59,11 @@ const AddPrivateEvent = () => {
                     event_private_online: "",
                     event_private_offline: "",
                     event_private_recorded: "",
-                    image: null,
-                    pdf: null,
                     event_private_clgid: "",
                     event_addedby: sessionStorage.getItem("adminid")
                 });
+                imageRef.current.value = null;
+                pdfRef.current.value = null;
             } else if (response.data.status === "Unauthorized user") {
                 alert("Unauthorized access");
             } else {
@@ -76,22 +78,23 @@ const AddPrivateEvent = () => {
                     event_private_online: "",
                     event_private_offline: "",
                     event_private_recorded: "",
-                    image: null,
-                    pdf: null,
                     event_private_clgid: "",
                     event_addedby: sessionStorage.getItem("adminid")
                 });
+                imageRef.current.value = null;
+                pdfRef.current.value = null;
             }
         }).catch(error => {
             console.error('Error adding event:', error.message);
-            alert("Something went wrong" + error.message);
+            alert("Something went wrong");
+            imageRef.current.value = null;
+                pdfRef.current.value = null;
         });
     };
     const readColleges = () => {
         axios.post(apiUrl1, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
             (response) => {
                 getData(response.data)
-                console.log("data", data)
             }
         )
     }
@@ -139,11 +142,11 @@ const AddPrivateEvent = () => {
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">Event Image</label>
-                        <input type="file" className="form-control" name='image' onChange={inputHandler} />
+                        <input type="file" className="form-control" name='image' ref={imageRef} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="pdf" className="form-label">Syllabus</label>
-                        <input type="file" className="form-control" name='pdf' onChange={inputHandler} />
+                        <input type="file" className="form-control" name='pdf' ref={pdfRef} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">College</label>

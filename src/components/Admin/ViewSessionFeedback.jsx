@@ -5,7 +5,7 @@ import axios from 'axios'
 import '../../config'
 
 const ViewSessionFeedback = () => {
-    const apiUrl = global.config.urls.api.server + "/api/feedback/viewSessionStudFeedback"
+    const apiUrl = global.config.urls.api.server + "/api/feedback/viewSessionStudFeedback";
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10); // Number of records per page
@@ -34,6 +34,39 @@ const ViewSessionFeedback = () => {
         getData();
     }, []);
 
+    const pageNumbers = [];
+    const totalPages = Math.ceil(data.length / postsPerPage);
+    const maxPageNumbersToShow = 5;
+    const halfPageNumbersToShow = Math.floor(maxPageNumbersToShow / 2);
+
+    if (totalPages <= maxPageNumbersToShow) {
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
+    } else {
+        if (currentPage <= halfPageNumbersToShow + 1) {
+            for (let i = 1; i <= maxPageNumbersToShow - 1; i++) {
+                pageNumbers.push(i);
+            }
+            pageNumbers.push('...');
+            pageNumbers.push(totalPages);
+        } else if (currentPage > totalPages - halfPageNumbersToShow) {
+            pageNumbers.push(1);
+            pageNumbers.push('...');
+            for (let i = totalPages - (maxPageNumbersToShow - 2); i <= totalPages; i++) {
+                pageNumbers.push(i);
+            }
+        } else {
+            pageNumbers.push(1);
+            pageNumbers.push('...');
+            for (let i = currentPage - halfPageNumbersToShow; i <= currentPage + halfPageNumbersToShow; i++) {
+                pageNumbers.push(i);
+            }
+            pageNumbers.push('...');
+            pageNumbers.push(totalPages);
+        }
+    }
+
     return (
         <div>
             <AdminNavbar />
@@ -43,7 +76,7 @@ const ViewSessionFeedback = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <div class="alert alert-warning" role="alert">
+                                    <div className="alert alert-warning" role="alert">
                                         No feedbacks found
                                     </div>
                                 </center>
@@ -71,17 +104,24 @@ const ViewSessionFeedback = () => {
                                         Showing {indexOfFirstPost + 1} to {Math.min(indexOfLastPost, data.length)} of {data.length} records
                                     </span>
                                     <ul className="pagination">
-                                        {Array.from({ length: Math.ceil(data.length / postsPerPage) }, (_, i) => (
-                                            <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                                <button onClick={() => paginate(i + 1)} className="page-link">
-                                                    {i + 1}
-                                                </button>
-                                            </li>
-                                        ))}
+                                        {pageNumbers.map((number, index) =>
+                                            number === '...' ? (
+                                                <li key={index} className="page-item disabled">
+                                                    <span className="page-link">...</span>
+                                                </li>
+                                            ) : (
+                                                <li key={index} className={`page-item ${currentPage === number ? 'active' : ''}`}>
+                                                    <button onClick={() => paginate(number)} className="page-link">
+                                                        {number}
+                                                    </button>
+                                                </li>
+                                            )
+                                        )}
                                     </ul>
                                 </div>
                             </div>
                         )}
+                        <Link className="link" to="/eventviewsession">Back to sessions</Link>
                     </div>
                 </div>
             </div>

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import '../../config'
+import '../../config';
 
 const MarkAttendencePublic = () => {
-    const apiUrl = global.config.urls.api.server + "/api/attendence/viewUserAbsentAttendence"
-    const apiUrl1 = global.config.urls.api.server + "/api/attendence/updateUserAttendence"
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewUserAbsentAttendence";
+    const apiUrl1 = global.config.urls.api.server + "/api/attendence/updateUserAttendence";
     const [selectedRollNos, setSelectedRollNos] = useState([]);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -46,20 +46,79 @@ const MarkAttendencePublic = () => {
             .then(
                 (response) => {
                     if (response.data.status === "success") {
-                        alert("Attendence Marked");
+                        alert("Attendance Marked");
                         getData();
                     } else if (response.data.status === "No record found to update") {
-                        alert("Attendence already marked");
+                        alert("Attendance already marked");
                     } else if (response.data.status === "error") {
-                        alert("Something went wrong ! Try again !");
+                        alert("Something went wrong! Try again!");
                     } else {
-                        alert("Something went wrong ! Try again !");
+                        alert("Something went wrong! Try again!");
                     }
                 }
             );
     };
 
     useEffect(() => { getData(); }, []);
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        const totalPageNumbers = Math.ceil(data.length / postsPerPage);
+        const siblingCount = 1; // Number of pages to show around the current page
+
+        if (totalPageNumbers <= 5) {
+            // Show all pages if total pages is less than or equal to the maximum pages to show
+            for (let i = 1; i <= totalPageNumbers; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+        } else {
+            // Show the first page, last page, and a few pages around the current page
+            const startPage = Math.max(2, currentPage - siblingCount);
+            const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
+
+            pageNumbers.push(
+                <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(1)} className="page-link">
+                        1
+                    </button>
+                </li>
+            );
+
+            if (startPage > 2) {
+                pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+
+            if (endPage < totalPageNumbers - 1) {
+                pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            pageNumbers.push(
+                <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
+                    <button onClick={() => paginate(totalPageNumbers)} className="page-link">
+                        {totalPageNumbers}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
 
     return (
         <div>
@@ -70,8 +129,8 @@ const MarkAttendencePublic = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                <div class="alert alert-warning" role="alert">
-                                No users found
+                                    <div className="alert alert-warning" role="alert">
+                                        No users found
                                     </div>
                                 </center>
                             </div>
@@ -90,7 +149,7 @@ const MarkAttendencePublic = () => {
                                     <tbody>
                                         {currentData.map((value, index) => (
                                             <tr key={index}>
-                                                <th>{index + 1}</th>
+                                                <th>{indexOfFirstPost + index + 1}</th>
                                                 <td>{value.user_name}</td>
                                                 <td>{value.user_email}</td>
                                                 <td>{value.user_contact_no}</td>
@@ -109,17 +168,11 @@ const MarkAttendencePublic = () => {
                                         Showing {indexOfFirstPost + 1} to {Math.min(indexOfLastPost, data.length)} of {data.length} records
                                     </span>
                                     <ul className="pagination">
-                                        {Array.from({ length: Math.ceil(data.length / postsPerPage) }, (_, i) => (
-                                            <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                                <button onClick={() => paginate(i + 1)} className="page-link">
-                                                    {i + 1}
-                                                </button>
-                                            </li>
-                                        ))}
+                                        {renderPageNumbers()}
                                     </ul>
                                 </div>
                                 <div className="col col-12 d-flex justify-content-end">
-                                    <button className="btn btn-primary" onClick={markAttendence}>Mark Attendence</button>
+                                    <button className="btn btn-primary" onClick={markAttendence}>Mark Attendance</button>
                                 </div>
                             </div>
                         )}

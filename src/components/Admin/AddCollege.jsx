@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
 
@@ -12,6 +12,7 @@ const AddCollege = () => {
         image: null,
         college_addedby: sessionStorage.getItem("adminid")
     });
+    const imageRef = useRef(null);
     const inputHandler = (event) => {
         const { name, value, files } = event.target;
         if (name === 'image') {
@@ -40,9 +41,9 @@ const AddCollege = () => {
                     college_email: "",
                     college_phone: "",
                     college_website:"",
-                    image: null,
                     college_addedby: sessionStorage.getItem("adminid")
                 });
+                imageRef.current.value = null;
             } else if (response.data.status === "Unauthorized user") {
                 alert("Unauthorized user");
             } else {
@@ -52,13 +53,14 @@ const AddCollege = () => {
                     college_email: "",
                     college_phone: "",
                     college_website:"",
-                    image: null,
                     college_addedby: sessionStorage.getItem("adminid")
                 });
+                imageRef.current.value = null;
             }
         }).catch(error => {
             console.error('Error adding event:', error.message);
-            alert("Something went wrong: " + error.message);
+            alert("Something went wrong: ");
+            imageRef.current.value = null;
         });
     };
     
@@ -85,7 +87,7 @@ const AddCollege = () => {
                     </div>
                     <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <label htmlFor="image" className="form-label">College Image</label>
-                        <input type="file" className="form-control" name='image' onChange={inputHandler} />
+                        <input type="file" className="form-control" name='image' ref={imageRef} onChange={inputHandler} />
                     </div>
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         <button className="btn btn-success" onClick={readValues}>Add College</button>

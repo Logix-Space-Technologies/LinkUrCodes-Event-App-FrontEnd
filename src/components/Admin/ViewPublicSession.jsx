@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../../config'
+import '../../config';
 
 const ViewPublicSession = () => {
-    const apiUrl = global.config.urls.api.server + "/api/events/viewPublicSession"
-    const apiUrl2 = global.config.urls.api.server + "/api/events/setPublicSessionComplete"
+    const apiUrl = global.config.urls.api.server + "/api/events/viewPublicSession";
+    const apiUrl2 = global.config.urls.api.server + "/api/events/setPublicSessionComplete";
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [sessionsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
-    
 
     const getData = () => {
         axios.post(apiUrl, { event_public_id: sessionStorage.getItem("eventViewID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
@@ -30,7 +29,6 @@ const ViewPublicSession = () => {
             });
     };
 
-
     const markAttendence = (id) => {
         sessionStorage.setItem("session_ID", id);
         navigate('/markattendencepublic');
@@ -43,8 +41,8 @@ const ViewPublicSession = () => {
 
     const sessionComplete = (session_ID) => {
         let data = {
-            "session_public_id":session_ID
-        }
+            "session_public_id": session_ID
+        };
         axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "Unauthorized") {
@@ -67,6 +65,39 @@ const ViewPublicSession = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const pageNumbers = [];
+    const totalPages = Math.ceil(totalRecords / sessionsPerPage);
+    const maxPageNumbersToShow = 5;
+    const halfPageNumbersToShow = Math.floor(maxPageNumbersToShow / 2);
+
+    if (totalPages <= maxPageNumbersToShow) {
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
+    } else {
+        if (currentPage <= halfPageNumbersToShow + 1) {
+            for (let i = 1; i <= maxPageNumbersToShow - 1; i++) {
+                pageNumbers.push(i);
+            }
+            pageNumbers.push('...');
+            pageNumbers.push(totalPages);
+        } else if (currentPage > totalPages - halfPageNumbersToShow) {
+            pageNumbers.push(1);
+            pageNumbers.push('...');
+            for (let i = totalPages - (maxPageNumbersToShow - 2); i <= totalPages; i++) {
+                pageNumbers.push(i);
+            }
+        } else {
+            pageNumbers.push(1);
+            pageNumbers.push('...');
+            for (let i = currentPage - halfPageNumbersToShow; i <= currentPage + halfPageNumbersToShow; i++) {
+                pageNumbers.push(i);
+            }
+            pageNumbers.push('...');
+            pageNumbers.push(totalPages);
+        }
+    }
+
     return (
         <div>
             <AdminNavbar />
@@ -76,7 +107,7 @@ const ViewPublicSession = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <div class="alert alert-warning" role="alert">
+                                    <div className="alert alert-warning" role="alert">
                                         No sessions found
                                     </div>
                                 </center>
@@ -106,15 +137,15 @@ const ViewPublicSession = () => {
                                                 <td>{value.type}</td>
                                                 <td>{value.venue}</td>
                                                 <td>
-                                                {(value.is_completed === 0) ? (
+                                                    {(value.is_completed === 0) ? (
                                                         <button className="btn btn-warning" onClick={() => { markAttendence(value.session_public_id) }}>Mark</button>
                                                     ) : (
                                                         <span className="badge text-bg-success">Completed</span>
                                                     )}
-                                                    </td>
+                                                </td>
                                                 <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_public_id) }}>View</button></td>
                                                 <td>
-                                                {(value.is_completed === 0) ? (
+                                                    {(value.is_completed === 0) ? (
                                                         <button className='btn btn-success' onClick={() => { sessionComplete(value.session_public_id) }}>Done</button>
                                                     ) : (
                                                         <span className="badge text-bg-success">Completed</span>
@@ -129,13 +160,19 @@ const ViewPublicSession = () => {
                                         Showing {indexOfFirstSession + 1} to {Math.min(indexOfLastSession, totalRecords)} of {totalRecords} records
                                     </span>
                                     <ul className="pagination">
-                                        {Array.from({ length: Math.ceil(totalRecords / sessionsPerPage) }, (_, i) => (
-                                            <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                                <button onClick={() => paginate(i + 1)} className="page-link">
-                                                    {i + 1}
-                                                </button>
-                                            </li>
-                                        ))}
+                                        {pageNumbers.map((number, index) =>
+                                            number === '...' ? (
+                                                <li key={index} className="page-item disabled">
+                                                    <span className="page-link">...</span>
+                                                </li>
+                                            ) : (
+                                                <li key={index} className={`page-item ${currentPage === number ? 'active' : ''}`}>
+                                                    <button onClick={() => paginate(number)} className="page-link">
+                                                        {number}
+                                                    </button>
+                                                </li>
+                                            )
+                                        )}
                                     </ul>
                                 </div>
                             </div>
