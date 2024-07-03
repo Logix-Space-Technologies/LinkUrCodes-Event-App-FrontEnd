@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const UpdatePrivateEvent = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view_private_events_byId";
+    const apiUrl1 = global.config.urls.api.server + "/api/events/update_private_events";
     const navigate=useNavigate()
     const [input, setInput] = useState({
         event_private_id:"",
@@ -31,7 +33,7 @@ console.log("Admin",sessionStorage.getItem("adminid"))
     };
 
     const readEvents = () => {
-        axios.post("http://localhost:8085/api/events/view_private_events_byId", {
+        axios.post(apiUrl, {
             event_private_id: sessionStorage.getItem("Event_ID")
         }, {
             headers: { token: sessionStorage.getItem("admintoken") }
@@ -64,7 +66,7 @@ console.log("Admin",sessionStorage.getItem("adminid"))
             formData.append(key, input[key]);
         }
 
-        axios.post("http://localhost:8085/api/events/update_private_events", formData, {
+        axios.post(apiUrl1, formData, {
             headers: {
                 token: sessionStorage.getItem("admintoken"),
                 'Content-Type': 'multipart/form-data'
