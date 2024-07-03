@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const UpdatePublicEvent = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view_public_events_byId";
+    const apiUrl1 = global.config.urls.api.server + "/api/events/update_public_events";
     const navigate=useNavigate()
     const [input, setInput] = useState({
         event_public_id:"",
@@ -32,7 +34,7 @@ console.log("Admin",sessionStorage.getItem("adminid"))
     };
 
     const readEvents = () => {
-        axios.post("http://localhost:8085/api/events/view_public_events_byId", {
+        axios.post(apiUrl, {
             event_public_id: sessionStorage.getItem("Event_ID")
         }, {
             headers: { token: sessionStorage.getItem("admintoken") }
@@ -66,7 +68,7 @@ console.log("Admin",sessionStorage.getItem("adminid"))
             formData.append(key, input[key]);
         }
 
-        axios.post("http://localhost:8085/api/events/update_public_events", formData, {
+        axios.post(apiUrl1, formData, {
             headers: {
                 token: sessionStorage.getItem("admintoken"),
                 'Content-Type': 'multipart/form-data'
