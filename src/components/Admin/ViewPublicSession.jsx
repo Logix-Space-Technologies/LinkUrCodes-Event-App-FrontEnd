@@ -39,6 +39,11 @@ const ViewPublicSession = () => {
         navigate('/viewattendencepublic');
     };
 
+    const sessionFeedback = (id) => {
+        sessionStorage.setItem("sessionID", id);
+        navigate('/viewpublicsessionfeedback');
+    };
+
     const sessionComplete = (session_ID) => {
         let data = {
             "session_public_id": session_ID
@@ -124,6 +129,7 @@ const ViewPublicSession = () => {
                                             <th scope="col">Session Type</th>
                                             <th scope="col">Session Venue</th>
                                             <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Session Attendance</th>
+                                            <th scope="col">Session Feedback</th>
                                             <th scope="col">Is completed</th>
                                         </tr>
                                     </thead>
@@ -144,6 +150,7 @@ const ViewPublicSession = () => {
                                                     )}
                                                 </td>
                                                 <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_public_id) }}>View</button></td>
+                                                <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_public_id) }}>View Feedback</button></td>
                                                 <td>
                                                     {(value.is_completed === 0) ? (
                                                         <button className='btn btn-success' onClick={() => { sessionComplete(value.session_public_id) }}>Done</button>
