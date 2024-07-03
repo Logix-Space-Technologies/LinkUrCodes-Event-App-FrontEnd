@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import '../../config'
+import { useNavigate } from 'react-router-dom';
 
 const ViewPublicEvent = () => {
     const apiUrl = global.config.urls.api.server + "/api/events/view_active_public_events"
     const apiUrl1 = global.config.urls.api.server + "/api/events/delete_public_event"
+    const navigate=useNavigate()
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(5); // Number of events per page
@@ -17,6 +19,11 @@ const ViewPublicEvent = () => {
                 console.log("data", response.data);
             }
         );
+    };
+
+    const viewFeedback = (id) => {
+        sessionStorage.setItem("eventID", id);
+        navigate('/vieweventfeedback');
     };
 
     const deleteEvent = (id) => {
@@ -62,6 +69,7 @@ const ViewPublicEvent = () => {
                                     <th scope="col">Venue</th>
                                     <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Sessions Action</th>
                                     <th scope="col">Is completed</th>
+                                    <th scope="col">Feedback</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
@@ -81,6 +89,7 @@ const ViewPublicEvent = () => {
                                                 <td><button className="btn btn-secondary">Add</button></td>
                                                 <td><button className="btn btn-secondary">View</button></td>
                                                 <td><button className='btn btn-success'>Done</button></td>
+                                                <td><button className="btn btn-secondary" onClick={() => { viewFeedback(value.event_public_id) }}>View</button></td>
                                                 <td><button className="btn btn-danger" onClick={() => { deleteEvent(value.event_public_id) }} >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />

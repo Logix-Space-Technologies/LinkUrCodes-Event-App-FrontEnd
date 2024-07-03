@@ -65,7 +65,7 @@ const ViewEventFeedback = () => {
                                 </tbody>
                             </table>
                         )}
-                        <Link className="link" to="/viewprivateevent">Back to events</Link>
+                        <Link className="link" to="/viewpublicevent">Back to events</Link>
                     </div>
                 </div>
             </div>

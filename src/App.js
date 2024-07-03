@@ -80,6 +80,8 @@ import ViewEventFeedback from './components/Admin/ViewEventFeedback';
 import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
 import SearchEvent from './components/User/SearchEvent';
+import AddEventFeedback from './components/User/AddEventFeedback';
+import UserEvents from './components/User/UserEvents';
 
 
 
@@ -116,6 +118,7 @@ function App() {
         <Route path='/adduserfeedback' element={<AddFeedback/>}/>
         <Route path='/forgotuserpassword' element={<ForgotUserPassword/>}/>
         <Route path='/updateuserpassword' element={<UpdateUserPassword/>}/>
+        <Route path='/userregevents' element={<UserEvents/>}/>
 
         <Route path='/viewevent' element={<ViewEvents/>}/>
         
@@ -167,6 +170,7 @@ function App() {
         <Route path='/viewattendence' element={<ViewAttendence/>}/>
         <Route path='/updatefaculty' element={<UpdateFaculty/>}/>
         <Route path='/vieweventfeedback' element={<ViewEventFeedback/>}/>
+        <Route path='/addeventfeedback' element={<AddEventFeedback/>}/>
       </Routes>
       </BrowserRouter>
     </div>
