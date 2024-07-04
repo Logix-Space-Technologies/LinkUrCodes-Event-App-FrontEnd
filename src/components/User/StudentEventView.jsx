@@ -65,6 +65,7 @@ const StudentEventView = () => {
             <UserNavBar />
             <div className="container">
                 <div className="row">
+                    <br />
                     {eventData.length === 0 ? (
                         <div>
                             <center>
@@ -73,6 +74,7 @@ const StudentEventView = () => {
                         </div>
                     ) : (
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                            <br />
                             <table className="table">
                                 <thead>
                                     <tr>
@@ -118,9 +120,18 @@ const StudentEventView = () => {
                                                 </button>
                                             </td>
                                             <td>
-                                                <button className="mt-auto btn btn-primary" onClick={() => handleFeedback(value.event_private_id, value.student_id)}>
-                                                    Add Feedback
-                                                </button>
+                                                {(value.delete_status === 0 && value.cancel_status === 0 && value.is_completed === 0) ? (
+                                                    <button className="mt-auto btn btn-primary" onClick={() => handleFeedback(value.event_private_id, value.student_id)}>
+                                                        Add Feedback
+                                                    </button>
+                                                ) : value.is_completed === 1 ? (
+                                                    <span className="badge text-bg-success">Event Completed</span>
+                                                ) : (value.cancel_status === 1 || value.delete_status === 1) ? (
+                                                    <span className="badge text-bg-danger">Event Cancelled</span>
+                                                ) : (
+                                                    <span className="badge text-bg-danger">Inactive</span>
+                                                )}
+
                                             </td>
                                         </tr>
                                     ))}

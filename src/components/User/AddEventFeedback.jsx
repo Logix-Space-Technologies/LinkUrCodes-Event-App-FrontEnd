@@ -6,30 +6,31 @@ import { Link } from 'react-router-dom';
 
 const AddEventFeedback = () => {
   const apiUrl = global.config.urls.api.server + "/api/feedback/addfeedbackuser"
-  const [input, setInput] = useState({
-    feedback_user_id:sessionStorage.getItem("userid"),
-    feedback_event_id: sessionStorage.getItem("eventID"),
+  const [input, setInput] = new useState({
+    feedback_user_id: sessionStorage.getItem("user_Id"),
+    feedback_event_id: sessionStorage.getItem("event_Id"),
     feedback_content: ""
   });
-
   const inputHandler = (event) => {
     setInput({ ...input, [event.target.name]: event.target.value });
   };
 
   const readValues = () => {
     console.log(input);
-    axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("token") } })
+    axios.post(apiUrl, input,{ headers: { 'token': sessionStorage.getItem("token") } })
       .then((response) => {
         if (response.data.status === "success") {
           alert("Feedback recorded");
           setInput({
-            feedback_event_id: "",
+            feedback_user_id: sessionStorage.getItem("user_Id"),
+            feedback_event_id: sessionStorage.getItem("event_Id"),
             feedback_content: ""
           });
         } else {
           alert("Something went wrong");
           setInput({
-            feedback_event_id: "",
+            feedback_user_id: sessionStorage.getItem("user_Id"),
+            feedback_event_id: sessionStorage.getItem("event_Id"),
             feedback_content: ""
           });
         }
@@ -38,7 +39,8 @@ const AddEventFeedback = () => {
         console.error("There was an error submitting the feedback!", error);
         alert("Something went wrong");
         setInput({
-          feedback_event_id: "",
+          feedback_user_id: sessionStorage.getItem("user_Id"),
+          feedback_event_id: sessionStorage.getItem("event_Id"),
           feedback_content: ""
         });
       });
@@ -46,7 +48,7 @@ const AddEventFeedback = () => {
 
   return (
     <div>
-      <UserNavBar/>
+      <UserNavBar />
       <br />
       <br />
       <div className="container">

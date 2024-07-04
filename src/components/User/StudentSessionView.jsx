@@ -13,28 +13,28 @@ const StudentSessionView = () => {
     const navigate = useNavigate();
 
     const fetchSessions = () => {
-        axios.post(apiUrl,{ event_private_id: sessionStorage.getItem('eventId') },{ headers: { token: sessionStorage.getItem("token") } })
-        .then((response) => {
-            if (Array.isArray(response.data.data)) {
-                setSessions(response.data.data);
-                setTotalRecords(response.data.data.length);
-            } else if (response.data.data.length === 0) {
-                setSessions([]);
-                setTotalRecords(0);
-            }
-        })
-        .catch((error) => {
-            console.error('Error fetching data:', error);
-        });
-};
+        axios.post(apiUrl, { event_private_id: sessionStorage.getItem('eventId') }, { headers: { token: sessionStorage.getItem("token") } })
+            .then((response) => {
+                if (Array.isArray(response.data.data)) {
+                    setSessions(response.data.data);
+                    setTotalRecords(response.data.data.length);
+                } else if (response.data.data.length === 0) {
+                    setSessions([]);
+                    setTotalRecords(0);
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    };
 
-    useEffect(() => {fetchSessions(); }, []);
-       // Pagination
-       const indexOfLastSession = currentPage * sessionsPerPage;
-       const indexOfFirstSession = indexOfLastSession - sessionsPerPage;
-       const currentSessions = sessions.slice(indexOfFirstSession, indexOfLastSession);
-   
-       const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    useEffect(() => { fetchSessions(); }, []);
+    // Pagination
+    const indexOfLastSession = currentPage * sessionsPerPage;
+    const indexOfFirstSession = indexOfLastSession - sessionsPerPage;
+    const currentSessions = sessions.slice(indexOfFirstSession, indexOfLastSession);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const addSessionFeedback = (id) => {
         sessionStorage.setItem('sessionID', id);
@@ -43,14 +43,16 @@ const StudentSessionView = () => {
 
     return (
         <div>
-            <UserNavBar/>
+            <UserNavBar />
             <div className="container">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         {sessions.length === 0 ? (
                             <div>
                                 <center>
-                                    <h1>No sessions found</h1>
+                                    <div class="alert alert-warning" role="alert">
+                                        No sessions found
+                                    </div>
                                 </center>
                             </div>
                         ) : (
@@ -78,19 +80,19 @@ const StudentSessionView = () => {
                                                 <td>{value.type}</td>
                                                 <td>{value.venue}</td>
                                                 <td>
-                                                {value.is_completed === 0 ? (
-                                                <span className="badge text-bg-warning ">Active</span>
-                                            ) : (
-                                                <span className="badge text-bg-success">Completed</span>
-                                            )}
+                                                    {value.is_completed === 0 ? (
+                                                        <span className="badge text-bg-warning ">Active</span>
+                                                    ) : (
+                                                        <span className="badge text-bg-success">Completed</span>
+                                                    )}
                                                 </td>
                                                 <td>
-                                                {value.is_completed === 0 ? (
-                                                <button className="btn btn-warning" onClick={() => { addSessionFeedback(value.session_private_id) }}>Add Feedback</button>
-                                            ) : (
-                                                <span className="badge text-bg-success">Session Completed</span>
-                                            )}
-                                                </td>    
+                                                    {value.is_completed === 0 ? (
+                                                        <button className="btn btn-warning" onClick={() => { addSessionFeedback(value.session_private_id) }}>Add Feedback</button>
+                                                    ) : (
+                                                        <span className="badge text-bg-success">Session Completed</span>
+                                                    )}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>

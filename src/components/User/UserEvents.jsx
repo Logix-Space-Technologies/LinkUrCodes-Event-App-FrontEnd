@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserNavBar from './UserNavBar';
-import '../../config'
+import '../../config';
 
 const UserEvents = () => {
-    const apiUrl = global.config.urls.api.server + "/api/events/view_user_reg_events"
+    const apiUrl = global.config.urls.api.server + "/api/events/view_user_reg_events";
     const [eventData, setEventData] = useState([]);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -36,8 +36,8 @@ const UserEvents = () => {
     }, []);
 
     const handleFeedback = (eventId, userid) => {
-        sessionStorage.setItem('eventId', eventId);
-        sessionStorage.setItem("userid", userid);
+        sessionStorage.setItem('event_Id', eventId);
+        sessionStorage.setItem("user_Id", userid);
         navigate('/addeventfeedback');
     };
 
@@ -60,19 +60,53 @@ const UserEvents = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const generatePagination = (totalPages, currentPage) => {
+        const delta = 2;
+        const range = [];
+        const rangeWithDots = [];
+        let l;
+
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+                range.push(i);
+            }
+        }
+
+        for (let i of range) {
+            if (l) {
+                if (i - l === 2) {
+                    rangeWithDots.push(l + 1);
+                } else if (i - l !== 1) {
+                    rangeWithDots.push('...');
+                }
+            }
+            rangeWithDots.push(i);
+            l = i;
+        }
+
+        return rangeWithDots;
+    };
+
+    const totalPages = Math.ceil(eventData.length / postsPerPage);
+    const paginationRange = generatePagination(totalPages, currentPage);
+
     return (
         <div>
             <UserNavBar />
             <div className="container">
                 <div className="row">
+                    <br />
                     {eventData.length === 0 ? (
                         <div>
                             <center>
-                                <h1>No registered events</h1>
+                                <div className="alert alert-warning" role="alert">
+                                    No registered events
+                                </div>
                             </center>
                         </div>
                     ) : (
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                            <br />
                             <table className="table">
                                 <thead>
                                     <tr>
@@ -118,9 +152,18 @@ const UserEvents = () => {
                                                 </button>
                                             </td>
                                             <td>
-                                                <button className="mt-auto btn btn-primary" onClick={() => handleFeedback(value.event_public_id, value.user_id)}>
-                                                    Add Feedback
-                                                </button>
+                                                {(value.delete_status === 0 && value.cancel_status === 0 && value.is_completed === 0) ? (
+                                                    <button className="mt-auto btn btn-primary" onClick={() => handleFeedback(value.event_public_id, value.user_id)}>
+                                                        Add Feedback
+                                                    </button>
+                                                ) : value.is_completed === 1 ? (
+                                                    <span className="badge text-bg-success">Event Completed</span>
+                                                ) : (value.cancel_status === 1 || value.delete_status === 1) ? (
+                                                    <span className="badge text-bg-danger">Event Cancelled</span>
+                                                ) : (
+                                                    <span className="badge text-bg-danger">Inactive</span>
+                                                )}
+
                                             </td>
                                         </tr>
                                     ))}
@@ -131,11 +174,15 @@ const UserEvents = () => {
                                     Showing {indexOfFirstPost + 1} to {Math.min(indexOfLastPost, eventData.length)} of {eventData.length} records
                                 </span>
                                 <ul className="pagination">
-                                    {Array.from({ length: Math.ceil(eventData.length / postsPerPage) }, (_, i) => (
-                                        <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                                            <button onClick={() => paginate(i + 1)} className="page-link">
-                                                {i + 1}
-                                            </button>
+                                    {paginationRange.map((page, index) => (
+                                        <li key={index} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                                            {page === '...' ? (
+                                                <span className="page-link">...</span>
+                                            ) : (
+                                                <button onClick={() => paginate(page)} className="page-link">
+                                                    {page}
+                                                </button>
+                                            )}
                                         </li>
                                     ))}
                                 </ul>
