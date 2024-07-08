@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../config'
 
-const ViewEventFeedback = () => {
+const ViewPublicEventFeedback = () => {
     const apiUrl = global.config.urls.api.server + "/api/feedback/viewallfeedbackuser"
     const [data, setData] = useState([]);
 
@@ -73,4 +73,4 @@ const ViewEventFeedback = () => {
     );
 };
 
-export default ViewEventFeedback;
+export default ViewPublicEventFeedback;
