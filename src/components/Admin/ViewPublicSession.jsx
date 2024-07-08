@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../../config'
+import '../../config';
 
-const EventSessionView = () => {
-    const apiUrl = global.config.urls.api.server + "/api/events/viewSession"
-    const apiUrl2 = global.config.urls.api.server + "/api/events/updateSession"
+const ViewPublicSession = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/viewPublicSession";
+    const apiUrl2 = global.config.urls.api.server + "/api/events/setPublicSessionComplete";
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +14,7 @@ const EventSessionView = () => {
     const [totalRecords, setTotalRecords] = useState(0);
 
     const getData = () => {
-        axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, { event_public_id: sessionStorage.getItem("eventViewID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
@@ -29,26 +29,25 @@ const EventSessionView = () => {
             });
     };
 
+    const markAttendence = (id) => {
+        sessionStorage.setItem("session_ID", id);
+        navigate('/markattendencepublic');
+    };
+
+    const viewAttendence = (id) => {
+        sessionStorage.setItem("sessionPublic_ID", id);
+        navigate('/viewattendencepublic');
+    };
+
     const sessionFeedback = (id) => {
         sessionStorage.setItem("sessionID", id);
-        navigate('/viewsessionfeedback');
+        navigate('/viewpublicsessionfeedback');
     };
 
-    const markAttendance = (id) => {
-        sessionStorage.setItem("session_ID", id);
-        navigate('/markattendence');
-    };
-
-    const viewAttendance = (id) => {
-        sessionStorage.setItem("session_ID", id);
-        navigate('/viewattendence');
-    };
-
-    const sessionComplete = (event_ID, session_ID) => {
+    const sessionComplete = (session_ID) => {
         let data = {
-            "event_private_id": event_ID,
-            "session_private_id": session_ID
-        }
+            "session_public_id": session_ID
+        };
         axios.post(apiUrl2, data, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (response.data.status === "Unauthorized") {
@@ -71,64 +70,38 @@ const EventSessionView = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const renderPageNumbers = () => {
-        const pageNumbers = [];
-        const totalPageNumbers = Math.ceil(totalRecords / sessionsPerPage);
-        const siblingCount = 1; // Number of pages to show around the current page
+    const pageNumbers = [];
+    const totalPages = Math.ceil(totalRecords / sessionsPerPage);
+    const maxPageNumbersToShow = 5;
+    const halfPageNumbersToShow = Math.floor(maxPageNumbersToShow / 2);
 
-        if (totalPageNumbers <= 5) {
-            // Show all pages if total pages is less than or equal to the maximum pages to show
-            for (let i = 1; i <= totalPageNumbers; i++) {
-                pageNumbers.push(
-                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-                        <button onClick={() => paginate(i)} className="page-link">
-                            {i}
-                        </button>
-                    </li>
-                );
+    if (totalPages <= maxPageNumbersToShow) {
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
+    } else {
+        if (currentPage <= halfPageNumbersToShow + 1) {
+            for (let i = 1; i <= maxPageNumbersToShow - 1; i++) {
+                pageNumbers.push(i);
+            }
+            pageNumbers.push('...');
+            pageNumbers.push(totalPages);
+        } else if (currentPage > totalPages - halfPageNumbersToShow) {
+            pageNumbers.push(1);
+            pageNumbers.push('...');
+            for (let i = totalPages - (maxPageNumbersToShow - 2); i <= totalPages; i++) {
+                pageNumbers.push(i);
             }
         } else {
-            // Show the first page, last page, and a few pages around the current page
-            const startPage = Math.max(2, currentPage - siblingCount);
-            const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
-
-            pageNumbers.push(
-                <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-                    <button onClick={() => paginate(1)} className="page-link">
-                        1
-                    </button>
-                </li>
-            );
-
-            if (startPage > 2) {
-                pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            pageNumbers.push(1);
+            pageNumbers.push('...');
+            for (let i = currentPage - halfPageNumbersToShow; i <= currentPage + halfPageNumbersToShow; i++) {
+                pageNumbers.push(i);
             }
-
-            for (let i = startPage; i <= endPage; i++) {
-                pageNumbers.push(
-                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-                        <button onClick={() => paginate(i)} className="page-link">
-                            {i}
-                        </button>
-                    </li>
-                );
-            }
-
-            if (endPage < totalPageNumbers - 1) {
-                pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
-            }
-
-            pageNumbers.push(
-                <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
-                    <button onClick={() => paginate(totalPageNumbers)} className="page-link">
-                        {totalPageNumbers}
-                    </button>
-                </li>
-            );
+            pageNumbers.push('...');
+            pageNumbers.push(totalPages);
         }
-
-        return pageNumbers;
-    };
+    }
 
     return (
         <div>
@@ -171,16 +144,16 @@ const EventSessionView = () => {
                                                 <td>{value.venue}</td>
                                                 <td>
                                                     {(value.is_completed === 0) ? (
-                                                        <button className="btn btn-warning" onClick={() => { markAttendance(value.session_private_id) }}>Mark</button>
+                                                        <button className="btn btn-warning" onClick={() => { markAttendence(value.session_public_id) }}>Mark</button>
                                                     ) : (
                                                         <span className="badge text-bg-success">Completed</span>
                                                     )}
                                                 </td>
-                                                <td><button className="btn btn-warning" onClick={() => { viewAttendance(value.session_private_id) }}>View</button></td>
-                                                <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_private_id) }}>View Feedback</button></td>
+                                                <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_public_id) }}>View</button></td>
+                                                <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_public_id) }}>View Feedback</button></td>
                                                 <td>
                                                     {(value.is_completed === 0) ? (
-                                                        <button className='btn btn-success' onClick={() => { sessionComplete(value.event_private_id, value.session_private_id) }}>Done</button>
+                                                        <button className='btn btn-success' onClick={() => { sessionComplete(value.session_public_id) }}>Done</button>
                                                     ) : (
                                                         <span className="badge text-bg-success">Completed</span>
                                                     )}
@@ -194,12 +167,24 @@ const EventSessionView = () => {
                                         Showing {indexOfFirstSession + 1} to {Math.min(indexOfLastSession, totalRecords)} of {totalRecords} records
                                     </span>
                                     <ul className="pagination">
-                                        {renderPageNumbers()}
+                                        {pageNumbers.map((number, index) =>
+                                            number === '...' ? (
+                                                <li key={index} className="page-item disabled">
+                                                    <span className="page-link">...</span>
+                                                </li>
+                                            ) : (
+                                                <li key={index} className={`page-item ${currentPage === number ? 'active' : ''}`}>
+                                                    <button onClick={() => paginate(number)} className="page-link">
+                                                        {number}
+                                                    </button>
+                                                </li>
+                                            )
+                                        )}
                                     </ul>
                                 </div>
                             </div>
                         )}
-                        <Link className="link" to="/viewprivateevent">Back to events</Link>
+                        <Link className="link" to="/viewpublicevent">Back to events</Link>
                     </div>
                 </div>
             </div>
@@ -207,4 +192,4 @@ const EventSessionView = () => {
     );
 };
 
-export default EventSessionView;
+export default ViewPublicSession;

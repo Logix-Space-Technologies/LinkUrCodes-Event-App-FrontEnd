@@ -4,15 +4,15 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../config';
 
-const ViewPublicEventFeedback = () => {
-    const apiUrl = global.config.urls.api.server + "/api/feedback/viewallfeedbackuser";
+const ViewPrivateEventFeedback = () => {
+    const apiUrl = global.config.urls.api.server + "/api/feedback/viewallfeedbackstud";
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
     const getData = () => {
         axios.post(apiUrl,
-            { feedback_event_id: sessionStorage.getItem("FeedbackEvent_ID") },
+            { feedback_event_id: sessionStorage.getItem("feedbackEventID") },
             { headers: { token: sessionStorage.getItem("admintoken") } }
         ).then((response) => {
             if (Array.isArray(response.data)) {
@@ -122,7 +122,7 @@ const ViewPublicEventFeedback = () => {
                                 </div>
                             </div>
                         )}
-                        <Link className="link" to="/viewcompletedpublicevents">Back to events</Link>
+                        <Link className="link" to="/viewcompletedprivateevents">Back to events</Link>
                     </div>
                 </div>
             </div>
@@ -130,4 +130,4 @@ const ViewPublicEventFeedback = () => {
     );
 };
 
-export default ViewPublicEventFeedback;
+export default ViewPrivateEventFeedback;

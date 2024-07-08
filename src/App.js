@@ -76,12 +76,29 @@ import FacultyUpdatePassword from './components/College/FacultyUpdatePassword';
 import MarkAttendence from './components/Admin/MarkAttendence';
 import ViewAttendence from './components/Admin/ViewAttendence';
 import UpdateFaculty from './components/College/UpdateFaculty';
-import ViewPublicEventFeedback from './components/Admin/ViewPublicEventFeedback';
 import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
 import SearchEvent from './components/User/SearchEvent';
 import AddEventFeedback from './components/User/AddEventFeedback';
 import UserEvents from './components/User/UserEvents';
+
+import AddCollegePaymentInfo from './components/Admin/AddCollegePaymentInfo';
+import ViewCollegePaymentInfo from './components/Admin/ViewCollegePaymentInfo';
+
+import ViewCompletedPublicEvents from './components/Admin/ViewCompletedPublicEvents';
+import ViewAdminLogs from './components/Admin/ViewAdminLogs';
+import ViewFacultyLogs from './components/Admin/ViewFacultyLogs';
+import ViewUserLogs from './components/Admin/ViewUserLogs';
+import AddPublicSession from './components/Admin/AddPublicSession';
+import ViewPublicSession from './components/Admin/ViewPublicSession';
+import MarkAttendencePublic from './components/Admin/MarkAttendencePublic';
+import ViewAttendencePublic from './components/Admin/ViewAttendencePublic';
+import UpdatePrivateEvent from './components/Admin/UpdatePrivateEvent';
+import UpdatePublicEvent from './components/Admin/UpdatePublicEvent';
+import ViewPrivateEventFeedback from './components/Admin/ViewPrivateEventFeedback';
+import ViewPublicEventFeedback from './components/Admin/ViewPublicEventFeedback';
+import ViewPublicSessionFeedback from './components/Admin/ViewPublicSessionFeedback';
+
 
 
 
@@ -169,8 +186,30 @@ function App() {
         <Route path='/markattendence' element={<MarkAttendence/>}/>
         <Route path='/viewattendence' element={<ViewAttendence/>}/>
         <Route path='/updatefaculty' element={<UpdateFaculty/>}/>
-        <Route path='/ViewPublicEventFeedback' element={<ViewPublicEventFeedback/>}/>
+
         <Route path='/addeventfeedback' element={<AddEventFeedback/>}/>
+
+        <Route path='/vieweventfeedback' element={<ViewPrivateEventFeedback/>}/>
+
+        <Route path='/addcollegepayment' element={<AddCollegePaymentInfo/>}/>
+        <Route path='/viewcollegepayment' element={<ViewCollegePaymentInfo/>}/>
+
+        <Route path='/viewcompletedpublicevents' element={<ViewCompletedPublicEvents/>}/>
+
+        <Route path='/viewadminlogs' element={<ViewAdminLogs/>}/>
+        <Route path='/viewfacultylogs' element={<ViewFacultyLogs/>}/>
+        <Route path='/viewuserlogs' element={<ViewUserLogs/>}/>
+        <Route path='/addpublicsession' element={<AddPublicSession/>}/>
+        <Route path='/viewpublicsession' element={<ViewPublicSession/>}/>
+        <Route path='/markattendencepublic' element={<MarkAttendencePublic/>}/>
+        <Route path='/viewattendencepublic' element={<ViewAttendencePublic/>}/>
+        <Route path='/updateprivateevent' element={<UpdatePrivateEvent/>}/>
+        <Route path='/updatepublicevent' element={<UpdatePublicEvent/>}/>
+        <Route path='/viewpubliceventfeedback' element={<ViewPublicEventFeedback/>}/>
+        <Route path='/viewpublicsessionfeedback' element={<ViewPublicSessionFeedback/>}/>
+
+
+
       </Routes>
       </BrowserRouter>
     </div>

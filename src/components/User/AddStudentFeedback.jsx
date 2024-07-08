@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import StudentNavBar from '../Student/StudentNavBar'
 import UserNavBar from './UserNavBar';
 import '../../config'
+import { Link } from 'react-router-dom';
 
 const AddStudentFeedback = () => {
   const apiUrl = global.config.urls.api.server + "/api/feedback/addfeedbackstud"
@@ -66,6 +67,7 @@ const AddStudentFeedback = () => {
           <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
             <button className="btn btn-primary" onClick={readValues}>SUBMIT</button>
           </div>
+          <Link to="/studentevents">Back to events</Link>
         </div>
       </div>
     </div>

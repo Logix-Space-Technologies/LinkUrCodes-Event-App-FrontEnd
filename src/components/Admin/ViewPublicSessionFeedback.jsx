@@ -1,11 +1,10 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import AdminNavbar from './AdminNavbar'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
-import '../../config'
+import AdminNavbar from './AdminNavbar';
+import { Link } from 'react-router-dom';
 
-const ViewSessionFeedback = () => {
-    const apiUrl = global.config.urls.api.server + "/api/feedback/viewSessionStudFeedback";
+const ViewPublicSessionFeedback = () => {
+    const apiUrl = global.config.urls.api.server + "/api/feedback/viewSessionUserFeedback";
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10); // Number of records per page
@@ -13,8 +12,8 @@ const ViewSessionFeedback = () => {
     const getData = () => {
         axios.post(apiUrl, { session_id: sessionStorage.getItem("sessionID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
-                if (Array.isArray(response.data)) {
-                    setData(response.data);
+                if (Array.isArray(response.data.data)) {
+                    setData(response.data.data);
                 } else if (response.data.length === 0) {
                     setData([]);
                 }
@@ -121,6 +120,7 @@ const ViewSessionFeedback = () => {
                                 </div>
                             </div>
                         )}
+                        <Link className="link" to="/viewpublicsession">Back to sessions</Link>
                     </div>
                 </div>
             </div>
@@ -128,4 +128,4 @@ const ViewSessionFeedback = () => {
     )
 }
 
-export default ViewSessionFeedback
+export default ViewPublicSessionFeedback

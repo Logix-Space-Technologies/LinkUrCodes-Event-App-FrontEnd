@@ -1,34 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import CollegeNavBar from './CollegeNavBar';
+import React, { useEffect, useState } from 'react'
+import AdminNavbar from './AdminNavbar'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import '../../config';
 
-const CollegeViewSession = () => {
-    const apiUrl = global.config.urls.api.server + "/api/college/viewSession";
+const ViewAdminLogs = () => {
+    const apiUrl = global.config.urls.api.server + "/api/admin/viewadminlogs"
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
 
     const getData = () => {
-        axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
+        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
                     setTotalRecords(response.data.data.length);
-                    console.log("data", response.data.data);
-                } else if (response.data.length === 0) {
+                } else if (response.data.data.length === 0) {
                     setData([]);
                     setTotalRecords(0);
+                } else {
+                    alert("Something went wrong!");
                 }
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error('Error fetching data:', error);
             });
     };
 
-    useEffect(() => { getData(); }, []);
+    const formattedDateTime = (isoString) => {
+        const d = new Date(isoString);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const year = d.getFullYear();
+
+        let hours = d.getHours();
+        const minutes = String(d.getMinutes()).padStart(2, '0');
+        const seconds = String(d.getSeconds()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        hours = String(hours).padStart(2, '0');
+
+        return `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+    }
+
+    useEffect(() => { getData() }, []);
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -40,9 +57,10 @@ const CollegeViewSession = () => {
     const renderPageNumbers = () => {
         const pageNumbers = [];
         const totalPageNumbers = Math.ceil(totalRecords / itemsPerPage);
-        const siblingCount = 1;
+        const siblingCount = 1; // Number of pages to show around the current page
 
         if (totalPageNumbers <= 5) {
+            // Show all pages if total pages is less than or equal to the maximum pages to show
             for (let i = 1; i <= totalPageNumbers; i++) {
                 pageNumbers.push(
                     <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
@@ -53,6 +71,7 @@ const CollegeViewSession = () => {
                 );
             }
         } else {
+            // Show the first page, last page, and a few pages around the current page
             const startPage = Math.max(2, currentPage - siblingCount);
             const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
 
@@ -96,16 +115,15 @@ const CollegeViewSession = () => {
 
     return (
         <div>
-            <CollegeNavBar />
+            <AdminNavbar />
             <div className="container">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                        <br />
                         {data.length === 0 ? (
                             <div>
                                 <center>
                                     <div className="alert alert-warning" role="alert">
-                                        No sessions found
+                                        No logs found
                                     </div>
                                 </center>
                             </div>
@@ -115,29 +133,18 @@ const CollegeViewSession = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Session Name</th>
-                                            <th scope="col">Session Date</th>
-                                            <th scope="col">Session Time</th>
-                                            <th scope="col">Session Type</th>
-                                            <th scope="col">Session Venue</th>
-                                            <th scope="col">Completed</th>
+                                            <th scope="col">Admin Name</th>
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Date & Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {currentItems.map((value, index) => (
                                             <tr key={index}>
-                                                <th>{indexOfFirstItem + index + 1}</th>
-                                                <td>{value.session_topic_description}</td>
-                                                <td>{value.session_date}</td>
-                                                <td>{value.session_start_time}</td>
-                                                <td>{value.type}</td>
-                                                <td>{value.venue}</td>
-                                                <td>{value.is_completed === 0 ? (
-                                                    <span className="badge text-bg-success ">Active</span>
-                                                ) : (
-                                                    <span className="badge text-bg-success">Completed</span>
-                                                )}
-                                                </td>
+                                                <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
+                                                <td>{value.admin_username}</td>
+                                                <td>{value.action}</td>
+                                                <td>{formattedDateTime(value.date_time)}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -152,7 +159,6 @@ const CollegeViewSession = () => {
                                 </div>
                             </div>
                         )}
-                        <Link className="link" to="/collegeevents">Back to events</Link>
                     </div>
                 </div>
             </div>
@@ -160,4 +166,4 @@ const CollegeViewSession = () => {
     )
 }
 
-export default CollegeViewSession;
+export default ViewAdminLogs

@@ -2,14 +2,20 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import '../../config'
+import '../../config';
 
 const ViewCollege = () => {
-  const apiUrl = global.config.urls.api.server + "/api/college/Viewcollege"
-  const apiUrl1 = global.config.urls.api.server + "/api/college/deleteCollege"
+  const apiUrl = global.config.urls.api.server + "/api/college/Viewcollege";
+  const searchApiUrl = global.config.urls.api.server + "/api/college/searchCollege";
+  const deleteApiUrl = global.config.urls.api.server + "/api/college/deleteCollege";
   const navigate = useNavigate();
+
   const [data, setData] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+
   const collegesPerPage = 5;
 
   const getData = () => {
@@ -24,9 +30,29 @@ const ViewCollege = () => {
     );
   };
 
+  const searchColleges = () => {
+    if (!searchTerm.trim()) {
+      alert("Please enter a name to search");
+      return;
+    }
+
+    setIsSearching(true);
+    axios.post(searchApiUrl, { term: searchTerm }, { headers: { token: sessionStorage.getItem("admintoken") } })
+      .then((response) => {
+        if (response.data.status === "No College found") {
+          setSearchResults([]);
+        } else {
+          setSearchResults(response.data);
+        }
+      }).catch((error) => {
+        console.error('Error fetching search data:', error);
+        setSearchResults([]);
+      });
+  };
+
   const deleteCollege = (id) => {
     let data = { "college_id": id };
-    axios.post(apiUrl1, data, { headers: { token: sessionStorage.getItem("admintoken") } })
+    axios.post(deleteApiUrl, data, { headers: { token: sessionStorage.getItem("admintoken") } })
       .then((response) => {
         if (response.data.status === "unauthorised user") {
           alert("Unauthorized access!");
@@ -55,23 +81,98 @@ const ViewCollege = () => {
 
   const indexOfLastCollege = currentPage * collegesPerPage;
   const indexOfFirstCollege = indexOfLastCollege - collegesPerPage;
-  const currentColleges = data.slice(indexOfFirstCollege, indexOfLastCollege);
-  const totalRecords = data.length;
+  const currentColleges = isSearching ? searchResults.slice(indexOfFirstCollege, indexOfLastCollege) : data.slice(indexOfFirstCollege, indexOfLastCollege);
+  const totalRecords = isSearching ? searchResults.length : data.length;
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const renderPageNumbers = () => {
+    const totalPages = Math.ceil(totalRecords / collegesPerPage);
+    const maxVisiblePages = 5; // Maximum number of pages to display
+    const pageNumbers = [];
+
+    if (totalPages <= maxVisiblePages) {
+      // Display all pages if total pages are less than or equal to maxVisiblePages
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(
+          <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => paginate(i)}>
+              {i}
+            </button>
+          </li>
+        );
+      }
+    } else {
+      // Implementing ellipsis pagination
+      let startPage, endPage;
+      if (currentPage <= Math.floor(maxVisiblePages / 2)) {
+        startPage = 1;
+        endPage = maxVisiblePages;
+      } else if (currentPage + Math.floor(maxVisiblePages / 2) >= totalPages) {
+        startPage = totalPages - maxVisiblePages + 1;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - Math.floor(maxVisiblePages / 2);
+        endPage = currentPage + Math.floor(maxVisiblePages / 2);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(
+          <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => paginate(i)}>
+              {i}
+            </button>
+          </li>
+        );
+      }
+
+      // Adding ellipses at the beginning if necessary
+      if (startPage > 1) {
+        pageNumbers.unshift(
+          <li key={0} className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+      }
+
+      // Adding ellipses at the end if necessary
+      if (endPage < totalPages) {
+        pageNumbers.push(
+          <li key={totalPages + 1} className="page-item disabled">
+            <span className="page-link">...</span>
+          </li>
+        );
+      }
+    }
+
+    return pageNumbers;
+  };
 
   return (
     <div>
       <AdminNavbar />
       <div className="container">
-        <div className="row">
-          {data.length === 0 ? (
+        <div className="row g-3">
+          <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+            <div className="input-group">
+              <input type="text" className="form-control" placeholder="Search college" name="term" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+              <div className="input-group-append">
+                <button className="btn btn-success" type="button" onClick={searchColleges}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+       
+        <div className="row g-3">
+          {totalRecords === 0 ? (
             <div>
               <center>
-                Events found<div class="alert alert-warning" role="alert">
+                <div className="alert alert-warning" role="alert">
                   No Colleges found
                 </div>
-
               </center>
             </div>
           ) : (
@@ -85,7 +186,8 @@ const ViewCollege = () => {
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Website</th>
-                    <th colSpan="3">Action</th>
+                    <th colSpan="2" style={{ textAlign: 'center' }}>Faculty</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -107,11 +209,16 @@ const ViewCollege = () => {
                       <td onClick={() => { addFaculty(value.college_id) }}> <Link>Add Faculty</Link></td>
                       <td onClick={() => { viewFaculty(value.college_id) }}> <Link>View Faculty</Link></td>
                       <td>
-                        <button className="btn btn-danger" onClick={() => { deleteCollege(value.college_id) }}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
-                          </svg>
-                        </button>
+                        {(value.delete_status === 0) ? (
+                          <button className="btn btn-danger" onClick={() => { deleteCollege(value.college_id) }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+                              <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                            </svg>
+                          </button>
+                        ) : (
+                          <span className="badge text-bg-danger">Deleted</span>
+                        )}
+
                       </td>
                     </tr>
                   ))}
@@ -122,18 +229,13 @@ const ViewCollege = () => {
                   Showing {indexOfFirstCollege + 1} to {Math.min(indexOfLastCollege, totalRecords)} of {totalRecords} records
                 </span>
                 <ul className="pagination">
-                  {Array.from({ length: Math.ceil(totalRecords / collegesPerPage) }, (_, i) => (
-                    <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
-                      <button onClick={() => paginate(i + 1)} className="page-link">
-                        {i + 1}
-                      </button>
-                    </li>
-                  ))}
+                  {renderPageNumbers()}
                 </ul>
               </div>
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

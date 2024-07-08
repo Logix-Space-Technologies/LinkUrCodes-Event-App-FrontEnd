@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import CollegeNavBar from './CollegeNavBar';
+import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../config';
 
-const CollegeViewSession = () => {
-    const apiUrl = global.config.urls.api.server + "/api/college/viewSession";
+const MarkAttendencePublic = () => {
+    const apiUrl = global.config.urls.api.server + "/api/attendence/viewUserAbsentAttendence";
+    const apiUrl1 = global.config.urls.api.server + "/api/attendence/updateUserAttendence";
+    const [selectedRollNos, setSelectedRollNos] = useState([]);
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5);
-    const [totalRecords, setTotalRecords] = useState(0);
+    const [postsPerPage] = useState(10); // Number of records per page
+
+    const inputHandler = (event) => {
+        const rollNo = event.target.value;
+        if (event.target.checked) {
+            setSelectedRollNos([...selectedRollNos, rollNo]);
+        } else {
+            setSelectedRollNos(selectedRollNos.filter((no) => no !== rollNo));
+        }
+    };
 
     const getData = () => {
-        axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
+        axios.post(apiUrl, { session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
-                if (Array.isArray(response.data.data)) {
-                    setData(response.data.data);
-                    setTotalRecords(response.data.data.length);
-                    console.log("data", response.data.data);
-                } else if (response.data.length === 0) {
+                if (response.data.formattedResults.length === 0) {
                     setData([]);
-                    setTotalRecords(0);
+                } else {
+                    setData(response.data.formattedResults);
                 }
             })
             .catch((error) => {
@@ -28,21 +35,39 @@ const CollegeViewSession = () => {
             });
     };
 
-    useEffect(() => { getData(); }, []);
-
-    // Pagination logic
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentData = data.slice(indexOfFirstPost, indexOfLastPost);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const markAttendence = () => {
+        axios.post(apiUrl1, { user_id: selectedRollNos, session_id: sessionStorage.getItem("session_ID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+            .then(
+                (response) => {
+                    if (response.data.status === "success") {
+                        alert("Attendance Marked");
+                        getData();
+                    } else if (response.data.status === "No record found to update") {
+                        alert("Attendance already marked");
+                    } else if (response.data.status === "error") {
+                        alert("Something went wrong! Try again!");
+                    } else {
+                        alert("Something went wrong! Try again!");
+                    }
+                }
+            );
+    };
+
+    useEffect(() => { getData(); }, []);
+
     const renderPageNumbers = () => {
         const pageNumbers = [];
-        const totalPageNumbers = Math.ceil(totalRecords / itemsPerPage);
-        const siblingCount = 1;
+        const totalPageNumbers = Math.ceil(data.length / postsPerPage);
+        const siblingCount = 1; // Number of pages to show around the current page
 
         if (totalPageNumbers <= 5) {
+            // Show all pages if total pages is less than or equal to the maximum pages to show
             for (let i = 1; i <= totalPageNumbers; i++) {
                 pageNumbers.push(
                     <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
@@ -53,6 +78,7 @@ const CollegeViewSession = () => {
                 );
             }
         } else {
+            // Show the first page, last page, and a few pages around the current page
             const startPage = Math.max(2, currentPage - siblingCount);
             const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
 
@@ -96,16 +122,15 @@ const CollegeViewSession = () => {
 
     return (
         <div>
-            <CollegeNavBar />
+            <AdminNavbar />
             <div className="container">
                 <div className="row">
-                    <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
-                        <br />
+                    <div className="col col-12">
                         {data.length === 0 ? (
                             <div>
                                 <center>
                                     <div className="alert alert-warning" role="alert">
-                                        No sessions found
+                                        No users found
                                     </div>
                                 </center>
                             </div>
@@ -115,28 +140,24 @@ const CollegeViewSession = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Session Name</th>
-                                            <th scope="col">Session Date</th>
-                                            <th scope="col">Session Time</th>
-                                            <th scope="col">Session Type</th>
-                                            <th scope="col">Session Venue</th>
-                                            <th scope="col">Completed</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Phone No</th>
+                                            <th scope="col">Attendance</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {currentItems.map((value, index) => (
+                                        {currentData.map((value, index) => (
                                             <tr key={index}>
-                                                <th>{indexOfFirstItem + index + 1}</th>
-                                                <td>{value.session_topic_description}</td>
-                                                <td>{value.session_date}</td>
-                                                <td>{value.session_start_time}</td>
-                                                <td>{value.type}</td>
-                                                <td>{value.venue}</td>
-                                                <td>{value.is_completed === 0 ? (
-                                                    <span className="badge text-bg-success ">Active</span>
-                                                ) : (
-                                                    <span className="badge text-bg-success">Completed</span>
-                                                )}
+                                                <th>{indexOfFirstPost + index + 1}</th>
+                                                <td>{value.user_name}</td>
+                                                <td>{value.user_email}</td>
+                                                <td>{value.user_contact_no}</td>
+                                                <td>
+                                                    <div className="form-check form-check-inline" key={value.user_id}>
+                                                        <input className="form-check-input" type="checkbox" id={`inlineCheckbox${value.user_id}`}
+                                                            value={value.user_id} onChange={inputHandler} />
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
@@ -144,20 +165,26 @@ const CollegeViewSession = () => {
                                 </table>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <span>
-                                        Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalRecords)} of {totalRecords} records
+                                        Showing {indexOfFirstPost + 1} to {Math.min(indexOfLastPost, data.length)} of {data.length} records
                                     </span>
                                     <ul className="pagination">
                                         {renderPageNumbers()}
                                     </ul>
                                 </div>
+                                <div className="col col-12 d-flex justify-content-end">
+                                    <button className="btn btn-primary" onClick={markAttendence}>Mark Attendance</button>
+                                </div>
                             </div>
                         )}
-                        <Link className="link" to="/collegeevents">Back to events</Link>
+                    </div>
+                    <div className="col col-12">
+                        <br />
+                        <Link className="link" to="/viewpublicsession">Back to session</Link>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default CollegeViewSession;
+export default MarkAttendencePublic;

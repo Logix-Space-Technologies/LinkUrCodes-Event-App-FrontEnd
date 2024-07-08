@@ -1,38 +1,33 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import AdminNavbar from './AdminNavbar'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import '../../config'
 
-const CompletedPrivateEventSessions = () => {
-    const apiUrl = global.config.urls.api.server + "/api/events/viewSession"
+const ViewCompletedPublicEvents = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/view_completed_public_events"
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-    const [sessionsPerPage] = useState(5)
+    const [eventsPerPage] = useState(5)
 
     const getData = () => {
-        axios.post(apiUrl, { event_private_id: sessionStorage.getItem("eventID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
-            .then((response) => {
-                if (Array.isArray(response.data.data)) {
-                    setData(response.data.data);
-                } else if (response.data.length === 0) {
-                    setData([]);
+        axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+            (response) => {
+                if (Array.isArray(response.data)) {
+                    setData(response.data);
+                } else if (response.data.status === "No events found") {
+                    setData([]); // No events found
+                } else {
+                    alert("Something went wrong !")
                 }
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error)
-            })
+            }
+        )
     }
 
-    const sessionFeedback = (id) => {
-        sessionStorage.setItem("sessionID", id)
-        navigate('/viewsessionfeedback')
-    }
-
-    const viewAttendance = (id) => {
-        sessionStorage.setItem("session_ID", id)
-        navigate('/viewattendence')
+    const viewFeedback = (id) => {
+        sessionStorage.setItem("FeedbackEvent_ID", id)
+        navigate('/viewpubliceventfeedback')
     }
 
     useEffect(() => { getData() }, [])
@@ -46,10 +41,10 @@ const CompletedPrivateEventSessions = () => {
     }
 
     // Pagination logic
-    const indexOfLastSession = currentPage * sessionsPerPage
-    const indexOfFirstSession = indexOfLastSession - sessionsPerPage
-    const currentSessions = data.slice(indexOfFirstSession, indexOfLastSession)
-    const totalSessions = data.length
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = data.slice(indexOfFirstEvent, indexOfLastEvent)
+    const totalEvents = data.length
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber)
@@ -57,7 +52,7 @@ const CompletedPrivateEventSessions = () => {
 
     const renderPageNumbers = () => {
         const pageNumbers = [];
-        const totalPageNumbers = Math.ceil(totalSessions / sessionsPerPage);
+        const totalPageNumbers = Math.ceil(totalEvents / eventsPerPage);
         const siblingCount = 1; // Number of pages to show around the current page
 
         if (totalPageNumbers <= 5) {
@@ -123,8 +118,8 @@ const CompletedPrivateEventSessions = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                    <div className="alert alert-warning" role="alert">
-                                        No sessions found
+                                <div class="alert alert-warning" role="alert">
+                                        No Events found
                                     </div>
                                 </center>
                             </div>
@@ -132,27 +127,39 @@ const CompletedPrivateEventSessions = () => {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Session Name</th>
-                                        <th scope="col">Session Date</th>
-                                        <th scope="col">Session Time</th>
-                                        <th scope="col">Session Type</th>
-                                        <th scope="col">Session Venue</th>
-                                        <th scope='col'>Session Feedback</th>
-                                        <th scope='col'>Session Attendance</th>
+                                    <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">Venue</th>
+                                            <th scope="col">Total Duration</th>
+                                            <th scope="col">Online Sessions</th>
+                                            <th scope="col">Offline Sessions</th>
+                                            <th scope="col">Recorded Sessions</th>
+                                            <th scope="col" >Sessions</th>
+                                            <th scope="col" >Feedback</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentSessions.map((value, index) => (
+                                    {currentEvents.map((value, index) => (
                                         <tr key={index}>
-                                            <th>{indexOfFirstSession + index + 1}</th>
-                                            <td>{value.session_topic_description}</td>
-                                            <td>{formattedDate(value.session_date)}</td>
-                                            <td>{value.session_start_time}</td>
-                                            <td>{value.type}</td>
-                                            <td>{value.venue}</td>
-                                            <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_private_id) }}>View</button></td>
-                                            <td><button className="btn btn-warning" onClick={() => { viewAttendance(value.session_private_id) }}>View</button></td>
+                                            <th>{indexOfFirstEvent + index + 1}</th>
+                                            <td>{value.event_public_name}</td>
+                                                    <td><img src={`http://localhost:8085/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                                    <td>{value.event_public_description}</td>
+                                                    <td>{value.event_public_amount}</td>
+                                                    <td>{formattedDate(value.event_public_date)}</td>
+                                                    <td>{value.event_public_time}</td>
+                                                    <td>{value.event_venue}</td>
+                                                    <td>{value.event_public_duration}</td>
+                                                    <td>{value.event_public_online}</td>
+                                                    <td>{value.event_public_offline}</td>
+                                                    <td>{value.event_public_recorded}</td>
+                                                    <td><button className="btn btn-secondary">View</button></td>
+                                                    <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_public_id) }}>View</button></td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -161,7 +168,7 @@ const CompletedPrivateEventSessions = () => {
                         {/* Pagination */}
                         <div className="d-flex justify-content-between align-items-center">
                             <span>
-                                Showing {indexOfFirstSession + 1} to {Math.min(indexOfLastSession, totalSessions)} of {totalSessions} records
+                                Showing {indexOfFirstEvent + 1} to {Math.min(indexOfLastEvent, totalEvents)} of {totalEvents} records
                             </span>
                             <nav>
                                 <ul className="pagination">
@@ -169,7 +176,6 @@ const CompletedPrivateEventSessions = () => {
                                 </ul>
                             </nav>
                         </div>
-                        <Link className="link" to="/viewcompletedprivateevents">Back to completed events</Link>
                     </div>
                 </div>
             </div>
@@ -177,4 +183,4 @@ const CompletedPrivateEventSessions = () => {
     )
 }
 
-export default CompletedPrivateEventSessions
+export default ViewCompletedPublicEvents

@@ -2,49 +2,50 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import UserNavBar from './UserNavBar';
 import '../../config'
+import { Link } from 'react-router-dom';
 
 const AddSessionFeedback = () => {
   const apiUrl = global.config.urls.api.server + "/api/feedback/addSessionStudFeedback"
-    const [input, setInput] = useState({
-        student_id:sessionStorage.getItem("userstudentID"),
-        session_id: sessionStorage.getItem("sessionID"),
-        feedback_contents: ""
-      });
-    
-      const inputHandler = (event) => {
-        setInput({ ...input, [event.target.name]: event.target.value });
-      };
-    
-      const readValues = () => {
-        console.log(input);
-        axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("token") } })
-          .then((response) => {
-            if (response.data.status === "success") {
-              alert("Feedback recorded");
-              setInput({
-                feedback_contents: ""
-              });
-            } else {
-              alert("Something went wrong");
-              setInput({
-                feedback_contents: ""
-              });
-            }
-          })
-          .catch((error) => {
-            console.error("There was an error submitting the feedback!", error);
-            alert("Something went wrong");
-            setInput({
-              feedback_content: ""
-            });
+  const [input, setInput] = useState({
+    student_id: sessionStorage.getItem("userstudentID"),
+    session_id: sessionStorage.getItem("sessionID"),
+    feedback_contents: ""
+  });
+
+  const inputHandler = (event) => {
+    setInput({ ...input, [event.target.name]: event.target.value });
+  };
+
+  const readValues = () => {
+    console.log(input);
+    axios.post(apiUrl, input, { headers: { token: sessionStorage.getItem("token") } })
+      .then((response) => {
+        if (response.data.status === "success") {
+          alert("Feedback recorded");
+          setInput({
+            feedback_contents: ""
           });
-      };
-    
+        } else {
+          alert("Something went wrong");
+          setInput({
+            feedback_contents: ""
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error submitting the feedback!", error);
+        alert("Something went wrong");
+        setInput({
+          feedback_content: ""
+        });
+      });
+  };
+
   return (
     <div>
-      <UserNavBar/>
+      <UserNavBar />
       <br /><br />
-       <div className="container">
+      <div className="container">
         <div className="row g-3">
           <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
             <div className="form-floating">
@@ -61,8 +62,9 @@ const AddSessionFeedback = () => {
           <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
             <button className="btn btn-primary" onClick={readValues}>SUBMIT</button>
           </div>
+          <Link to="/sessions">Back to session</Link>
         </div>
-      </div> 
+      </div>
     </div>
   )
 }
