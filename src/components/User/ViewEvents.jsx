@@ -32,7 +32,7 @@ const ViewEvents = () => {
     fetchEvents();
   }, []); // Run once on component mount
 
-  
+  console.log("ev",events)
   const navigate=useNavigate()
   const handleRegistration = (eventId) => {
     const selectedEvent = events.find(event => event.event_public_id === eventId);

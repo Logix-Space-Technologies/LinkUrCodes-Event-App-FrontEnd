@@ -79,6 +79,8 @@ import UpdateFaculty from './components/College/UpdateFaculty';
 import ForgotUserPassword from './components/User/ForgotUserPassword';
 import UpdateUserPassword from './components/User/UpdateUserPassword';
 import SearchEvent from './components/User/SearchEvent';
+import AddEventFeedback from './components/User/AddEventFeedback';
+import UserEvents from './components/User/UserEvents';
 
 import AddCollegePaymentInfo from './components/Admin/AddCollegePaymentInfo';
 import ViewCollegePaymentInfo from './components/Admin/ViewCollegePaymentInfo';
@@ -133,6 +135,7 @@ function App() {
         <Route path='/adduserfeedback' element={<AddFeedback/>}/>
         <Route path='/forgotuserpassword' element={<ForgotUserPassword/>}/>
         <Route path='/updateuserpassword' element={<UpdateUserPassword/>}/>
+        <Route path='/userregevents' element={<UserEvents/>}/>
 
         <Route path='/viewevent' element={<ViewEvents/>}/>
         
@@ -183,6 +186,9 @@ function App() {
         <Route path='/markattendence' element={<MarkAttendence/>}/>
         <Route path='/viewattendence' element={<ViewAttendence/>}/>
         <Route path='/updatefaculty' element={<UpdateFaculty/>}/>
+
+        <Route path='/addeventfeedback' element={<AddEventFeedback/>}/>
+
         <Route path='/vieweventfeedback' element={<ViewPrivateEventFeedback/>}/>
 
         <Route path='/addcollegepayment' element={<AddCollegePaymentInfo/>}/>
@@ -201,6 +207,7 @@ function App() {
         <Route path='/updatepublicevent' element={<UpdatePublicEvent/>}/>
         <Route path='/viewpubliceventfeedback' element={<ViewPublicEventFeedback/>}/>
         <Route path='/viewpublicsessionfeedback' element={<ViewPublicSessionFeedback/>}/>
+
 
 
       </Routes>
