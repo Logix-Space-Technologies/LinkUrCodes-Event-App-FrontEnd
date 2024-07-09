@@ -29,6 +29,9 @@ const UserNavBar = () => {
           <Link class="nav-link" to="/viewevent">Events</Link>
         </li>
         <li class="nav-item">
+          <Link class="nav-link" to="/userregevents">Your Events</Link>
+        </li>
+        <li class="nav-item">
           <button class="nav-link"  onClick={logOutAction}>Logout</button>
         </li>
       </ul>

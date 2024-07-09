@@ -8,6 +8,7 @@ const SearchEvent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(null);
+  const [noEventsMessage, setNoEventsMessage] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -18,6 +19,11 @@ const SearchEvent = () => {
         { event_public_name: searchTerm },
         { headers: { 'token': token } } // Include token in request headers
       );
+      if (response.data.length === 0) {
+        setNoEventsMessage('No events found');
+      } else {
+        setNoEventsMessage('');
+      }
       setSearchResults(response.data);
     } catch (error) {
       if (error.response) {
@@ -30,7 +36,7 @@ const SearchEvent = () => {
 
   return (
     <div>
-      <UserNavBar/>
+      <UserNavBar />
       <div className="bg-event-image"><br></br>
         <div className="container">
           <div className="row g-3">
@@ -52,16 +58,27 @@ const SearchEvent = () => {
               </div>
             </nav>
           </div>
-          
         </div><br></br>
-        {error && <div className="alert alert-danger" role="alert">{error}</div>}
+        {error &&
+        <center>
+          <div className="alert alert-danger" role="alert">
+            Something went wrong
+          </div>
+          </center>
+          }
+        {noEventsMessage &&
+          <center>
+            <div className="alert alert-warning" role="alert">
+              {noEventsMessage}
+            </div>
+          </center>
+        }
         <div className="container">
           <div className="row">
             {Array.isArray(searchResults) && searchResults.map(event => (
               <div className="col-md-4" key={event.event_public_id}>
                 <div className="card">
-                    <img src={event.event_public_image} className="card-img-top" alt="Event" />
-                  
+                  <img src={event.event_public_image} className="card-img-top" alt="Event" />
                   <div className="card-body">
                     <h5 className="card-title">{event.event_public_name}</h5>
                     <p className="card-text">Description: {event.event_public_description}</p>
