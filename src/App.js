@@ -98,6 +98,8 @@ import UpdatePublicEvent from './components/Admin/UpdatePublicEvent';
 import ViewPrivateEventFeedback from './components/Admin/ViewPrivateEventFeedback';
 import ViewPublicEventFeedback from './components/Admin/ViewPublicEventFeedback';
 import ViewPublicSessionFeedback from './components/Admin/ViewPublicSessionFeedback';
+import UserSessionView from './components/User/UserSessionView';
+import CompletedPublicEventSession from './components/Admin/CompletedPublicEventSession';
 
 
 
@@ -206,6 +208,8 @@ function App() {
         <Route path='/updateprivateevent' element={<UpdatePrivateEvent/>}/>
         <Route path='/updatepublicevent' element={<UpdatePublicEvent/>}/>
         <Route path='/viewpubliceventfeedback' element={<ViewPublicEventFeedback/>}/>
+        <Route path='/sessionview' element={<UserSessionView/>}/>
+        <Route path='/viewcompletedpubliceventsessions' element={<CompletedPublicEventSession/>}/>
         <Route path='/viewpublicsessionfeedback' element={<ViewPublicSessionFeedback/>}/>
 
 
