@@ -1,46 +1,57 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import '../../config';
 
-const ViewPublicSessionFeedback = () => {
-    const apiUrl = global.config.urls.api.server + "/api/feedback/viewSessionUserFeedback";
+const CompletedPublicEventSession = () => {
+    const apiUrl = global.config.urls.api.server + "/api/events/viewPublicSession";
+    const apiUrl2 = global.config.urls.api.server + "/api/events/setPublicSessionComplete";
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(10); // Number of records per page
+    const [sessionsPerPage] = useState(5);
+    const [totalRecords, setTotalRecords] = useState(0);
 
     const getData = () => {
-        axios.post(apiUrl, { session_id: sessionStorage.getItem("sessionID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
+        axios.post(apiUrl, { event_public_id: sessionStorage.getItem("eventViewID") }, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
                 if (Array.isArray(response.data.data)) {
                     setData(response.data.data);
-                } else if (response.data.length === 0) {
+                    setTotalRecords(response.data.data.length);
+                } else if (response.data.data.length === 0) {
                     setData([]);
+                    setTotalRecords(0);
                 }
             })
             .catch((error) => {
-                console.error('Error fetching data:', error)
-            })
-    }
+                console.error('Error fetching data:', error);
+            });
+    };
 
-    const navigate = useNavigate();
 
-  const goBack = () => {
-    navigate(-1);
-  };
+    const viewAttendence = (id) => {
+        sessionStorage.setItem("sessionPublic_ID", id);
+        navigate('/viewattendencepublic');
+    };
 
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentData = data.slice(indexOfFirstPost, indexOfLastPost);
+    const sessionFeedback = (id) => {
+        sessionStorage.setItem("sessionID", id);
+        navigate('/viewpublicsessionfeedback');
+    };
+
+
+    useEffect(() => { getData() }, []);
+
+    // Pagination
+    const indexOfLastSession = currentPage * sessionsPerPage;
+    const indexOfFirstSession = indexOfLastSession - sessionsPerPage;
+    const currentSessions = data.slice(indexOfFirstSession, indexOfLastSession);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    useEffect(() => {
-        getData();
-    }, []);
-
     const pageNumbers = [];
-    const totalPages = Math.ceil(data.length / postsPerPage);
+    const totalPages = Math.ceil(totalRecords / sessionsPerPage);
     const maxPageNumbersToShow = 5;
     const halfPageNumbersToShow = Math.floor(maxPageNumbersToShow / 2);
 
@@ -82,7 +93,7 @@ const ViewPublicSessionFeedback = () => {
                             <div>
                                 <center>
                                     <div className="alert alert-warning" role="alert">
-                                        No feedbacks found
+                                        No sessions found
                                     </div>
                                 </center>
                             </div>
@@ -92,21 +103,34 @@ const ViewPublicSessionFeedback = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Feedback</th>
+                                            <th scope="col">Session Name</th>
+                                            <th scope="col">Session Date</th>
+                                            <th scope="col">Session Time</th>
+                                            <th scope="col">Session Type</th>
+                                            <th scope="col">Session Venue</th>
+                                            <th scope="col">Session Attendance</th>
+                                            <th scope="col">Session Feedback</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {currentData.map((value, index) => (
+                                        {currentSessions.map((value, index) => (
                                             <tr key={index}>
-                                                <td>{indexOfFirstPost + index + 1}</td>
-                                                <td>{value.feedback_contents}</td>
+                                                <th>{(currentPage - 1) * sessionsPerPage + index + 1}</th>
+                                                <td>{value.session_topic_description}</td>
+                                                <td>{value.session_date}</td>
+                                                <td>{value.session_start_time}</td>
+                                                <td>{value.type}</td>
+                                                <td>{value.venue}</td>
+                                                <td><button className="btn btn-warning" onClick={() => { viewAttendence(value.session_public_id) }}>View</button></td>
+                                                <td><button className="btn btn-primary" onClick={() => { sessionFeedback(value.session_public_id) }}>View Feedback</button></td>
+                                               
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <span>
-                                        Showing {indexOfFirstPost + 1} to {Math.min(indexOfLastPost, data.length)} of {data.length} records
+                                        Showing {indexOfFirstSession + 1} to {Math.min(indexOfLastSession, totalRecords)} of {totalRecords} records
                                     </span>
                                     <ul className="pagination">
                                         {pageNumbers.map((number, index) =>
@@ -126,12 +150,12 @@ const ViewPublicSessionFeedback = () => {
                                 </div>
                             </div>
                         )}
-                        <Link className="link" onClick={goBack}>Back to sessions</Link>
+                        <Link className="link" to="/viewcompletedpublicevents">Back to completed events</Link>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ViewPublicSessionFeedback
+export default CompletedPublicEventSession;

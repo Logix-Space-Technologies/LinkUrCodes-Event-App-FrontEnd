@@ -41,10 +41,9 @@ const UserEvents = () => {
         navigate('/addeventfeedback');
     };
 
-    const handleSessions = (eventId, studId) => {
-        sessionStorage.setItem('eventId', eventId);
-        sessionStorage.setItem("userstudentID", studId);
-        navigate('/sessions');
+    const handleSessions = (eventId) => {
+        sessionStorage.setItem('Event_Id', eventId);
+        navigate('/sessionview');
     };
 
     const formatDate = (dateString) => {
@@ -147,7 +146,7 @@ const UserEvents = () => {
                                                 </a>
                                             </td>
                                             <td>
-                                                <button className="mt-auto btn btn-primary" onClick={() => handleSessions(value.event_private_id, value.student_id)}>
+                                                <button className="mt-auto btn btn-primary" onClick={() => handleSessions(value.event_public_id)}>
                                                     View Sessions
                                                 </button>
                                             </td>
