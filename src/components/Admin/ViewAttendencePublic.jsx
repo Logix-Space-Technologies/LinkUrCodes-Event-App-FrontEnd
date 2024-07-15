@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from './AdminNavbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../config';
 
@@ -32,6 +32,12 @@ const ViewAttendencePublic = () => {
                 console.error('Error fetching data:', error);
             });
     };
+
+    const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -159,7 +165,7 @@ const ViewAttendencePublic = () => {
                         )}
                     </div>
                     <div className="col col-12">
-                        <Link to="/viewpublicsession">Back to Session</Link>
+                        <Link onClick={goBack}>Back to Session</Link>
                     </div>
                 </div>
             </div>
