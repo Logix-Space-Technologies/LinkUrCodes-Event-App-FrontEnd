@@ -98,6 +98,7 @@ import UpdatePublicEvent from './components/Admin/UpdatePublicEvent';
 import ViewPrivateEventFeedback from './components/Admin/ViewPrivateEventFeedback';
 import ViewPublicEventFeedback from './components/Admin/ViewPublicEventFeedback';
 import ViewPublicSessionFeedback from './components/Admin/ViewPublicSessionFeedback';
+import PaymentHistory from './components/User/PaymentHistory';
 
 
 
@@ -136,6 +137,7 @@ function App() {
         <Route path='/forgotuserpassword' element={<ForgotUserPassword/>}/>
         <Route path='/updateuserpassword' element={<UpdateUserPassword/>}/>
         <Route path='/userregevents' element={<UserEvents/>}/>
+        <Route path='/userpaymenthistory' element={<PaymentHistory/>}/>
 
         <Route path='/viewevent' element={<ViewEvents/>}/>
         
