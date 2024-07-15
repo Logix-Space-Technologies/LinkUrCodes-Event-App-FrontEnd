@@ -29,6 +29,9 @@ const UserNavBar = () => {
           <Link class="nav-link" to="/viewevent">Events</Link>
         </li>
         <li class="nav-item">
+          <Link class="nav-link" to="/userpaymenthistory">Payment History</Link>
+        </li>
+        <li class="nav-item">
           <Link class="nav-link" to="/userregevents">Your Events</Link>
         </li>
         <li class="nav-item">
