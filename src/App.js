@@ -103,6 +103,7 @@ import PaymentHistory from './components/User/PaymentHistory';
 
 import UserSessionView from './components/User/UserSessionView';
 import CompletedPublicEventSession from './components/Admin/CompletedPublicEventSession';
+import ViewUserPaymentInfo from './components/Admin/ViewUserPaymentInfo';
 
 
 
@@ -200,6 +201,7 @@ function App() {
 
         <Route path='/addcollegepayment' element={<AddCollegePaymentInfo/>}/>
         <Route path='/viewcollegepayment' element={<ViewCollegePaymentInfo/>}/>
+        <Route path='/viewuserpayment' element={<ViewUserPaymentInfo/>}/>
 
         <Route path='/viewcompletedpublicevents' element={<ViewCompletedPublicEvents/>}/>
 
