@@ -12,10 +12,11 @@ const ViewUserPaymentInfo = () => {
     const getData = () => {
         axios.post(apiUrl, {}, { headers: { token: sessionStorage.getItem("admintoken") } })
             .then((response) => {
-                if (Array.isArray(response.data.data)) {
-                    setData(response.data.data);
-                    setTotalRecords(response.data.data.length);
-                } else if (response.data.data.length === 0) {
+                if (Array.isArray(response.data)) {
+                    setData(response.data);
+                    console.log(data)
+                    setTotalRecords(response.data.length);
+                } else if (response.data.length === 0) {
                     setData([]);
                     setTotalRecords(0);
                 } else {
@@ -93,34 +94,42 @@ const ViewUserPaymentInfo = () => {
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                         {data.length === 0 ? (
                             <div>
+                                <br />
                                 <center>
                                     <div className="alert alert-warning" role="alert">
-                                        No logs found
+                                        No Payement history found
                                     </div>
                                 </center>
                             </div>
                         ) : (
                             <div>
+                                <br />
                                 <table className="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">College Name</th>
+                                            <th scope="col">User Name</th>
                                             <th scope="col">Event Name</th>
-                                            <th scope="col">Date & Time</th>
+                                            <th scope="col">User Email</th>
+                                            <th scope="col">Phone</th>
                                             <th scope="col">Amount</th>
+                                            <th scope="col">Date & Time</th>
                                             <th scope="col">Invoice No</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {currentItems.map((value, index) => (
                                             <tr key={index}>
                                                 <th>{(currentPage - 1) * itemsPerPage + index + 1}</th>
-                                                <td>{value.User}</td>
-                                                <td>{value.Event}</td>
-                                                <td>{formattedDateTime(value.Date)}</td>
-                                                <td>{value.Amount}</td>
-                                                <td>{value.Invoice}</td>
+                                                <td>{value.user_name}</td>
+                                                <td>{value.event_public_name}</td>
+                                                <td>{value.user_email}</td>
+                                                <td>{value.user_contact_no}</td>
+                                                <td>{value.payment_amount}</td>
+                                                <td>{formattedDateTime(value.payment_date)}</td>
+                                                <td>{value.order_id}</td>
+                                                <td><span className="badge text-bg-success">{value.status}</span></td>
                                             </tr>
                                         ))}
                                     </tbody>
