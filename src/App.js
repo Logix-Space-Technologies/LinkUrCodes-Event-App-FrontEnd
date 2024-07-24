@@ -103,6 +103,7 @@ import PaymentHistory from './components/User/PaymentHistory';
 
 import UserSessionView from './components/User/UserSessionView';
 import CompletedPublicEventSession from './components/Admin/CompletedPublicEventSession';
+import GenerateCertificate from './components/Admin/GenerateCertificate';
 
 
 
@@ -216,7 +217,7 @@ function App() {
         <Route path='/sessionview' element={<UserSessionView/>}/>
         <Route path='/viewcompletedpubliceventsessions' element={<CompletedPublicEventSession/>}/>
         <Route path='/viewpublicsessionfeedback' element={<ViewPublicSessionFeedback/>}/>
-
+        <Route path='/generatecertificate' element={<GenerateCertificate/>}/>
 
 
       </Routes>

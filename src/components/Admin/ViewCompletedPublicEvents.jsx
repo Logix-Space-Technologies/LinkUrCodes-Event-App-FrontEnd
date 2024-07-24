@@ -35,6 +35,12 @@ const ViewCompletedPublicEvents = () => {
         navigate('/viewcompletedpubliceventsessions')
     };
 
+    const certificateGeneration = (event) => {
+        sessionStorage.setItem("eventViewID", event.event_public_id);
+        sessionStorage.setItem("eventName", event.event_public_name);
+        navigate('/generatecertificate')
+    };
+
     useEffect(() => { getData() }, [])
 
     const formattedDate = (date) => {
@@ -146,6 +152,8 @@ const ViewCompletedPublicEvents = () => {
                                             <th scope="col">Recorded Sessions</th>
                                             <th scope="col" >Sessions</th>
                                             <th scope="col" >Feedback</th>
+                                            <th scope="col" >Certificate</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -165,6 +173,8 @@ const ViewCompletedPublicEvents = () => {
                                                     <td>{value.event_public_recorded}</td>
                                                     <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_public_id) }}>View</button></td>
                                                     <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_public_id) }}>View</button></td>
+                                                    <td><button className="btn btn-danger" onClick={() => { certificateGeneration(value.event_public_id) }}>Generate</button></td>
+
                                         </tr>
                                     ))}
                                 </tbody>
