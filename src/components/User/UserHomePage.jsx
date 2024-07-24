@@ -8,8 +8,6 @@ const UserHomePage = () => {
         <UserNavBar/>
         <Slider/>
 
-        <h1>UserHome Page</h1>
-
     </div>
   )
 }

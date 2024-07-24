@@ -66,7 +66,7 @@ const AdminNavbar = () => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="/viewcollegepayment">College Payment</Link></li>
-                                    <li><Link className="dropdown-item" to="">User Payment</Link></li>
+                                    <li><Link className="dropdown-item" to="/viewuserpayment">User Payment</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
