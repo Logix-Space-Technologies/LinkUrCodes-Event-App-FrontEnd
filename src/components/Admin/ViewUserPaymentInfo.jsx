@@ -14,7 +14,6 @@ const ViewUserPaymentInfo = () => {
             .then((response) => {
                 if (Array.isArray(response.data)) {
                     setData(response.data);
-                    console.log(data)
                     setTotalRecords(response.data.length);
                 } else if (response.data.length === 0) {
                     setData([]);
