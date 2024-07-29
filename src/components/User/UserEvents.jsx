@@ -46,6 +46,11 @@ const UserEvents = () => {
         navigate('/sessionview');
     };
 
+    const viewCertificate = (eventId) => {
+        sessionStorage.setItem('Event_Id', eventId);
+        navigate('/viewcertificate');
+    };
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const day = String(date.getUTCDate()).padStart(2, '0');
@@ -122,6 +127,7 @@ const UserEvents = () => {
                                         <th scope="col">Syllabus</th>
                                         <th scope="col">Sessions</th>
                                         <th scope="col">Feedback</th>
+                                        <th scope="col">Certificate</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,6 +169,11 @@ const UserEvents = () => {
                                                     <span className="badge text-bg-danger">Inactive</span>
                                                 )}
 
+                                            </td>
+                                            <td>
+                                                <button className="mt-auto btn btn-primary" onClick={() => viewCertificate(value.event_public_id)}>
+                                                    View 
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
