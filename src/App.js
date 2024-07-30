@@ -105,6 +105,7 @@ import UserSessionView from './components/User/UserSessionView';
 import CompletedPublicEventSession from './components/Admin/CompletedPublicEventSession';
 import GenerateCertificate from './components/Admin/GenerateCertificate';
 import ViewCertificate from './components/User/ViewCertificate';
+import ViewGeneratedCertificate from './components/Admin/ViewGeneratedCertificate';
 
 
 
@@ -220,7 +221,7 @@ function App() {
         <Route path='/viewpublicsessionfeedback' element={<ViewPublicSessionFeedback/>}/>
         <Route path='/generatecertificate' element={<GenerateCertificate/>}/>
         <Route path='/viewcertificate' element={<ViewCertificate/>}/>
-
+        <Route path='/viewgeneratedcertificates' element={<ViewGeneratedCertificate/>}/>
 
       </Routes>
       </BrowserRouter>

@@ -36,6 +36,10 @@ const ViewCompletedPublicEvents = () => {
         sessionStorage.setItem("eventViewID", id);
         navigate('/viewcompletedpubliceventsessions')
     };
+    const certificateView = (id) => {
+        sessionStorage.setItem("eventViewID", id);
+        navigate('/viewgeneratedcertificates')
+    };
 
     const certificateGeneration = (event) => {
         axios.post(apiUrl1, { "event_id": event }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
@@ -179,6 +183,7 @@ const ViewCompletedPublicEvents = () => {
                                         <th scope="col" >Sessions</th>
                                         <th scope="col" >Feedback</th>
                                         <th scope="col" >Certificate</th>
+                                        <th scope="col" > View Certificate</th>
 
                                     </tr>
                                 </thead>
@@ -205,7 +210,9 @@ const ViewCompletedPublicEvents = () => {
                                                 ) : (
                                                     <button className="btn btn-success" onClick={() => { /*function */ }}>Download</button>
                                                 )}
-                                            </td>
+                                             </td>
+                                             <td><button className="btn btn-warning" onClick={() => { certificateView(value.event_public_id) }}>View</button></td>
+                                           
                                         </tr>
                                     ))}
                                 </tbody>
