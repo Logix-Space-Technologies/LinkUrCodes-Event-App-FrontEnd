@@ -104,6 +104,8 @@ import PaymentHistory from './components/User/PaymentHistory';
 import UserSessionView from './components/User/UserSessionView';
 import CompletedPublicEventSession from './components/Admin/CompletedPublicEventSession';
 import ViewUserPaymentInfo from './components/Admin/ViewUserPaymentInfo';
+import ViewCertificateRequests from './components/Admin/ViewCertificateRequests';
+import CollegeCertificateRequest from './components/College/CollegeCertificateRequest';
 
 
 
@@ -218,6 +220,8 @@ function App() {
         <Route path='/sessionview' element={<UserSessionView/>}/>
         <Route path='/viewcompletedpubliceventsessions' element={<CompletedPublicEventSession/>}/>
         <Route path='/viewpublicsessionfeedback' element={<ViewPublicSessionFeedback/>}/>
+        <Route path='/certificaterequests' element={<ViewCertificateRequests/>}/>
+        <Route path='/viewcertificaterequests' element={<CollegeCertificateRequest/>}/>
 
 
 

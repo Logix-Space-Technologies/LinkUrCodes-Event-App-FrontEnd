@@ -3,9 +3,13 @@ import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import '../../config'
+import html2canvas from 'html2canvas';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 const ViewCompletedPrivateEvents = () => {
     const apiUrl = global.config.urls.api.server + "/api/events/view_completed_private_events"
+    const apiUrl1 = global.config.urls.api.server + "/api/certificate/generate-certificate-students"
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,7 +31,7 @@ const ViewCompletedPrivateEvents = () => {
 
     useEffect(() => { getData() }, [])
 
-    
+
     const sessionView = (id) => {
         sessionStorage.setItem("eventID", id)
         navigate('/viewcompletedprivateeventsessions')
@@ -45,74 +49,171 @@ const ViewCompletedPrivateEvents = () => {
         return `${day}-${month}-${year}`;
     }
 
-   // Pagination logic
-   const indexOfLastEvent = currentPage * eventsPerPage
-   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
-   const currentEvents = data.slice(indexOfFirstEvent, indexOfLastEvent)
-   const totalEvents = data.length
+    const generateCertificate = (event,college) => {
+        axios.post(apiUrl1, { "event_id": event,"college_id":college }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+            (response) => {
+                switch (response.data.status) {
+                    case "Unauthorized":
+                        alert("Unauthorized !! Try Again !");
+                        break;
+                    case "error":
+                        alert("Something went wrong !");
+                        break;
+                    case "event not completed":
+                        alert("Event not completed to generate certificate");
+                        break;
+                    case "payment details not found":
+                        alert("Payment details for college not found");
+                        break;
+                    case "Certificates already generated":
+                        alert("Certificates already generated for this event");
+                        break;
+                    case "no students":
+                        alert("No students found to generate certificates");
+                        break;
+                    case "success":
+                        alert("Certificate successfully generated");
+                        getData()
+                        break;
+                    default:
+                        alert("Something went wrong !");
+                        break;
+                }
+            }
+        )
+    };
 
-   const paginate = (pageNumber) => {
-       setCurrentPage(pageNumber)
-   }
+    const handleDownloadClick = async (event) => {
+        try {
+            const apiUrl = global.config.urls.api.server + "/api/certificate/view-certificates-student-ByEvent";
+            const response = await axios.post(apiUrl, { event_id: event }, { headers: { token: sessionStorage.getItem("admintoken") } });
+            if (response.data.status === "Unauthorized") {
+                alert("Unauthorized access");
+            } else if (response.data.status === "event id is required" || response.data.status === "error") {
+                alert("Something went wrong!");
+            } else if (response.data.status === "no certificates found") {
+                alert("No certificates found");
+            } else if (Array.isArray(response.data)) {
+                generateEventCertificates(response.data);
+            } else {
+                alert("Something went wrong!");
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
 
-   const renderPageNumbers = () => {
-       const pageNumbers = [];
-       const totalPageNumbers = Math.ceil(totalEvents / eventsPerPage);
-       const siblingCount = 1; // Number of pages to show around the current page
+    const generateEventCertificates = async (users) => {
+        const zip = new JSZip();
+        const eventName = users[0]?.event_private_name || 'Event';
 
-       if (totalPageNumbers <= 5) {
-           // Show all pages if total pages is less than or equal to the maximum pages to show
-           for (let i = 1; i <= totalPageNumbers; i++) {
-               pageNumbers.push(
-                   <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-                       <button onClick={() => paginate(i)} className="page-link">
-                           {i}
-                       </button>
-                   </li>
-               );
-           }
-       } else {
-           // Show the first page, last page, and a few pages around the current page
-           const startPage = Math.max(2, currentPage - siblingCount);
-           const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
+        for (const user of users) {
+            const { student_name, event_private_name } = user;
 
-           pageNumbers.push(
-               <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-                   <button onClick={() => paginate(1)} className="page-link">
-                       1
-                   </button>
-               </li>
-           );
+            const container = document.createElement('div');
+            container.style.cssText = 'width: 800px; height: 600px; position: absolute; top: -9999px; left: -9999px; background: white; padding: 30px; border: 10px solid #e3e3e3; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);';
 
-           if (startPage > 2) {
-               pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
-           }
+            container.innerHTML = `
+                <div>
+                  <h1 style="text-align: center;">Certificate of Appreciation</h1>
+                  <p style="text-align: center;">This is to certify that</p>
+                  <h2 style="text-align: center; font-family: 'Brush Script MT', cursive; font-size: 36px;">${student_name}</h2>
+                  <p style="text-align: center;">has been honored with the</p>
+                  <h2 style="text-align: center; color: #d9534f;">${event_private_name}</h2>
+                  <p style="text-align: center;">in recognition of exceptional dedication, outstanding coding skills, and exemplary performance during</p>
+                  <p style="text-align: center;">8-day Google Flutter Full-stack Coding Bootcamp</p>
+                </div>
+            `;
 
-           for (let i = startPage; i <= endPage; i++) {
-               pageNumbers.push(
-                   <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-                       <button onClick={() => paginate(i)} className="page-link">
-                           {i}
-                       </button>
-                   </li>
-               );
-           }
+            document.body.appendChild(container);
 
-           if (endPage < totalPageNumbers - 1) {
-               pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
-           }
+            try {
+                // Increase the scale for better quality (higher resolution)
+                const canvas = await html2canvas(container, { scale: 2, useCORS: true });
+                const imgData = canvas.toDataURL('image/jpeg', 1.0); // JPEG with maximum quality
 
-           pageNumbers.push(
-               <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
-                   <button onClick={() => paginate(totalPageNumbers)} className="page-link">
-                       {totalPageNumbers}
-                   </button>
-               </li>
-           );
-       }
+                zip.file(`${student_name}.jpg`, imgData.split(',')[1], { base64: true });
+            } catch (error) {
+                console.error(`Error generating certificate for ${student_name}:`, error);
+            } finally {
+                document.body.removeChild(container);
+            }
+        }
 
-       return pageNumbers;
-   };
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const zipFileName = `${eventName.replace(/\s+/g, '_')}_certificates.zip`;
+        saveAs(zipBlob, zipFileName);
+    };
+
+
+    // Pagination logic
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = data.slice(indexOfFirstEvent, indexOfLastEvent)
+    const totalEvents = data.length
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        const totalPageNumbers = Math.ceil(totalEvents / eventsPerPage);
+        const siblingCount = 1; // Number of pages to show around the current page
+
+        if (totalPageNumbers <= 5) {
+            // Show all pages if total pages is less than or equal to the maximum pages to show
+            for (let i = 1; i <= totalPageNumbers; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+        } else {
+            // Show the first page, last page, and a few pages around the current page
+            const startPage = Math.max(2, currentPage - siblingCount);
+            const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
+
+            pageNumbers.push(
+                <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(1)} className="page-link">
+                        1
+                    </button>
+                </li>
+            );
+
+            if (startPage > 2) {
+                pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+
+            if (endPage < totalPageNumbers - 1) {
+                pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            pageNumbers.push(
+                <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
+                    <button onClick={() => paginate(totalPageNumbers)} className="page-link">
+                        {totalPageNumbers}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
 
 
     return (
@@ -124,7 +225,7 @@ const ViewCompletedPrivateEvents = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                <div class="alert alert-warning" role="alert">
+                                    <div class="alert alert-warning" role="alert">
                                         No Events found
                                     </div>
                                 </center>
@@ -147,6 +248,7 @@ const ViewCompletedPrivateEvents = () => {
                                         <th scope="col">Recorded Sessions</th>
                                         <th scope="col">Sessions</th>
                                         <th scope="col">Feedback</th>
+                                        <th scope="col">Certificate</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,6 +268,13 @@ const ViewCompletedPrivateEvents = () => {
                                             <td>{value.event_private_recorded}</td>
                                             <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
                                             <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_private_id) }}>View</button></td>
+                                            <td>
+                                                {(value.certificate_generated === 0) ? (
+                                                    <button className="btn btn-danger" onClick={() => { generateCertificate(value.event_private_id,value.event_private_clgid) }}>Generate</button>
+                                                ) : (
+                                                    <button className="btn btn-success" onClick={() => { handleDownloadClick(value.event_private_id) }}>Download</button>
+                                                )}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

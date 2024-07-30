@@ -6,6 +6,7 @@ import '../../config';
 
 const CollegeEvents = () => {
     const apiUrl = global.config.urls.api.server + "/api/college/collegeEvents";
+    const apiUrl1 = global.config.urls.api.server + "/api/certificate/request-certificate";
     const navigate = useNavigate();
     const [EventData, setEvent] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +18,6 @@ const CollegeEvents = () => {
             .then((response) => {
                 setEvent(response.data);
                 setTotalRecords(response.data.length);
-                console.log("eventdata", response.data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -27,6 +27,34 @@ const CollegeEvents = () => {
     const sessionView = (id) => {
         sessionStorage.setItem("eventID", id);
         navigate('/collegeviewsession');
+    };
+
+    const sentRequest = (event) => {
+        axios.post(apiUrl1, {
+            event_id: event,
+            college_id: sessionStorage.getItem("collegeid"),
+            faculty_id: sessionStorage.getItem("facultyid")
+        }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } })
+            .then((response) => {
+                if (response.data.status === "requested") {
+                    alert("Request sented")
+                }
+                else if (response.data.status === "already requested") {
+                    alert("Request already sented")
+                }
+                else if (response.data.status === "requested") {
+                    alert("Request sented")
+                }
+                else if (response.data.status === "error") {
+                    alert("Something went wrong!")
+                }
+                else {
+                    alert("Something went wrong!")
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
     };
 
     const formattedDate = (date) => {
@@ -122,6 +150,7 @@ const CollegeEvents = () => {
                                     <th scope="col">Start Time</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Session</th>
+                                    <th scope="col" colSpan={2} style={{ textAlign: 'center' }}>Certificates</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,11 +167,25 @@ const CollegeEvents = () => {
                                             {(value.delete_status === "active" && value.cancel_status === "active" && value.is_completed === "not completed") ? (
                                                 <span className="badge text-bg-success">Active</span>
                                             ) : (
-                                                <span className="badge text-bg-danger">Event Completed</span>
+                                                <span className="badge text-bg-warning">Event Completed</span>
                                             )}
                                         </td>
                                         <td>
-                                            <button className="btn btn-warning" onClick={() => { sessionView(value.event_private_id) }}>View Session</button>
+                                            <button className="btn btn-warning" onClick={() => { sessionView(value.event_private_id) }}>View</button>
+                                        </td>
+                                        <td>
+                                            {(value.is_completed === "completed") ? (
+                                                <button className="btn btn-success" onClick={() => sentRequest(value.event_private_id)}>Sent Request</button>
+                                            ) : (
+                                                <span className="badge text-bg-danger">Event not Completed</span>
+                                            )}
+                                        </td>
+                                        <td>
+                                            {(value.certificate_generated === 1) ? (
+                                                <button className="btn btn-success">Download</button>
+                                            ) : (
+                                                <span className="badge text-bg-danger">Certificate not generated</span>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
