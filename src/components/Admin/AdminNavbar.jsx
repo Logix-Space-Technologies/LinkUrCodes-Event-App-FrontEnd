@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const AdminNavbar = () => {
-
+    useEffect(()=>{
+        let adminId=sessionStorage.getItem("adminid")
+        if (adminId===null || adminId==undefined){
+            navigate('/')
+        }
+    })
     let navigate = useNavigate()
     const logOutAction = () => {
         sessionStorage.clear()

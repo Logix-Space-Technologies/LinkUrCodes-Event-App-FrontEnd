@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const CollegeNavBar = () => {
   let navigate = useNavigate()
+
+  useEffect(()=>{
+    let facultyId=sessionStorage.getItem("facultyid")
+    if (facultyId===null || facultyId==undefined){
+        navigate('/')
+    }
+})
+
   const logOutAction = () => {
     sessionStorage.clear()
     navigate("/collegelogin")
