@@ -106,50 +106,54 @@ const ViewCompletedPrivateEvents = () => {
     const generateEventCertificates = async (users) => {
         const zip = new JSZip();
         const eventName = users[0]?.event_private_name || 'Event';
-
+    
         for (const user of users) {
-            const {student_name,event_private_name,college_name,issued_date,certificate_no,event_private_duration} = user;
-
-            // Paths to the images
-            const logo_path = 'src/components/assets/signature.png'
-            const signature_path = 'src/components/assets/signature.png'
-            const background_path = 'src/components/assets/background.png'
-
+            const { student_name, event_private_name, college_name, issued_date, certificate_no, event_private_duration } = user;
+    
+            // Paths to the images (Ensure these paths are correct and accessible)
+            const logo_path = require('../assets/logo.png')
+            const signature_path = require('../assets/signature.png')
+            const background_path = require('../assets/background.png')
+    
             const container = document.createElement('div');
-            container.style.cssText = 'width: 800px; height: 600px; position: absolute; top: -9999px; left: -9999px; background: white; padding: 30px; border: 10px solid #e3e3e3; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);';
-
+            container.style.cssText = `
+                width: 800px; height: 600px; position: absolute; top: -9999px; left: -9999px; background: url('${background_path}');
+                background-size: cover; padding: 30px; color: black; font-family: Arial, sans-serif; box-sizing: border-box;
+            `;
+    
+            // Set the inner HTML for the certificate content
             container.innerHTML = `
-                 <div style="position: relative; height: 100%;">
-                <div style="text-align: center;">
+            <div style="position: absolute; top: 20px; right: 20px;">
+                        <img src="${logo_path}" alt="Logo" style="height: 40px;"/>
+                    </div>
+                <div style="position: relative; height: 100%; padding-top: 70px;"">
+                  <div style="text-align: center;">
                     <p>Certificate No: ${certificate_no}</p>
                     <h1>CERTIFICATE OF PARTICIPATION</h1>
-                    <p>This is to certify that</p>
-                    <h2 style="font-family: 'Brush Script MT', cursive; font-size: 46px;">${student_name}</h2>
-                    <p>of <b>${college_name}</b>, has successfully completed a ${event_private_duration}-day workshop on</p>
-                    <h2 style="color: #d9534f;">${event_private_name}</h2>
-                    <p>jointly conducted by </p>
-                    <p><b>Link Ur Codes</b> and <b>${college_name}</b></p>
-                </div>
-                <div style="position: absolute; top: 20px; right: 20px;">
-                    <img src="${logo_path}" alt="Logo" style="height: 60px;"/>
+                    <p style="font-size: 20px;">This is to certify that</p>
+                    <h2 style="font-family: 'Brush Script MT', cursive; font-size: 46px; text-transform: capitalize;">${student_name}</h2>
+                    <p style="font-size: 20px;">of <b style="text-transform: capitalize;" >${college_name}</b>, has successfully completed a ${event_private_duration}-day workshop on</p>
+                    <h2 style="color: #d9534f; text-transform: capitalize;">${event_private_name}</h2>
+                    <p style="font-size: 20px;">jointly conducted by </p>
+                    <p style="font-size: 20px;"><b>Link Ur Codes</b> and <b style="text-transform: capitalize;">${college_name}</b></p>
+                  </div>
                 </div>
                 <div style="position: absolute; bottom: 30px; left: 30px;">
                     <p>Issued Date: ${issued_date}</p>
-                </div>
-                <div style="position: absolute; bottom: 30px; right: 30px; text-align: center;">
+                    </div>
+               <div style="position: absolute; bottom: 30px; right: 105px; text-align: center;"> 
                     <img src="${signature_path}" alt="Signature" style="height: 50px;"/>
                     <p>CEO, Link Ur Codes</p>
                 </div>
-            </div>
             `;
-
+    
             document.body.appendChild(container);
-
+    
             try {
                 // Increase the scale for better quality (higher resolution)
                 const canvas = await html2canvas(container, { scale: 2, useCORS: true });
                 const imgData = canvas.toDataURL('image/jpeg', 1.0); // JPEG with maximum quality
-
+    
                 zip.file(`${student_name}.jpg`, imgData.split(',')[1], { base64: true });
             } catch (error) {
                 console.error(`Error generating certificate for ${student_name}:`, error);
@@ -157,7 +161,7 @@ const ViewCompletedPrivateEvents = () => {
                 document.body.removeChild(container);
             }
         }
-
+    
         const zipBlob = await zip.generateAsync({ type: 'blob' });
         const zipFileName = `${eventName.replace(/\s+/g, '_')}_certificates.zip`;
         saveAs(zipBlob, zipFileName);

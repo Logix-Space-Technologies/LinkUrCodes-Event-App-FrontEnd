@@ -83,51 +83,42 @@ const StudentEventView = () => {
     };
 
     const generateEventCertificates = async (user) => {
-        const {student_name,event_private_name,college_name,issued_date,certificate_no,event_private_duration} = user[0];
+        const { student_name, event_private_name, college_name, issued_date, certificate_no, event_private_duration } = user[0];
 
         // Paths to the images
-        const logo_path = 'src/components/assets/signature.png'
-        const signature_path = 'src/components/assets/signature.png'
-        const background_path = 'src/components/assets/background.png'
+        const logo_path = require('../assets/logo.png')
+        const signature_path = require('../assets/signature.png')
+        const background_path = require('../assets/background.png')
         // Create a container element for the certificate
         const container = document.createElement('div');
         container.style.cssText = `
-            width: 800px;
-            height: 600px;
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
-            background: url('${background_path}');
-            background-size: cover;
-            padding: 30px;
-            color: black;
-            font-family: Arial, sans-serif;
-            box-sizing: border-box;
+            width: 800px; height: 600px; position: absolute; top: -9999px; left: -9999px; background: url('${background_path}');
+            background-size: cover; padding: 30px; color: black; font-family: Arial, sans-serif; box-sizing: border-box;
         `;
 
         // Set the inner HTML for the certificate content
         container.innerHTML = `
-            <div style="position: relative; height: 100%;">
+        <div style="position: absolute; top: 20px; right: 20px;">
+                    <img src="${logo_path}" alt="Logo" style="height: 40px;"/>
+                </div>
+            <div style="position: relative; height: 100%; padding-top: 70px;"">
                 <div style="text-align: center;">
                     <p>Certificate No: ${certificate_no}</p>
                     <h1>CERTIFICATE OF PARTICIPATION</h1>
-                    <p>This is to certify that</p>
-                    <h2 style="font-family: 'Brush Script MT', cursive; font-size: 46px;">${student_name}</h2>
-                    <p>of <b>${college_name}</b>, has successfully completed a ${event_private_duration}-day workshop on</p>
-                    <h2 style="color: #d9534f;">${event_private_name}</h2>
-                    <p>jointly conducted by </p>
-                    <p><b>Link Ur Codes</b> and <b>${college_name}</b></p>
+                    <p style="font-size: 20px;">This is to certify that</p>
+                    <h2 style="font-family: 'Brush Script MT', cursive; font-size: 46px; text-transform: capitalize;">${student_name}</h2>
+                    <p style="font-size: 20px;">of <b style="text-transform: capitalize;" >${college_name}</b>, has successfully completed a ${event_private_duration}-day workshop on</p>
+                    <h2 style="color: #d9534f; text-transform: capitalize;">${event_private_name}</h2>
+                    <p style="font-size: 20px;">jointly conducted by </p>
+                    <p style="font-size: 20px;"><b>Link Ur Codes</b> and <b style="text-transform: capitalize;">${college_name}</b></p>
                 </div>
-                <div style="position: absolute; top: 20px; right: 20px;">
-                    <img src="${logo_path}" alt="Logo" style="height: 60px;"/>
+            </div>
+            <div style="position: absolute; bottom: 30px; left: 30px;">
+                <p>Issued Date: ${issued_date}</p>
                 </div>
-                <div style="position: absolute; bottom: 30px; left: 30px;">
-                    <p>Issued Date: ${issued_date}</p>
-                </div>
-                <div style="position: absolute; bottom: 30px; right: 30px; text-align: center;">
-                    <img src="${signature_path}" alt="Signature" style="height: 50px;"/>
-                    <p>CEO, Link Ur Codes</p>
-                </div>
+           <div style="position: absolute; bottom: 30px; right: 105px; text-align: center;"> 
+                <img src="${signature_path}" alt="Signature" style="height: 50px;"/>
+                <p>CEO, Link Ur Codes</p>
             </div>
         `;
 
