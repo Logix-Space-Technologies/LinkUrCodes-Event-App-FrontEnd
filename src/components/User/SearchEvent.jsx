@@ -78,7 +78,7 @@ const SearchEvent = () => {
             {Array.isArray(searchResults) && searchResults.map(event => (
               <div className="col-md-4" key={event.event_public_id}>
                 <div className="card">
-                  <img src={event.event_public_image} className="card-img-top" alt="Event" />
+                  <img src={global.config.urls.api.server +`/${event.event_public_image}`} className="card-img-top" alt="Event" />
                   <div className="card-body">
                     <h5 className="card-title">{event.event_public_name}</h5>
                     <p className="card-text">Description: {event.event_public_description}</p>

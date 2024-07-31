@@ -108,21 +108,39 @@ const ViewCompletedPrivateEvents = () => {
         const eventName = users[0]?.event_private_name || 'Event';
 
         for (const user of users) {
-            const { student_name, event_private_name } = user;
+            const {student_name,event_private_name,college_name,issued_date,certificate_no,event_private_duration} = user;
+
+            // Paths to the images
+            const logo_path = 'src/components/assets/signature.png'
+            const signature_path = 'src/components/assets/signature.png'
+            const background_path = 'src/components/assets/background.png'
 
             const container = document.createElement('div');
             container.style.cssText = 'width: 800px; height: 600px; position: absolute; top: -9999px; left: -9999px; background: white; padding: 30px; border: 10px solid #e3e3e3; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);';
 
             container.innerHTML = `
-                <div>
-                  <h1 style="text-align: center;">Certificate of Appreciation</h1>
-                  <p style="text-align: center;">This is to certify that</p>
-                  <h2 style="text-align: center; font-family: 'Brush Script MT', cursive; font-size: 36px;">${student_name}</h2>
-                  <p style="text-align: center;">has been honored with the</p>
-                  <h2 style="text-align: center; color: #d9534f;">${event_private_name}</h2>
-                  <p style="text-align: center;">in recognition of exceptional dedication, outstanding coding skills, and exemplary performance during</p>
-                  <p style="text-align: center;">8-day Google Flutter Full-stack Coding Bootcamp</p>
+                 <div style="position: relative; height: 100%;">
+                <div style="text-align: center;">
+                    <p>Certificate No: ${certificate_no}</p>
+                    <h1>CERTIFICATE OF PARTICIPATION</h1>
+                    <p>This is to certify that</p>
+                    <h2 style="font-family: 'Brush Script MT', cursive; font-size: 46px;">${student_name}</h2>
+                    <p>of <b>${college_name}</b>, has successfully completed a ${event_private_duration}-day workshop on</p>
+                    <h2 style="color: #d9534f;">${event_private_name}</h2>
+                    <p>jointly conducted by </p>
+                    <p><b>Link Ur Codes</b> and <b>${college_name}</b></p>
                 </div>
+                <div style="position: absolute; top: 20px; right: 20px;">
+                    <img src="${logo_path}" alt="Logo" style="height: 60px;"/>
+                </div>
+                <div style="position: absolute; bottom: 30px; left: 30px;">
+                    <p>Issued Date: ${issued_date}</p>
+                </div>
+                <div style="position: absolute; bottom: 30px; right: 30px; text-align: center;">
+                    <img src="${signature_path}" alt="Signature" style="height: 50px;"/>
+                    <p>CEO, Link Ur Codes</p>
+                </div>
+            </div>
             `;
 
             document.body.appendChild(container);
@@ -256,7 +274,7 @@ const ViewCompletedPrivateEvents = () => {
                                         <tr key={index}>
                                             <th>{indexOfFirstEvent + index + 1}</th>
                                             <td>{value.event_private_name}</td>
-                                            <td><img src={`http://localhost:8085/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                            <td><img src={global.config.urls.api.server +`/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                             <td>{value.college_name}</td>
                                             <td>{value.event_private_description}</td>
                                             <td>{value.event_private_amount}</td>

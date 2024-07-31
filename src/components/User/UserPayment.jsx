@@ -146,7 +146,13 @@ const UserPayment = () => {
     return <div>Loading...</div>;
   }
 
-  
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const year = date.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+};
 
   return (
     <div>
@@ -155,12 +161,12 @@ const UserPayment = () => {
         <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4 card-color">
-              <img src={`http://localhost:8085/${event.event_public_image}`} width="150px" class="img-fluid rounded-start" alt="..." />
+              <img src={global.config.urls.api.server +`/${event.event_public_image}`} width="150px" class="img-fluid rounded-start" alt="..." />
             </div>
             <div class="col-md-8 card-color">
               <div class="card-body ">
                 <h5 class="card-title">Name:{event.event_public_name}</h5>
-                <h5 class="card-text">Date: {event.event_public_date}</h5>
+                <h5 class="card-text">Date: {formatDate(event.event_public_date)}</h5>
                 <h5 class="card-text">Venue: {event.event_venue}</h5><br></br>
                 <h4 class="card-text">Payment Amount: <b>{event.event_public_amount}</b></h4>
                   <button id="pay-button" className="btn btn-primary" onClick={createOrder}>Pay Now</button>

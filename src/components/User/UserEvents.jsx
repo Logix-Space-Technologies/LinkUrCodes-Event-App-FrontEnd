@@ -128,7 +128,7 @@ const UserEvents = () => {
                                     {eventData.slice(indexOfFirstPost, indexOfLastPost).map((value, index) => (
                                         <tr key={value.event_public_id}>
                                             <th>{index + 1}</th>
-                                            <td><img src={`http://localhost:8085/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                            <td><img src={global.config.urls.api.server +`/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                             <td>{value.event_public_name}</td>
                                             <td>{value.event_public_description}</td>
                                             <td>{formatDate(value.event_public_date)}</td>
@@ -138,7 +138,7 @@ const UserEvents = () => {
                                             <td>{value.event_public_offline}</td>
                                             <td>{value.event_public_recorded}</td>
                                             <td>
-                                                <a href={`http://localhost:8085/${value.event_public_syllabus}`} className="btn btn-danger" download>
+                                                <a href={global.config.urls.api.server +`${value.event_syllabus}`} className="btn btn-danger" download>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-download" viewBox="0 0 16 16">
                                                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                                                         <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />

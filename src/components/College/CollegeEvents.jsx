@@ -3,6 +3,9 @@ import CollegeNavBar from './CollegeNavBar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../config';
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
+import JSZip from 'jszip';
 
 const CollegeEvents = () => {
     const apiUrl = global.config.urls.api.server + "/api/college/collegeEvents";
@@ -63,6 +66,93 @@ const CollegeEvents = () => {
         const month = String(d.getMonth() + 1).padStart(2, '0');
         const year = d.getFullYear();
         return `${day}-${month}-${year}`;
+    };
+
+
+    const downloadCertificate = async (event) => {
+        try {
+            const apiUrl2 = global.config.urls.api.server + "/api/certificate/view-students-certificates-ByEvent";
+            const response = await axios.post(apiUrl2, { event_id: event }, { headers: { collegetoken: sessionStorage.getItem("collegetoken") } });
+            if (response.data.status === "Unauthorized") {
+                alert("Unauthorized access");
+            } else if (response.data.status === "event id is required" || response.data.status === "error") {
+                alert("Something went wrong!");
+            } else if (response.data.status === "error") {
+                alert("Something went wrong!");
+            } else if (response.data.status === "no request found") {
+                alert("Certificate download request not found !!! send request");
+            }else if (response.data.status === "no certificates found") {
+                alert("No certificates found");
+            }else if (response.data.status === "no permission") {
+                alert("No permission to download certificates ! check certificate request ");
+            }else if (Array.isArray(response.data)) {
+                generateEventCertificates(response.data);
+            } else {
+                alert("Something went wrong!");
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
+    const generateEventCertificates = async (users) => {
+        const zip = new JSZip();
+        const eventName = users[0]?.event_private_name || 'Event';
+
+        for (const user of users) {
+            const {student_name,event_private_name,college_name,issued_date,certificate_no,event_private_duration} = user;
+
+        // Paths to the images
+        const logo_path = 'src/components/assets/signature.png'
+        const signature_path = 'src/components/assets/signature.png'
+        const background_path = 'src/components/assets/background.png'
+
+            const container = document.createElement('div');
+            container.style.cssText = 'width: 800px; height: 600px; position: absolute; top: -9999px; left: -9999px; background: white; padding: 30px; border: 10px solid #e3e3e3; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);';
+
+            container.innerHTML = `
+                <div style="position: relative; height: 100%;">
+                <div style="text-align: center;">
+                    <p>Certificate No: ${certificate_no}</p>
+                    <h1>CERTIFICATE OF PARTICIPATION</h1>
+                    <p>This is to certify that</p>
+                    <h2 style="font-family: 'Brush Script MT', cursive; font-size: 46px;">${student_name}</h2>
+                    <p>of <b>${college_name}</b>, has successfully completed a ${event_private_duration}-day workshop on</p>
+                    <h2 style="color: #d9534f;">${event_private_name}</h2>
+                    <p>jointly conducted by </p>
+                    <p><b>Link Ur Codes</b> and <b>${college_name}</b></p>
+                </div>
+                <div style="position: absolute; top: 20px; right: 20px;">
+                    <img src="${logo_path}" alt="Logo" style="height: 60px;"/>
+                </div>
+                <div style="position: absolute; bottom: 30px; left: 30px;">
+                    <p>Issued Date: ${issued_date}</p>
+                </div>
+                <div style="position: absolute; bottom: 30px; right: 30px; text-align: center;">
+                    <img src="${signature_path}" alt="Signature" style="height: 50px;"/>
+                    <p>CEO, Link Ur Codes</p>
+                </div>
+            </div>
+            `;
+
+            document.body.appendChild(container);
+
+            try {
+                // Increase the scale for better quality (higher resolution)
+                const canvas = await html2canvas(container, { scale: 2, useCORS: true });
+                const imgData = canvas.toDataURL('image/jpeg', 1.0); // JPEG with maximum quality
+
+                zip.file(`${student_name}.jpg`, imgData.split(',')[1], { base64: true });
+            } catch (error) {
+                console.error(`Error generating certificate for ${student_name}:`, error);
+            } finally {
+                document.body.removeChild(container);
+            }
+        }
+
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const zipFileName = `${eventName.replace(/\s+/g, '_')}_certificates.zip`;
+        saveAs(zipBlob, zipFileName);
     };
 
     useEffect(() => { readEvents(); }, []);
@@ -157,7 +247,7 @@ const CollegeEvents = () => {
                                 {currentItems.map((value, index) => (
                                     <tr key={index}>
                                         <th>{indexOfFirstItem + index + 1}</th>
-                                        <td><img src={`http://localhost:8085/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                        <td><img src={global.config.urls.api.server +`/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                         <td>{value.event_private_name}</td>
                                         <td>{value.event_private_amount}</td>
                                         <td>{value.event_private_description}</td>
@@ -182,7 +272,7 @@ const CollegeEvents = () => {
                                         </td>
                                         <td>
                                             {(value.certificate_generated === 1) ? (
-                                                <button className="btn btn-success">Download</button>
+                                                <button className="btn btn-success" onClick={() => { downloadCertificate(value.event_private_id) }}>Download</button>
                                             ) : (
                                                 <span className="badge text-bg-danger">Certificate not generated</span>
                                             )}
