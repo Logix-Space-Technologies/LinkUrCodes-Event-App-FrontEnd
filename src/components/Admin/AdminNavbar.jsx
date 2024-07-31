@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const AdminNavbar = () => {
-
+    useEffect(()=>{
+        let adminId=sessionStorage.getItem("adminid")
+        if (adminId===null || adminId==undefined){
+            navigate('/')
+        }
+    })
     let navigate = useNavigate()
     const logOutAction = () => {
         sessionStorage.clear()
@@ -41,6 +46,7 @@ const AdminNavbar = () => {
                                     <li><Link className="dropdown-item" to="/viewprivateevent">View</Link></li>
                                     <li><Link className="dropdown-item" to="/viewcompletedprivateevents">Completed</Link></li>
                                     <li><Link className="dropdown-item" to="/retrieveprivateevent">Retrieve</Link></li>
+                                    <li><Link className="dropdown-item" to="/certificaterequests">Certificate Requests</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">

@@ -215,7 +215,7 @@ const ViewPrivateEvent = () => {
                                             <tr key={value.event_private_id}>
                                                 <th>{indexOfFirstItem + index + 1}</th>
                                                 <td>{value.event_private_name}</td>
-                                                <td><img src={`http://localhost:8085/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                                <td><img src={global.config.urls.api.server +`/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                                 <td>{value.college_name}</td>
                                                 <td>{value.event_private_description}</td>
                                                 <td>{value.event_private_amount}</td>

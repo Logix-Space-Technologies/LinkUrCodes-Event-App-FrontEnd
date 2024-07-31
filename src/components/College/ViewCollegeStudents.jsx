@@ -34,7 +34,7 @@ const ViewCollegeStudents = () => {
                             (value, index) => {
                                 return <div className="col col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 d-flex">
                                     <div class="card" >
-                                        <img src={`http://localhost:8085/${value.event_private_image}`} class="card-img-top" alt="..." />
+                                        <img src={global.config.urls.api.server +`/${value.event_private_image}`} class="card-img-top" alt="..." />
                                         <div class="card-body">
                                             <h5 class="card-title">Name : {value.event_private_name}</h5>
                                             <p class="card-text">Amount : {value.event_private_amount}</p>

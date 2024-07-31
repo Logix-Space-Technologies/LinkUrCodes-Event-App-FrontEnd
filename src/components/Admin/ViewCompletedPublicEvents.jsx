@@ -153,7 +153,7 @@ const ViewCompletedPublicEvents = () => {
                                         <tr key={index}>
                                             <th>{indexOfFirstEvent + index + 1}</th>
                                             <td>{value.event_public_name}</td>
-                                                    <td><img src={`http://localhost:8085/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                                    <td><img src={global.config.urls.api.server +`/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                                     <td>{value.event_public_description}</td>
                                                     <td>{value.event_public_amount}</td>
                                                     <td>{formattedDate(value.event_public_date)}</td>

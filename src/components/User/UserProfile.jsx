@@ -30,7 +30,7 @@ const UserProfile = () => {
                             {userData ? (
 
                                 <div class="card" style={{width: "40rem"}} >
-                                    <img src={`http://localhost:8085/${userData.image}`} class="card-img-top" style={{
+                                    <img src={global.config.urls.api.server +`/${userData.image}`} class="card-img-top" style={{
                                         borderRadius: '50%',
                                         width: '400px',
                                         height: '400px',
