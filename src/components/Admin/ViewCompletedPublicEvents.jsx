@@ -6,6 +6,7 @@ import '../../config'
 
 const ViewCompletedPublicEvents = () => {
     const apiUrl = global.config.urls.api.server + "/api/events/view_completed_public_events"
+    const apiUrl1 = global.config.urls.api.server + "/api/certificate/generate-certificate-user"
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -44,6 +45,37 @@ const ViewCompletedPublicEvents = () => {
         const year = d.getFullYear();
         return `${day}-${month}-${year}`;
     }
+
+    const certificateGeneration = (event) => {
+        axios.post(apiUrl1, { "event_id": event }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+            (response) => {
+                switch (response.data.status) {
+                    case "Unauthorized":
+                        alert("Unauthorized !! Try Again !");
+                        break;
+                    case "error":
+                        alert("Something went wrong !");
+                        break;
+                    case "event not completed":
+                        alert("Event not completed to generate certificate");
+                        break;
+                    case "Certificates already generated":
+                        alert("Certificates already generated for this event");
+                        break;
+                    case "no users":
+                        alert("No users found to generate certificates");
+                        break;
+                    case "success":
+                        alert("Certificate successfully generated");
+                        getData()
+                        break;
+                    default:
+                        alert("Something went wrong !");
+                        break;
+                }
+            }
+        )
+    };
 
     // Pagination logic
     const indexOfLastEvent = currentPage * eventsPerPage
@@ -123,7 +155,7 @@ const ViewCompletedPublicEvents = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                <div class="alert alert-warning" role="alert">
+                                    <div class="alert alert-warning" role="alert">
                                         No Events found
                                     </div>
                                 </center>
@@ -132,20 +164,21 @@ const ViewCompletedPublicEvents = () => {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                    <th scope="col">#</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Image</th>
-                                            <th scope="col">Description</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Time</th>
-                                            <th scope="col">Venue</th>
-                                            <th scope="col">Total Duration</th>
-                                            <th scope="col">Online Sessions</th>
-                                            <th scope="col">Offline Sessions</th>
-                                            <th scope="col">Recorded Sessions</th>
-                                            <th scope="col" >Sessions</th>
-                                            <th scope="col" >Feedback</th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Time</th>
+                                        <th scope="col">Venue</th>
+                                        <th scope="col">Total Duration</th>
+                                        <th scope="col">Online Sessions</th>
+                                        <th scope="col">Offline Sessions</th>
+                                        <th scope="col">Recorded Sessions</th>
+                                        <th scope="col" >Sessions</th>
+                                        <th scope="col" >Feedback</th>
+                                        <th scope="col" >Certificate</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -153,18 +186,26 @@ const ViewCompletedPublicEvents = () => {
                                         <tr key={index}>
                                             <th>{indexOfFirstEvent + index + 1}</th>
                                             <td>{value.event_public_name}</td>
-                                                    <td><img src={global.config.urls.api.server +`/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
-                                                    <td>{value.event_public_description}</td>
-                                                    <td>{value.event_public_amount}</td>
-                                                    <td>{formattedDate(value.event_public_date)}</td>
-                                                    <td>{value.event_public_time}</td>
-                                                    <td>{value.event_venue}</td>
-                                                    <td>{value.event_public_duration}</td>
-                                                    <td>{value.event_public_online}</td>
-                                                    <td>{value.event_public_offline}</td>
-                                                    <td>{value.event_public_recorded}</td>
-                                                    <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_public_id) }}>View</button></td>
-                                                    <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_public_id) }}>View</button></td>
+                                            <td><img src={global.config.urls.api.server + `/${value.event_public_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                            <td>{value.event_public_description}</td>
+                                            <td>{value.event_public_amount}</td>
+                                            <td>{formattedDate(value.event_public_date)}</td>
+                                            <td>{value.event_public_time}</td>
+                                            <td>{value.event_venue}</td>
+                                            <td>{value.event_public_duration}</td>
+                                            <td>{value.event_public_online}</td>
+                                            <td>{value.event_public_offline}</td>
+                                            <td>{value.event_public_recorded}</td>
+                                            <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_public_id) }}>View</button></td>
+                                            <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_public_id) }}>View</button></td>
+                                            <td>
+                                                {(value.certificate_generated === 0) ? (
+                                                    <button className="btn btn-danger" onClick={() => { certificateGeneration(value.event_public_id) }}>Generate</button>
+                                                ) : (
+                                                    // <button className="btn btn-success" onClick={() => { handleDownloadClick(value.event_private_id) }}>Download</button>
+                                               <p>ds</p>
+                                               )}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
