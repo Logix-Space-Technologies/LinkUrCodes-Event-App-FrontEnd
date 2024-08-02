@@ -6,8 +6,10 @@ import '../../config'
 
 const ViewEvents = () => {
   const apiUrl = global.config.urls.api.server + "/api/events/view_user_public_events"
+  const apiUrl1 = global.config.urls.api.server + "/api/events/view_user_reg_events";
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
+  const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -32,7 +34,28 @@ const ViewEvents = () => {
     fetchEvents();
   }, []); // Run once on component mount
 
-  console.log("ev",events)
+  const readEvents = () => {
+    axios.post(
+        apiUrl1,
+        {},
+        { headers: { token: sessionStorage.getItem("token") } }
+    )
+        .then((response) => {
+            if (response.data.status === "success") {
+                setEventData(response.data.events);
+            } else {
+                setEventData([]);
+                setError(response.data.message || "No events found");
+            }
+        })
+        .catch((error) => {
+            setError('Error fetching data:', error.message);
+        });
+};
+useEffect(() => {
+  readEvents();
+}, []);
+
   const navigate=useNavigate()
   const handleRegistration = (eventId) => {
     const selectedEvent = events.find(event => event.event_public_id === eventId);
@@ -55,7 +78,7 @@ const ViewEvents = () => {
           {events.map(event => (
             <div className="col-md-4 mb-4" key={event.event_public_id}>
               <div className="card h-100">
-                <img src={`http://localhost:8085/${event.event_public_image}`} className="card-img-top" alt="Event" />
+                <img src={global.config.urls.api.server +`/${event.event_public_image}`} className="card-img-top img-fluid" style={{ maxHeight: '200px' }} alt="Event" />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{event.event_public_name}</h5>
                   <p className="card-text">Description: {event.event_public_description}</p>
@@ -63,16 +86,22 @@ const ViewEvents = () => {
                   <p className="card-text">Date: {event.event_public_date}</p>
                   <p className="card-text">Time: {event.event_public_time}</p>
                   <p className="card-text">Venue: {event.event_venue}</p>
-                  <button className="mt-auto btn btn-primary" onClick={() => handleRegistration(event.event_public_id)}>
-                    Register
-                  </button>
+                  {eventData.some(e => e.event_public_id === event.event_public_id) ? (
+                    <button className="mt-auto btn btn-success" disabled>
+                      Already Registered
+                    </button>
+                  ) : (
+                    <button className="mt-auto btn btn-primary" onClick={() => handleRegistration(event.event_public_id)}>
+                      Register
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
-      {error && <div className="alert alert-danger mt-3" role="alert">{error}</div>}
+      {error && <div className="alert alert-danger mt-3" role="alert">Something Went Erong</div>}
     </div>
   );
 };

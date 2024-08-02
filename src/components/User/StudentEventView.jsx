@@ -63,9 +63,9 @@ const StudentEventView = () => {
             if (response.data.status === "Unauthorized") {
                 alert("Unauthorized access");
             } else if (response.data.status === "event & email id is required" || response.data.status === "error") {
-                alert("Something went wrong! 1");
+                alert("Something went wrong!");
             } else if (response.data.status === "error") {
-                alert("Something went wrong!2");
+                alert("Something went wrong!");
             } else if (response.data.status === "no request found") {
                 alert("Certificate download request not found !!!  Ask faculty");
             } else if (response.data.status === "no certificates found") {
@@ -75,7 +75,7 @@ const StudentEventView = () => {
             } else if (Array.isArray(response.data)) {
                 generateEventCertificates(response.data);
             } else {
-                alert("Something went wrong!3");
+                alert("Something went wrong!");
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
