@@ -39,7 +39,7 @@ const CollegeProfile = () => {
               (value, index) => {
                 return <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 d-flex justify-content-center" key={index}>
                   <div class="card" style={{ width: "40rem" }} >
-                    <img src={`http://localhost:8085/${value.college_image}`} class="card-img-top" style={{
+                    <img src={global.config.urls.api.server +`/${value.college_image}`} class="card-img-top" style={{
                       borderRadius: '50%',
                       width: '400px',
                       height: '400px',

@@ -3,9 +3,13 @@ import AdminNavbar from './AdminNavbar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import '../../config'
+import html2canvas from 'html2canvas';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 const ViewCompletedPrivateEvents = () => {
     const apiUrl = global.config.urls.api.server + "/api/events/view_completed_private_events"
+    const apiUrl1 = global.config.urls.api.server + "/api/certificate/generate-certificate-students"
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,7 +31,7 @@ const ViewCompletedPrivateEvents = () => {
 
     useEffect(() => { getData() }, [])
 
-    
+
     const sessionView = (id) => {
         sessionStorage.setItem("eventID", id)
         navigate('/viewcompletedprivateeventsessions')
@@ -45,74 +49,199 @@ const ViewCompletedPrivateEvents = () => {
         return `${day}-${month}-${year}`;
     }
 
-   // Pagination logic
-   const indexOfLastEvent = currentPage * eventsPerPage
-   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
-   const currentEvents = data.slice(indexOfFirstEvent, indexOfLastEvent)
-   const totalEvents = data.length
+    const generateCertificate = (event,college) => {
+        axios.post(apiUrl1, { "event_id": event,"college_id":college }, { headers: { token: sessionStorage.getItem("admintoken") } }).then(
+            (response) => {
+                switch (response.data.status) {
+                    case "Unauthorized":
+                        alert("Unauthorized !! Try Again !");
+                        break;
+                    case "error":
+                        alert("Something went wrong !");
+                        break;
+                    case "event not completed":
+                        alert("Event not completed to generate certificate");
+                        break;
+                    case "payment details not found":
+                        alert("Payment details for college not found");
+                        break;
+                    case "Certificates already generated":
+                        alert("Certificates already generated for this event");
+                        break;
+                    case "no students":
+                        alert("No students found to generate certificates");
+                        break;
+                    case "success":
+                        alert("Certificate successfully generated");
+                        getData()
+                        break;
+                    default:
+                        alert("Something went wrong !");
+                        break;
+                }
+            }
+        )
+    };
 
-   const paginate = (pageNumber) => {
-       setCurrentPage(pageNumber)
-   }
+    const paymentAdd = (id, clgid) => {
+        sessionStorage.setItem("eventID", id);
+        sessionStorage.setItem("collegeID", clgid);
+        navigate('/addcollegepayment');
+    };
 
-   const renderPageNumbers = () => {
-       const pageNumbers = [];
-       const totalPageNumbers = Math.ceil(totalEvents / eventsPerPage);
-       const siblingCount = 1; // Number of pages to show around the current page
+    const handleDownloadClick = async (event) => {
+        try {
+            const apiUrl = global.config.urls.api.server + "/api/certificate/view-certificates-student-ByEvent";
+            const response = await axios.post(apiUrl, { event_id: event }, { headers: { token: sessionStorage.getItem("admintoken") } });
+            if (response.data.status === "Unauthorized") {
+                alert("Unauthorized access");
+            } else if (response.data.status === "event id is required" || response.data.status === "error") {
+                alert("Something went wrong!");
+            } else if (response.data.status === "no certificates found") {
+                alert("No certificates found");
+            } else if (Array.isArray(response.data)) {
+                generateEventCertificates(response.data);
+            } else {
+                alert("Something went wrong!");
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
 
-       if (totalPageNumbers <= 5) {
-           // Show all pages if total pages is less than or equal to the maximum pages to show
-           for (let i = 1; i <= totalPageNumbers; i++) {
-               pageNumbers.push(
-                   <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-                       <button onClick={() => paginate(i)} className="page-link">
-                           {i}
-                       </button>
-                   </li>
-               );
-           }
-       } else {
-           // Show the first page, last page, and a few pages around the current page
-           const startPage = Math.max(2, currentPage - siblingCount);
-           const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
+    const generateEventCertificates = async (users) => {
+        const zip = new JSZip();
+        const eventName = users[0]?.event_private_name || 'Event';
+    
+        for (const user of users) {
+            const { student_name, event_private_name, college_name, issued_date, certificate_no, event_private_duration } = user;
+    
+            // Paths to the images (Ensure these paths are correct and accessible)
+            const logo_path = require('../assets/logo.png')
+            const signature_path = require('../assets/signature.png')
+            const background_path = require('../assets/background.png')
+    
+            const container = document.createElement('div');
+            container.style.cssText = `
+                width: 800px; height: 600px; position: absolute; top: -9999px; left: -9999px; background: url('${background_path}');
+                background-size: cover; padding: 30px; color: black; font-family: Arial, sans-serif; box-sizing: border-box;
+            `;
+    
+            // Set the inner HTML for the certificate content
+            container.innerHTML = `
+            <div style="position: absolute; top: 20px; right: 20px;">
+                        <img src="${logo_path}" alt="Logo" style="height: 40px;"/>
+                    </div>
+                <div style="position: relative; height: 100%; padding-top: 70px;"">
+                  <div style="text-align: center;">
+                    <p>Certificate No: ${certificate_no}</p>
+                    <h1>CERTIFICATE OF PARTICIPATION</h1>
+                    <p style="font-size: 20px;">This is to certify that</p>
+                    <h2 style="font-family: 'Brush Script MT', cursive; font-size: 46px; text-transform: capitalize;">${student_name}</h2>
+                    <p style="font-size: 20px;">of <b style="text-transform: capitalize;" >${college_name}</b>, has successfully completed a ${event_private_duration}-day workshop on</p>
+                    <h2 style="color: #d9534f; text-transform: capitalize;">${event_private_name}</h2>
+                    <p style="font-size: 20px;">jointly conducted by </p>
+                    <p style="font-size: 20px;"><b>Link Ur Codes</b> and <b style="text-transform: capitalize;">${college_name}</b></p>
+                  </div>
+                </div>
+                <div style="position: absolute; bottom: 30px; left: 30px;">
+                    <p>Issued Date: ${issued_date}</p>
+                    </div>
+               <div style="position: absolute; bottom: 30px; right: 105px; text-align: center;"> 
+                    <img src="${signature_path}" alt="Signature" style="height: 50px;"/>
+                    <p>CEO, Link Ur Codes</p>
+                </div>
+            `;
+    
+            document.body.appendChild(container);
+    
+            try {
+                // Increase the scale for better quality (higher resolution)
+                const canvas = await html2canvas(container, { scale: 2, useCORS: true });
+                const imgData = canvas.toDataURL('image/jpeg', 1.0); // JPEG with maximum quality
+    
+                zip.file(`${student_name}.jpg`, imgData.split(',')[1], { base64: true });
+            } catch (error) {
+                console.error(`Error generating certificate for ${student_name}:`, error);
+            } finally {
+                document.body.removeChild(container);
+            }
+        }
+    
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const zipFileName = `${eventName.replace(/\s+/g, '_')}_certificates.zip`;
+        saveAs(zipBlob, zipFileName);
+    };
 
-           pageNumbers.push(
-               <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-                   <button onClick={() => paginate(1)} className="page-link">
-                       1
-                   </button>
-               </li>
-           );
 
-           if (startPage > 2) {
-               pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
-           }
+    // Pagination logic
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = data.slice(indexOfFirstEvent, indexOfLastEvent)
+    const totalEvents = data.length
 
-           for (let i = startPage; i <= endPage; i++) {
-               pageNumbers.push(
-                   <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-                       <button onClick={() => paginate(i)} className="page-link">
-                           {i}
-                       </button>
-                   </li>
-               );
-           }
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
 
-           if (endPage < totalPageNumbers - 1) {
-               pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
-           }
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        const totalPageNumbers = Math.ceil(totalEvents / eventsPerPage);
+        const siblingCount = 1; // Number of pages to show around the current page
 
-           pageNumbers.push(
-               <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
-                   <button onClick={() => paginate(totalPageNumbers)} className="page-link">
-                       {totalPageNumbers}
-                   </button>
-               </li>
-           );
-       }
+        if (totalPageNumbers <= 5) {
+            // Show all pages if total pages is less than or equal to the maximum pages to show
+            for (let i = 1; i <= totalPageNumbers; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+        } else {
+            // Show the first page, last page, and a few pages around the current page
+            const startPage = Math.max(2, currentPage - siblingCount);
+            const endPage = Math.min(totalPageNumbers - 1, currentPage + siblingCount);
 
-       return pageNumbers;
-   };
+            pageNumbers.push(
+                <li key={1} className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+                    <button onClick={() => paginate(1)} className="page-link">
+                        1
+                    </button>
+                </li>
+            );
+
+            if (startPage > 2) {
+                pageNumbers.push(<li key="start-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbers.push(
+                    <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                        <button onClick={() => paginate(i)} className="page-link">
+                            {i}
+                        </button>
+                    </li>
+                );
+            }
+
+            if (endPage < totalPageNumbers - 1) {
+                pageNumbers.push(<li key="end-ellipsis" className="page-item"><span className="page-link">...</span></li>);
+            }
+
+            pageNumbers.push(
+                <li key={totalPageNumbers} className={`page-item ${currentPage === totalPageNumbers ? 'active' : ''}`}>
+                    <button onClick={() => paginate(totalPageNumbers)} className="page-link">
+                        {totalPageNumbers}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
 
 
     return (
@@ -124,7 +253,7 @@ const ViewCompletedPrivateEvents = () => {
                         {data.length === 0 ? (
                             <div>
                                 <center>
-                                <div class="alert alert-warning" role="alert">
+                                    <div class="alert alert-warning" role="alert">
                                         No Events found
                                     </div>
                                 </center>
@@ -147,6 +276,8 @@ const ViewCompletedPrivateEvents = () => {
                                         <th scope="col">Recorded Sessions</th>
                                         <th scope="col">Sessions</th>
                                         <th scope="col">Feedback</th>
+                                        <th scope="col">Payment</th>
+                                        <th scope="col">Certificate</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -154,7 +285,7 @@ const ViewCompletedPrivateEvents = () => {
                                         <tr key={index}>
                                             <th>{indexOfFirstEvent + index + 1}</th>
                                             <td>{value.event_private_name}</td>
-                                            <td><img src={`http://localhost:8085/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                            <td><img src={global.config.urls.api.server +`/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                             <td>{value.college_name}</td>
                                             <td>{value.event_private_description}</td>
                                             <td>{value.event_private_amount}</td>
@@ -166,6 +297,14 @@ const ViewCompletedPrivateEvents = () => {
                                             <td>{value.event_private_recorded}</td>
                                             <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
                                             <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_private_id) }}>View</button></td>
+                                            <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id, value.event_private_clgid) }}>Add</button></td>
+                                            <td>
+                                                {(value.certificate_generated === 0) ? (
+                                                    <button className="btn btn-danger" onClick={() => { generateCertificate(value.event_private_id,value.event_private_clgid) }}>Generate</button>
+                                                ) : (
+                                                    <button className="btn btn-success" onClick={() => { handleDownloadClick(value.event_private_id) }}>Download</button>
+                                                )}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

@@ -197,7 +197,7 @@ const ViewCollege = () => {
                       <td>{value.college_name}</td>
                       <td>
                         <img
-                          src={`http://localhost:8085/${value.college_image}`}
+                          src={global.config.urls.api.server +`/${value.college_image}`}
                           className="img-thumbnail rounded-circle"
                           alt="College"
                           style={{ width: '50px', height: '50px', objectFit: 'cover' }}

@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const CollegeNavBar = () => {
-  let navigate=useNavigate()
-  const logOutAction  = () => {
+  let navigate = useNavigate()
+
+  useEffect(()=>{
+    let facultyId=sessionStorage.getItem("facultyid")
+    if (facultyId===null || facultyId==undefined){
+        navigate('/')
+    }
+})
+
+  const logOutAction = () => {
     sessionStorage.clear()
     navigate("/collegelogin")
   }
@@ -18,17 +26,23 @@ const CollegeNavBar = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-            <li className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link" to="/collegehome">Home</Link>
               </li>
-            <li className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link" to="/collegeprofile">Profile</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/addstudent">Students</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/collegeevents">Events</Link>
+              <li className="nav-item dropdown">
+                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Events
+                </Link>
+                <ul className="dropdown-menu">
+                  <li><Link className="dropdown-item" to="/collegeevents">Events</Link></li>
+                  <li><Link className="dropdown-item" to="/viewcertificaterequests">Certificate Requests</Link></li>
+                </ul>
               </li>
               <li className="nav-item">
                 <button className='nav-link' onClick={logOutAction}> Logout</button>

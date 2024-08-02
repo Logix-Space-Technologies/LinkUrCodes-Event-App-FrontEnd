@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const AddCollegePaymentInfo = () => {
@@ -39,6 +39,10 @@ const AddCollegePaymentInfo = () => {
             }
         )
     }
+    const navigate = useNavigate()
+    const goBack = () => {
+        navigate(-1)
+    }
     return (
         <div>
             <AdminNavbar />
@@ -56,7 +60,7 @@ const AddCollegePaymentInfo = () => {
                         <button className="btn btn-success" onClick={readValues}>Done</button>
                     </div>
                 </div>
-                <Link className="link" to="/viewprivateevent">Back to events</Link>
+                <Link className="link" onClick={goBack}>Back to events</Link>
             </div>
         </div>
     )

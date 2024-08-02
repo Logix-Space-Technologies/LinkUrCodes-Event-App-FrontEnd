@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 
 const UserNavBar = () => {
   let navigate = useNavigate()
+
+  useEffect(()=>{
+    let userId=sessionStorage.getItem("userid")
+    if (userId===null || userId==undefined){
+        navigate('/')
+    }
+})
+
     const logOutAction = () => {
         sessionStorage.clear()
         navigate("/userlogin")
@@ -27,6 +35,9 @@ const UserNavBar = () => {
         
         <li class="nav-item">
           <Link class="nav-link" to="/viewevent">Events</Link>
+        </li>
+        <li class="nav-item">
+          <Link class="nav-link" to="/userpaymenthistory">Payment History</Link>
         </li>
         <li class="nav-item">
           <Link class="nav-link" to="/userregevents">Your Events</Link>

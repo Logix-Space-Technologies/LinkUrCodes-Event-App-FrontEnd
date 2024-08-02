@@ -178,7 +178,7 @@ const ViewUser = () => {
                                         <tr key={value.user_id}>
                                             <th>{indexOfFirstPost + index + 1}</th>
                                             <td>{value.user_name}</td>
-                                            <td><img src={`http://localhost:8085/${value.user_image}`} className="img-thumbnail rounded-circle" alt="User" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                            <td><img src={global.config.urls.api.server +`/${value.user_image}`} className="img-thumbnail rounded-circle" alt="User" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                             <td>{value.user_email}</td>
                                             <td>{value.user_contact_no}</td>
                                             <td>{value.user_qualification}</td>

@@ -60,12 +60,12 @@ const SearchEvent = () => {
           </div>
         </div><br></br>
         {error &&
-        <center>
-          <div className="alert alert-danger" role="alert">
-            Something went wrong
-          </div>
+          <center>
+            <div className="alert alert-danger" role="alert">
+              Something went wrong
+            </div>
           </center>
-          }
+        }
         {noEventsMessage &&
           <center>
             <div className="alert alert-warning" role="alert">
@@ -78,7 +78,7 @@ const SearchEvent = () => {
             {Array.isArray(searchResults) && searchResults.map(event => (
               <div className="col-md-4" key={event.event_public_id}>
                 <div className="card">
-                  <img src={event.event_public_image} className="card-img-top" alt="Event" />
+                  <img src={global.config.urls.api.server + `/${event.event_public_image}`} className="card-img-top img-fluid" style={{ maxHeight: '200px' }} alt="Event" />
                   <div className="card-body">
                     <h5 className="card-title">{event.event_public_name}</h5>
                     <p className="card-text">Description: {event.event_public_description}</p>

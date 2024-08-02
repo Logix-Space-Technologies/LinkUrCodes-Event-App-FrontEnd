@@ -119,7 +119,7 @@ const ViewPrivateEvent = () => {
                 setSearchResults([]);
             });
     };
-
+console.log(data)
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -215,7 +215,7 @@ const ViewPrivateEvent = () => {
                                             <tr key={value.event_private_id}>
                                                 <th>{indexOfFirstItem + index + 1}</th>
                                                 <td>{value.event_private_name}</td>
-                                                <td><img src={`http://localhost:8085/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
+                                                <td><img src={global.config.urls.api.server +`/${value.event_private_image}`} className="img-thumbnail rounded-circle" alt="Event" style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
                                                 <td>{value.college_name}</td>
                                                 <td>{value.event_private_description}</td>
                                                 <td>{value.event_private_amount}</td>
@@ -234,7 +234,7 @@ const ViewPrivateEvent = () => {
                                                 </td>
 
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
-                                                <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id, value.college_id) }}>Add</button></td>
+                                                <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id, value.event_private_clgid) }}>Add</button></td>
                                                 <td>
                                                     <button className='btn btn-info' onClick={() => { updateEvent(value.event_private_id) }}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
