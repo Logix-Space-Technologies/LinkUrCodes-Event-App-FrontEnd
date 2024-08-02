@@ -97,6 +97,16 @@ body {
   background: #d9cad7/* Example gradient, change to your preference */
 }
 
+.is-invalid {
+  border-color: #ff0000 !important;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Slight red glow */
+}
+
+.invalid-feedback {
+  color: #ff0000; /* Intense red color */
+  display: block; /* Ensure it's visible */
+  margin-top: 0.25rem; /* Add some spacing */
+}
 
 
 
