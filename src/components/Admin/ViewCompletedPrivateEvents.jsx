@@ -83,6 +83,12 @@ const ViewCompletedPrivateEvents = () => {
         )
     };
 
+    const paymentAdd = (id, clgid) => {
+        sessionStorage.setItem("eventID", id);
+        sessionStorage.setItem("collegeID", clgid);
+        navigate('/addcollegepayment');
+    };
+
     const handleDownloadClick = async (event) => {
         try {
             const apiUrl = global.config.urls.api.server + "/api/certificate/view-certificates-student-ByEvent";
@@ -270,6 +276,7 @@ const ViewCompletedPrivateEvents = () => {
                                         <th scope="col">Recorded Sessions</th>
                                         <th scope="col">Sessions</th>
                                         <th scope="col">Feedback</th>
+                                        <th scope="col">Payment</th>
                                         <th scope="col">Certificate</th>
                                     </tr>
                                 </thead>
@@ -290,6 +297,7 @@ const ViewCompletedPrivateEvents = () => {
                                             <td>{value.event_private_recorded}</td>
                                             <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
                                             <td><button className="btn btn-warning" onClick={() => { viewFeedback(value.event_private_id) }}>View</button></td>
+                                            <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id, value.event_private_clgid) }}>Add</button></td>
                                             <td>
                                                 {(value.certificate_generated === 0) ? (
                                                     <button className="btn btn-danger" onClick={() => { generateCertificate(value.event_private_id,value.event_private_clgid) }}>Generate</button>
