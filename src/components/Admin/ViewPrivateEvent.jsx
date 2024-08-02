@@ -119,7 +119,7 @@ const ViewPrivateEvent = () => {
                 setSearchResults([]);
             });
     };
-
+console.log(data)
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -234,7 +234,7 @@ const ViewPrivateEvent = () => {
                                                 </td>
 
                                                 <td><button className="btn btn-secondary" onClick={() => { sessionView(value.event_private_id) }}>View</button></td>
-                                                <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id, value.college_id) }}>Add</button></td>
+                                                <td><button className='btn btn-info' onClick={() => { paymentAdd(value.event_private_id, value.event_private_clgid) }}>Add</button></td>
                                                 <td>
                                                     <button className='btn btn-info' onClick={() => { updateEvent(value.event_private_id) }}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
